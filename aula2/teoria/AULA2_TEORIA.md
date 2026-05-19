@@ -14,9 +14,11 @@ IBM RESEARCH. **Docling: An Efficient Document Conversion and Understanding Libr
 
 LANGCHAIN. **Text Splitters — LangChain Documentation**. Disponível em: <https://python.langchain.com/docs/modules/data_connection/document_transformers/>. Acesso em: abr. 2026.
 
-KWON, W. et al. **Efficient Memory Management for Large Language Model Serving with PagedAttention**. *ACM SOSP*, 2023.
+OLLAMA. **Ollama — Get up and running with large language models locally**. Disponível em: <https://ollama.com/> e <https://github.com/ollama/ollama>. Acesso em: maio 2026.
 
-VLLM PROJECT. **vLLM: Easy, Fast, and Cheap LLM Serving for Everyone**. Disponível em: <https://docs.vllm.ai>. Acesso em: abr. 2026.
+OLLAMA. **OpenAI compatibility — Ollama API**. Disponível em: <https://ollama.com/blog/openai-compatibility>. Acesso em: maio 2026.
+
+BAAI. **BGE-M3: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation**. arXiv:2402.03216, 2024.
 
 ---
 
@@ -310,17 +312,45 @@ JANELA DE CONTEXTO (o que o LLM recebe quando Frase 2 é recuperada):
 BENEFÍCIO: A busca encontra a frase exata; o LLM recebe contexto suficiente.
 ```
 
-### 5.2 Implementação com LlamaIndex
+### 5.2 Implementação com LangChain + NLTK (padrão do curso)
 
-O sentence-window chunking é nativamente suportado pelo LlamaIndex via `SentenceWindowNodeParser`. O LangChain não tem implementação nativa — exige código customizado.
+O sentence-window chunking foi originalmente popularizado pelo LlamaIndex (`SentenceWindowNodeParser`). Como o pipeline desta disciplina é construído **inteiramente em LangChain** (LAB1, LAB3, LAB4, LAB5 e exemplos), implementamos o mesmo conceito em **Python puro + LangChain `Document` + NLTK** para `sent_tokenize`. Isso evita uma dependência extra (`llama-index-core`) e mantém o tipo de objeto que circula no pipeline — `langchain.schema.Document` — uniforme em todas as estratégias de chunking.
+
+**Implementação de referência (a usada no LAB2):**
+
+```python
+from langchain.schema import Document as LCDocument
+from nltk.tokenize import sent_tokenize
+
+def sentence_window_chunking(texto: str, window_size: int = 3):
+    """Cada sentença vira um Document; metadata['window'] guarda o contexto vizinho."""
+    sentencas = sent_tokenize(texto)
+    documentos = []
+    for i, sent in enumerate(sentencas):
+        ini = max(0, i - window_size)
+        fim = min(len(sentencas), i + window_size + 1)
+        janela = " ".join(sentencas[ini:fim]).strip()
+        documentos.append(LCDocument(
+            page_content=sent.strip(),                       # unidade indexável
+            metadata={
+                "window": janela,                            # contexto para o LLM
+                "original_text": sent.strip(),
+                "posicao": i,
+                "window_size": window_size,
+            },
+        ))
+    return documentos
+```
 
 **Parâmetros principais:**
 
 | Parâmetro | Descrição | Valor Padrão | Recomendado (jurídico) |
 |---|---|---|---|
 | `window_size` | Sentenças antes e depois do match | 3 | 2–4 |
-| `window_metadata_key` | Chave nos metadados para armazenar a janela | `"window"` | `"window"` |
-| `original_text_metadata_key` | Chave para a sentença original | `"original_text"` | `"original_text"` |
+| `metadata["window"]` | Janela de contexto guardada em cada Document | concatenação `" "` | manter |
+| `metadata["original_text"]` | Sentença original (espelho de `page_content`) | igual à sentença | manter |
+
+**Por que isso é equivalente ao LlamaIndex aqui:** o `SentenceWindowNodeParser` do LlamaIndex produz "nodes" que precisariam ser convertidos para `Document` ao serem indexados pelo OpenSearch/FAISS via LangChain. A implementação acima já entrega `langchain.schema.Document` direto, sem camada de tradução intermediária — e o `OllamaEmbeddings`/`OpenSearchVectorSearch` do LAB4 consome diretamente. Em produção, basta indexar `page_content` no campo vetorial e devolver `metadata["window"]` como contexto.
 
 ### 5.3 Quando Sentence-Window é Superior
 
@@ -396,7 +426,7 @@ O document-aware chunking só funciona bem com documentos **já estruturados em 
 | **Tamanho previsível** | ✅ Fixo | ✅ Max | ✗ Variável | ✗ Variável | ✗ Variável |
 | **Overhead armazenamento** | Baixo | Baixo | Médio | Alto | Médio |
 | **Melhor para (jurídico)** | Normas, portarias | Acórdãos, peças | Laudos, narrativas | Pareceres densos | PDFs estruturados |
-| **Implementação** | LangChain | LangChain | LangChain-Experimental | LlamaIndex | LangChain |
+| **Implementação** | LangChain | LangChain | LangChain-Experimental | LangChain + NLTK (impl. Python pura) | LangChain |
 
 ---
 
@@ -500,7 +530,18 @@ Trata-se de habeas corpus impetrado...
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 7.3 Docling vs Loaders Simples — Quando a Complexidade se Justifica
+### 7.3 Datasets oficiais da Aula 2 (em `aula2/datasets/`)
+
+Os labs e exemplos que exercitam Docling usam **dois PDFs reais** do domínio Segurança Pública, escolhidos para cobrir os dois regimes do Docling:
+
+| Arquivo | Tipo | Pipeline Docling esperado | Onde é usado |
+|---|---|---|---|
+| `Manual_DPCA_atualizado.pdf` | **PDF digital** (texto extraível, ~1 MB) | `do_ocr=False` — rápido; estrutura hierárquica preservada em Markdown | `LAB1` (PDF "simples"), `EXEMPLO2`, `LAB4`/`EXEMPLO3` quando `USE_DOCLING_REAL=True` |
+| `Laudo.pdf` | **PDF escaneado** (imagem de texto, ~28 MB) | `do_ocr=True` — lento (30s–3min/CPU), motor EasyOCR | `LAB1` (PDF "complexo"/OCR), `EXEMPLO2` (caso OCR) |
+
+Esses dois arquivos exercitam, juntos, **todos os caminhos** do pipeline Docling — extração estruturada (Manual_DPCA) e reconstrução por OCR (Laudo). Os notebooks têm *fallback* automático para PDFs sintéticos via ReportLab caso a pasta `datasets/` não esteja disponível.
+
+### 7.4 Docling vs Loaders Simples — Quando a Complexidade se Justifica
 
 | Critério | PyPDF2 | PDFMiner | Docling |
 |---|---|---|---|
@@ -578,8 +619,9 @@ Conforme documentado por Lewis et al. (2020) e detalhado em Gao et al. (2023), o
 ║  │    PERGUNTA: {question}"                                        │ ║
 ║  │       │                                                         │ ║
 ║  │       ▼                                                         │ ║
-║  │  [vLLM Server — Llama 3.1 8B]                                  │ ║
-║  │   POST http://localhost:8000/v1/chat/completions               │ ║
+║  │  [Ollama Server — llama3.2:3b]                                 │ ║
+║  │   POST http://localhost:11434/api/chat                          │ ║
+║  │   (também compatível com /v1/chat/completions estilo OpenAI)    │ ║
 ║  │       │                                                         │ ║
 ║  │       ▼                                                         │ ║
 ║  │  Resposta com citação de fontes                                 │ ║
@@ -592,21 +634,40 @@ Conforme documentado por Lewis et al. (2020) e detalhado em Gao et al. (2023), o
 | Componente | Ferramenta | Versão | Papel |
 |---|---|---|---|
 | **Ingestão** | Docling (IBM Research) | ≥ 2.0 | PDF → Markdown estruturado |
-| **Chunking** | LangChain TextSplitters | ≥ 0.2 | Divisão inteligente de texto |
-| **Chunking avançado** | LlamaIndex NodeParsers | ≥ 0.10 | Sentence-window chunking |
-| **Embeddings** | BGE-M3 (BAAI) | — | Vetorização multilíngue dim=1024 |
-| **Vector Store** | OpenSearch kNN | ≥ 2.9 | Índice vetorial para retrieval |
-| **LLM** | Llama 3.1 8B Instruct | — | Geração de respostas |
-| **Servidor LLM** | vLLM | ≥ 0.5 | API OpenAI-compatible em GPU |
-| **Orquestração** | LangChain LCEL | ≥ 0.2 | Pipeline RAG |
+| **Chunking** | LangChain TextSplitters | ≥ 0.3 | Divisão inteligente de texto |
+| **Chunking avançado (sentence-window)** | LangChain `Document` + NLTK `sent_tokenize` | LangChain ≥ 0.3, NLTK ≥ 3.9 | Implementação Python pura — uniforme com o resto do pipeline |
+| **Embeddings** | BGE-M3 servido por **Ollama** (`bge-m3`) | Ollama ≥ 0.4 | Vetorização multilíngue dim=1024 |
+| **Vector Store** | OpenSearch kNN (Podman/Docker — montado na Aula 1) | 3.x | Índice vetorial para retrieval |
+| **LLM** | **Llama 3.2 3B Instruct** (padrão Aula 1; opcional `llama3.1:8b`) | — | Geração de respostas |
+| **Servidor LLM** | **Ollama** (`http://localhost:11434`) | ≥ 0.4 | API REST + endpoint OpenAI-compatible `/v1` |
+| **Orquestração** | LangChain LCEL | ≥ 0.3 | Pipeline RAG |
 
-### 8.4 BGE-M3 — Por Que Este Modelo de Embedding
+### 8.4 BGE-M3 — Por Que Este Modelo de Embedding (e Como Servi-lo via Ollama)
 
 O **BGE-M3** (BAAI General Embedding — Multilingual, Multi-Functionality, Multi-Granularity) foi escolhido por três razões alinhadas ao contexto jurídico brasileiro:
 
 1. **Multilíngue nativo**: treinado em 100+ idiomas, incluindo português. Compreende terminologia jurídica brasileira sem fine-tuning.
 2. **Dim=1024**: dimensão maior que modelos menores (384, 768) → representa nuances semânticas com maior fidelidade.
 3. **Multi-granularidade**: suporta textos de uma palavra até 8.192 tokens — permite indexar desde incisos até acórdãos completos no mesmo índice.
+
+**Como o BGE-M3 é servido nesta aula:** seguindo a infraestrutura provisionada na Aula 1, o BGE-M3 é executado **localmente via Ollama** (`ollama pull bge-m3`) — não via `sentence-transformers`/HuggingFace. Isso garante:
+
+- Mesmo *backend* de inferência usado pelo LLM (Ollama em `http://localhost:11434`) — uma única porta a monitorar;
+- Modelo quantizado (GGUF) com consumo de memória adequado a estações Windows/macOS/Linux sem GPU dedicada;
+- API REST estável: `POST /api/embeddings` ou via `langchain_ollama.OllamaEmbeddings`.
+
+```python
+# Padrão da Aula 2 — embedding BGE-M3 via Ollama
+from langchain_ollama import OllamaEmbeddings
+
+embeddings = OllamaEmbeddings(
+    model="bge-m3",                        # ollama pull bge-m3
+    base_url="http://localhost:11434",
+)
+# embeddings.embed_query("art. 33 da Lei 11.343/2006") → list[float] dim=1024
+```
+
+> **Fallback HuggingFace (opcional):** caso o aluno não consiga executar `ollama pull bge-m3` (rede restrita, espaço em disco), o lab inclui *fallback* automático para `HuggingFaceEmbeddings(model_name="BAAI/bge-m3")`. O espaço vetorial é o mesmo modelo de fundação — só muda o servidor de inferência.
 
 ### 8.5 Limitações do Naive RAG (Motivação para Aulas Futuras)
 
@@ -623,45 +684,148 @@ Documentar as limitações do Naive RAG é tão importante quanto implementá-lo
 
 ---
 
-## 9. vLLM como Servidor LLM Local
+## 9. Ollama como Servidor LLM Local (Infraestrutura da Aula 1)
 
-### 9.1 Arquitetura e Vantagens
+### 9.1 Por Que Ollama nesta Disciplina
 
-O **vLLM** (Kwon et al., 2023) é um servidor de inferência de alto desempenho que implementa **PagedAttention** — uma técnica que gerencia a KV-cache (Key-Value cache das atenções do Transformer) de forma análoga à paginação de memória virtual em sistemas operacionais. Isso permite servir múltiplos requests simultâneos com 2–4x mais throughput que implementações ingênuas.
+A Aula 1 montou o ambiente do curso usando **Ollama** (`ollama serve` em `http://localhost:11434`) como servidor único de inferência local — tanto para LLMs quanto para modelos de embedding. A Aula 2 prossegue exclusivamente sobre essa infraestrutura. As razões da escolha foram detalhadas no roteiro de instalação da Aula 1 e podem ser resumidas em quatro pontos:
+
+1. **Portabilidade total** — Windows, macOS e Linux com um único instalador. Não exige drivers CUDA, GCC, ambiente Linux dedicado nem GPU NVIDIA. O Ollama detecta GPU (NVIDIA, AMD, Apple Silicon Metal) automaticamente e cai para CPU sem reconfigurar nada.
+2. **API REST + compatibilidade OpenAI** — expõe simultaneamente uma API nativa (`/api/generate`, `/api/chat`, `/api/embeddings`) e um endpoint OpenAI-compatível (`/v1/chat/completions`). Permite usar `ChatOpenAI`, `OllamaLLM`, `OllamaEmbeddings` ou `curl` indistintamente.
+3. **Aderência ao perfil dos alunos do MBA** — operadores de Direito e Segurança Pública executam o pipeline em notebooks corporativos, frequentemente sem GPU. O Ollama responde em 2–5 s/query em CPUs modernas com `llama3.2:3b`.
+4. **Conformidade com LGPD e sigilo funcional** — todos os modelos e dados permanecem na máquina do aluno. Não há *egress* para nuvem.
+
+> **Aviso histórico:** versões anteriores deste material usavam **vLLM** (Kwon et al., 2023) como servidor LLM. O vLLM continua sendo a melhor escolha para servir LLMs em produção sobre Linux + GPU NVIDIA, com *throughput* alto via PagedAttention e *continuous batching*. Para o ambiente didático local desta disciplina, porém, o Ollama oferece a mesma API OpenAI-compatível com instalação em minutos em qualquer SO. A migração foi feita preservando a interface (`base_url`, `ChatOpenAI`), de forma que migrar de Ollama para vLLM em produção exige apenas trocar a `base_url`.
+
+### 9.2 Arquitetura do Servidor Ollama
 
 ```
-vLLM — ARQUITETURA SIMPLIFICADA
+OLLAMA — ARQUITETURA SIMPLIFICADA
 
-  Requests chegando:          LLMEngine (núcleo):
-  ┌──────────────┐           ┌────────────────────────────┐
-  │ Query 1      │──────────▶│  Scheduler                 │
-  │ Query 2      │──────────▶│  (continuous batching)     │
-  │ Query 3      │──────────▶│         │                  │
-  └──────────────┘           │         ▼                  │
-                             │  Worker (GPU)               │
-  API compatível             │  ┌─────────────────────┐   │
-  OpenAI /v1/:               │  │ PagedAttention      │   │
-  ┌──────────────────┐       │  │ KV Cache Manager    │   │
-  │ /chat/completions│       │  │ CUDA Kernels        │   │
-  │ /completions     │       │  └─────────────────────┘   │
-  │ /models          │       └────────────────────────────┘
+  Requests chegando:           Ollama daemon (núcleo):
+  ┌──────────────┐            ┌────────────────────────────┐
+  │ Query 1      │───────────▶│  HTTP Server (porta 11434) │
+  │ Query 2      │───────────▶│            │               │
+  │ Query 3      │───────────▶│            ▼               │
+  └──────────────┘            │  Model Manager             │
+                              │  ┌─────────────────────┐   │
+  Endpoints nativos:          │  │ llama.cpp runtime   │   │
+  ┌──────────────────┐        │  │ Quantização GGUF    │   │
+  │ /api/generate    │        │  │ KV Cache + offload  │   │
+  │ /api/chat        │        │  │ CPU / GPU detect    │   │
+  │ /api/embeddings  │        │  └─────────────────────┘   │
+  │ /api/tags        │        └────────────────────────────┘
+  └──────────────────┘
+                              Modelos em cache local:
+  Endpoints OpenAI-compat.:     ~/.ollama/models/
+  ┌──────────────────┐          ├── llama3.2:3b   (2.0 GB)
+  │ /v1/chat/...     │          ├── bge-m3         (~570 MB)
+  │ /v1/embeddings   │          └── (lazy-load — só
+  │ /v1/models       │               carrega o que foi pedido)
   └──────────────────┘
 ```
 
-### 9.2 Integração com LangChain via ChatOpenAI
+**Diferenças práticas em relação ao vLLM** que valem ressaltar para esta disciplina:
 
-O vLLM expõe a mesma API da OpenAI. O LangChain não precisa de adaptador especial:
+| Aspecto | Ollama (Aula 2) | vLLM (produção/legado) |
+|---|---|---|
+| Foco de uso | Desenvolvimento local, didático | Servir LLM em produção (alto QPS) |
+| Backend de inferência | `llama.cpp` (GGUF quantizado) | Engine própria com PagedAttention |
+| Plataformas | Windows / macOS / Linux | Linux + GPU NVIDIA |
+| Modelos | `ollama pull <nome>` (registry oficial) | HuggingFace path direto |
+| Concorrência | Boa para 1–4 usuários | Otimizada para 100+ usuários simultâneos |
+| Tempo de instalação | ~5 min | ~30 min (CUDA + dependências) |
+
+### 9.3 Integração com LangChain — Três Caminhos Equivalentes
+
+A Aula 2 adota o **caminho A (`langchain_ollama`)** como padrão, com o **caminho B (`ChatOpenAI` apontando para o endpoint `/v1`)** como alternativa de portabilidade. O caminho C é apenas referência para alunos que queiram chamar a API REST diretamente.
+
+**Caminho A — `langchain_ollama` (RECOMENDADO):**
+
+```python
+from langchain_ollama import ChatOllama
+
+llm = ChatOllama(
+    model="llama3.2:3b",                # ollama pull llama3.2:3b
+    base_url="http://localhost:11434",
+    temperature=0.1,
+    num_predict=1024,                   # equivalente a max_tokens
+)
+```
+
+**Caminho B — `ChatOpenAI` via endpoint OpenAI-compatível do Ollama:**
 
 ```python
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
-    model="meta-llama/Llama-3.1-8B-Instruct",
-    base_url="http://localhost:8000/v1",  # vLLM local
-    api_key="dummy",                       # não exige key
+    model="llama3.2:3b",
+    base_url="http://localhost:11434/v1",  # endpoint OpenAI-compat do Ollama
+    api_key="ollama",                       # qualquer string — Ollama ignora
     temperature=0.1,
     max_tokens=1024,
 )
+```
+
+> Essa segunda forma é particularmente útil para reaproveitar código escrito para OpenAI ou vLLM: troca-se apenas a `base_url` e o `model`. **É o mesmo padrão de portabilidade explorado nas Aulas 3 a 12.**
+
+**Caminho C — chamada HTTP direta (`requests`), apenas para fins didáticos:**
+
+```python
+import requests
+
+r = requests.post(
+    "http://localhost:11434/api/chat",
+    json={
+        "model": "llama3.2:3b",
+        "messages": [{"role": "user", "content": "O que é peculato?"}],
+        "stream": False,
+        "options": {"temperature": 0.1, "num_predict": 512},
+    },
+    timeout=120,
+)
+print(r.json()["message"]["content"])
+```
+
+### 9.4 Modelos do Curso Disponíveis via Ollama
+
+| Papel | Modelo Ollama | Tamanho | RAM mínima | Quando usar |
+|---|---|---|---|---|
+| LLM **padrão** desta aula | `llama3.2:3b` | 2.0 GB | 8 GB | Geração das respostas do LAB4/LAB5 |
+| LLM avançado (opcional) | `llama3.1:8b` | 4.9 GB | 16 GB | Melhor raciocínio jurídico — se hardware permitir |
+| Embedding **padrão** desta aula | `bge-m3` | ~570 MB | 8 GB | Vetorização do corpus (dim=1024, multilíngue) |
+| Embedding leve (fallback) | `nomic-embed-text` | 274 MB | 4 GB | Notebook detecta automaticamente e troca para 768 dims |
+
+**Variáveis de ambiente herdadas do `.env` da Aula 1** (`~/mba-rag/.env`):
+
+```bash
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_LLM_MODEL=llama3.2:3b
+OLLAMA_EMBED_MODEL=bge-m3
+```
+
+Todos os notebooks da Aula 2 leem essas variáveis e operam *out of the box* sobre o ambiente da Aula 1.
+
+### 9.5 Validação Rápida Antes de Iniciar os Labs
+
+```bash
+# 1. Servidor está respondendo?
+curl -s http://localhost:11434/api/tags | python -m json.tool
+
+# 2. Modelos necessários estão instalados?
+ollama list | grep -E "llama3.2|bge-m3"
+
+# 3. Pull dos modelos (se faltar algum)
+ollama pull llama3.2:3b
+ollama pull bge-m3
+
+# 4. Teste rápido de geração
+ollama run llama3.2:3b "Defina prisão preventiva em 1 frase."
+
+# 5. Teste rápido de embedding (deve imprimir 1024)
+curl -s http://localhost:11434/api/embeddings \
+  -d '{"model":"bge-m3","prompt":"crime de tráfico"}' | \
+  python -c "import json,sys;print(len(json.load(sys.stdin)['embedding']))"
 ```
 
 ---
@@ -785,8 +949,11 @@ if dims_index != dims_model:
 ## 11. Referências Complementares
 
 - LANGCHAIN DOCS. *RecursiveCharacterTextSplitter*. <https://python.langchain.com/docs/modules/data_connection/document_transformers/recursive_text_splitter>
-- LLAMAINDEX DOCS. *SentenceWindowNodeParser*. <https://docs.llamaindex.ai/en/stable/api_reference/node_parsers/sentence_window/>
+- NLTK PROJECT. *nltk.tokenize.punkt — Punkt sentence tokenizer*. <https://www.nltk.org/api/nltk.tokenize.punkt.html>
+- LANGCHAIN. *Document schema (langchain_core.documents.base.Document)*. <https://python.langchain.com/api_reference/core/documents/langchain_core.documents.base.Document.html>
 - BAAI. *BGE-M3: Multi-Lingual, Multi-Functionality, Multi-Granularity*. <https://huggingface.co/BAAI/bge-m3>
 - OPENSEARCH DOCS. *k-NN Search*. <https://opensearch.org/docs/latest/search-plugins/knn/index/>
-- VLLM DOCS. *OpenAI-Compatible Server*. <https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html>
+- OLLAMA DOCS. *OpenAI compatibility*. <https://ollama.com/blog/openai-compatibility>
+- OLLAMA DOCS. *API Reference (generate, chat, embeddings)*. <https://github.com/ollama/ollama/blob/main/docs/api.md>
+- LANGCHAIN OLLAMA. *langchain-ollama integration*. <https://python.langchain.com/docs/integrations/providers/ollama/>
 - DOCLING DOCS. *Getting Started*. <https://docling.readthedocs.io/en/latest/>

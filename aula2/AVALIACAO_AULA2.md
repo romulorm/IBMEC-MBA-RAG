@@ -24,21 +24,37 @@ Conforme a ementa, três entregáveis formam a avaliação desta aula:
 
 #### 1.1 Ingestão com Docling (10 pontos)
 
+> **Datasets oficiais da Aula 2** (em `aula2/datasets/`):
+> - `Manual_DPCA_atualizado.pdf` — PDF digital com estrutura hierárquica (sem OCR);
+> - `Laudo.pdf` — PDF escaneado (imagem de texto, exige `do_ocr=True`).
+> Esses são os arquivos esperados nos labs/exemplos que tocam Docling.
+
 | Critério | Indicador de Evidência | Pontos |
 |---|---|---|
 | Docling instalado e funcional | `DocumentConverter()` executa sem erro | 2 |
-| Conversão de pelo menos 2 PDFs | Outputs Markdown não vazios | 3 |
-| Tabelas extraídas corretamente | `doc.tables` retorna DataFrame com dados reais | 3 |
-| Metadados preservados nos Documents | `metadata` inclui fonte, tipo, data | 2 |
+| Conversão dos 2 PDFs do dataset (`Manual_DPCA_atualizado.pdf` e `Laudo.pdf`) | Outputs Markdown não vazios para ambos; o aluno habilita `do_ocr=True` no `Laudo.pdf` | 3 |
+| Estrutura preservada / OCR funcional | `doc.tables`/headers em `Manual_DPCA` ou texto reconhecido no `Laudo.pdf` (ainda que parcial) | 3 |
+| Metadados preservados nos Documents | `metadata` inclui `fonte` (`Manual_DPCA`, `Laudo_Pericial`), `origem` (Docling com/sem OCR) | 2 |
 
 **Como verificar em sala:**
 ```python
-# O professor executa este bloco no notebook do aluno
-result = converter.convert("acordao_hc_001.pdf")
+# O professor executa este bloco no notebook do aluno (datasets oficiais)
+from pathlib import Path
+DATASET = Path("aula2/datasets")
+
+# Caso 1 — PDF digital (sem OCR)
+result = converter.convert(str(DATASET / "Manual_DPCA_atualizado.pdf"))
 md = result.document.export_to_markdown()
-assert len(md) > 500, "Extração muito curta — problema na conversão"
-assert len(result.document.tables) >= 0, "Verificar se tabelas foram processadas"
-print(f"✅ Markdown: {len(md)} chars | Tabelas: {len(result.document.tables)}")
+assert len(md) > 1000, "Extração muito curta do Manual_DPCA — problema na conversão"
+print(f"✅ Manual_DPCA: {len(md)} chars | Tabelas: {len(result.document.tables)}")
+
+# Caso 2 — PDF escaneado (precisa OCR)
+from docling.datamodel.pipeline_options import PipelineOptions
+conv_ocr = DocumentConverter(pipeline_options=PipelineOptions(do_ocr=True))
+result_ocr = conv_ocr.convert(str(DATASET / "Laudo.pdf"))
+md_ocr = result_ocr.document.export_to_markdown()
+assert len(md_ocr) > 200, "OCR não retornou texto — verificar se EasyOCR foi baixado"
+print(f"✅ Laudo (OCR): {len(md_ocr)} chars")
 ```
 
 **Pontuação:**
@@ -75,9 +91,18 @@ print(f"✅ {len(chunks)} chunks | avg={sum(sizes)//len(sizes)} chars")
 
 | Critério | Indicador de Evidência | Pontos |
 |---|---|---|
-| Modelo BGE-M3 ou equivalente multilíngue | `model_name` inclui `bge-m3` ou `multilingual` | 4 |
-| Índice criado com dimensão correta | `index.ntotal == len(chunks)` | 3 |
-| Índice salvo em disco | Arquivo FAISS ou índice OpenSearch existente | 3 |
+| Modelo BGE-M3 servido pelo **Ollama** local da Aula 1 | `OllamaEmbeddings(model="bge-m3")` apontando para `http://localhost:11434` (ou fallback `HuggingFaceEmbeddings("BAAI/bge-m3")` com justificativa) | 4 |
+| Índice criado com dimensão correta (1024 com `bge-m3`; 768 se *fallback* `nomic-embed-text` justificado) | `index.ntotal == len(chunks)` e mapping OpenSearch consistente com `len(embed_query("teste"))` | 3 |
+| Índice salvo/persistido | Arquivo FAISS (`.faiss`) gravado **ou** índice OpenSearch consultável via `GET /<indice>/_count` | 3 |
+
+#### 1.3b Geração via Ollama Local (verificação rápida do professor)
+
+| Critério | Indicador de Evidência | Pontos |
+|---|---|---|
+| Cliente LLM aponta para o Ollama da Aula 1 | `ChatOllama(model="llama3.2:3b", base_url="http://localhost:11434")` ou equivalente `ChatOpenAI(base_url="http://localhost:11434/v1")` | — (binário: aprova ou reprova E1) |
+| Ollama responde durante a aula | `curl -s http://localhost:11434/api/tags` retorna lista contendo `llama3.2:3b` e `bge-m3` | — (binário) |
+
+> Os critérios 1.3b são **binários de aprovação** — se o pipeline não conseguir chamar o Ollama instalado na Aula 1, o E1 não pode receber a pontuação máxima, mesmo que as células rodem em modo simulado.
 
 ---
 
@@ -112,7 +137,7 @@ print(f"✅ Retrieval OK — Top doc: {docs[0].metadata.get('fonte')}")
 | Fixed-Size implementado e executado | Chunks gerados, parâmetros documentados | 3 |
 | Recursive implementado e executado | Separadores jurídicos customizados | 3 |
 | Semantic implementado e executado | Modelo de embedding carregado, breakpoints identificados | 3 |
-| Sentence-Window implementado | LlamaIndex NodeParser com janela de contexto | 3 |
+| Sentence-Window implementado | Função `sentence_window_chunking()` em LangChain + NLTK (`sent_tokenize`) retornando `langchain.schema.Document` com `metadata["window"]` | 3 |
 | Document-Aware (Header-Based) implementado | MarkdownHeaderTextSplitter com metadados hierárquicos | 3 |
 
 **Importante:** Todos os 5 devem ser aplicados no **mesmo documento** para comparação justa.
@@ -263,6 +288,8 @@ jupyter nbconvert --to script LAB4_Naive_RAG_Pipeline_Completo.ipynb --stdout 2>
 | Sem metadados de fonte | "Como você vai citar a fonte da resposta na peça jurídica que o sistema vai ajudar a redigir?" |
 | Modelo de embedding diferente na query | "Execute uma query e veja os scores de similaridade — estão entre 0 e 1 como esperado?" |
 | Baseline com todas as notas iguais | "É improvável que todas as 5 queries tenham exatamente o mesmo desempenho — revise com atenção" |
+| `base_url` apontando para API paga (OpenAI cloud) sem necessidade | "A Aula 1 disponibilizou o Ollama em `localhost:11434` — por que está pagando inferência? Reconfigure para usar a infra local." |
+| `ollama serve` não rodando durante a defesa | "Suba o Ollama (`ollama serve` ou serviço do sistema) e refaça `ollama list` — sem o servidor, nenhuma resposta da Aula 2 é reproduzível." |
 
 ---
 

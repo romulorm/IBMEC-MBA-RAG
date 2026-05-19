@@ -3,7 +3,7 @@
 ### MBA em RAG & CAG Aplicados a Direito e Segurança Pública
 
 **Aula:** 2 de 12 | **Carga:** 5h | **Proporção:** 25% teoria / 75% prática
-**Pré-requisito:** Aula 1 concluída | **Stack:** Docling · LangChain · LlamaIndex · BGE-M3 · OpenSearch · vLLM
+**Pré-requisito:** Aula 1 concluída (ambiente Ollama + OpenSearch operacional) | **Stack:** Docling · LangChain · NLTK · BGE-M3 (via Ollama) · OpenSearch · Ollama (llama3.2:3b)
 
 ---
 
@@ -22,7 +22,7 @@ aula2/
 │   ├── LAB1_Docling_Ingestao_Avancada.ipynb    ← PDF complexo → DoclingDocument → LangChain
 │   ├── LAB2_Comparacao_Chunking.ipynb          ← 5 estratégias no mesmo texto
 │   ├── LAB3_Analise_Qualitativa_Chunks.ipynb   ← Métricas de qualidade de chunks
-│   ├── LAB4_Naive_RAG_Pipeline_Completo.ipynb  ← Pipeline ponta-a-ponta (Docling+BGE-M3+OS+vLLM)
+│   ├── LAB4_Naive_RAG_Pipeline_Completo.ipynb  ← Pipeline ponta-a-ponta (Docling+BGE-M3+OS+Ollama)
 │   ├── LAB5_Registro_Baseline.ipynb            ← 5 queries + avaliação 5D + exportação
 │   └── docs/                                   ← Documentação auxiliar
 │       ├── README_AULA2.txt                    ← Orientações gerais da aula
@@ -35,7 +35,10 @@ aula2/
 │   └── EXEMPLO3_Naive_RAG_Completo.ipynb       ← Pipeline Naive RAG completo com FAISS (referência de estudo)
 │
 └── datasets/
-    └── corpus_juridico_sample.json             ← 8 docs + 5 queries de avaliação
+    ├── Manual_DPCA_atualizado.pdf              ← PDF DIGITAL (texto extraível) — usado por LAB1, EXEMPLO2 e LAB4/EXEMPLO3 (modo Docling)
+    ├── Laudo.pdf                                ← PDF ESCANEADO (imagem de texto) — caso OCR no LAB1 / EXEMPLO2
+    ├── corpus_juridico_sample.json             ← 8 docs + 5 queries de avaliação
+    └── (demais PDFs auxiliares: STF_Decisao_Monocratica, IRDR_48, TCU, Transpetro, PACC_PCDF)
 ```
 
 ---
@@ -49,8 +52,8 @@ aula2/
 | **3. LAB 1 — Docling** | 60 min | Prática | PDF complexo → Markdown estruturado → LangChain Docs | `labs/LAB1_Docling_Ingestao_Avancada.ipynb` |
 | **4. LAB 2 — Chunking** | 45 min | Prática | Aplicar 5 estratégias no mesmo acórdão e comparar | `labs/LAB2_Comparacao_Chunking.ipynb` |
 | **5. LAB 3 — Qualidade** | 30 min | Prática | Coerência, órfãos, artigos fracionados, UMAP | `labs/LAB3_Analise_Qualitativa_Chunks.ipynb` |
-| **6. Naive RAG — Teoria** | 20 min | Teoria | Arquitetura, stack, BGE-M3, vLLM, limitações | `teoria/AULA2_TEORIA.md §8–9` |
-| **7. LAB 4 — Pipeline** | 60 min | Prática | Pipeline completo Docling+BGE-M3+OpenSearch+vLLM | `labs/LAB4_Naive_RAG_Pipeline_Completo.ipynb` |
+| **6. Naive RAG — Teoria** | 20 min | Teoria | Arquitetura, stack, BGE-M3, Ollama, limitações | `teoria/AULA2_TEORIA.md §8–9` |
+| **7. LAB 4 — Pipeline** | 60 min | Prática | Pipeline completo Docling+BGE-M3+OpenSearch+Ollama | `labs/LAB4_Naive_RAG_Pipeline_Completo.ipynb` |
 | **8. LAB 5 — Baseline** | 45 min | Prática | 5 queries, avaliação 5D, exportação CSV/Excel | `labs/LAB5_Registro_Baseline.ipynb` |
 
 ---
@@ -71,14 +74,15 @@ Ao final desta aula, o aluno será capaz de:
 
 | Componente | Ferramenta | Papel no Pipeline |
 |---|---|---|
-| Ingestão | **Docling** (IBM Research ≥2.0) | PDF/DOCX → Markdown estruturado com tabelas |
+| Ingestão | **Docling** (IBM Research ≥2.0) | PDF/DOCX → Markdown estruturado com tabelas; OCR em escaneados (caso `Laudo.pdf`) |
+| Datasets reais | **`Manual_DPCA_atualizado.pdf` + `Laudo.pdf`** (em `aula2/datasets/`) | PDFs do domínio Segurança Pública usados nos exemplos/laboratórios Docling |
 | Chunking básico | **LangChain TextSplitters** | Fixed-size, Recursive, Semantic, Header-based |
-| Chunking avançado | **LlamaIndex NodeParsers** | Sentence-Window com contexto desacoplado |
-| Embeddings | **BGE-M3** (BAAI, dim=1024) | Vetorização multilíngue multi-granularidade |
-| Vector Store | **OpenSearch kNN** | Índice vetorial com busca kNN eficiente |
+| Chunking avançado | **LangChain `Document` + NLTK** (`sent_tokenize`) | Sentence-Window implementado em Python puro, alinhado com o framework do curso |
+| Embeddings | **BGE-M3** servido por **Ollama** (`ollama pull bge-m3`, dim=1024) | Vetorização multilíngue multi-granularidade |
+| Vector Store | **OpenSearch kNN** (Podman/Docker — provisionado na Aula 1) | Índice vetorial com busca kNN eficiente |
 | Vector Store (fallback) | **FAISS** | Alternativa local quando OpenSearch indisponível |
-| LLM | **Llama 3.1 8B Instruct** | Geração de respostas jurídicas |
-| Servidor LLM | **vLLM** (PagedAttention) | API OpenAI-compatible em GPU, alto throughput |
+| LLM | **Llama 3.2 3B Instruct** (padrão da Aula 1) | Geração de respostas jurídicas |
+| Servidor LLM | **Ollama** (`http://localhost:11434`) | API REST compatível com OpenAI — Windows/macOS/Linux |
 | Orquestração | **LangChain LCEL** | Pipeline RAG modular e composável |
 
 ---
@@ -123,4 +127,6 @@ IBM RESEARCH. **Docling**. Disponível em: <https://docling.readthedocs.io>. Ace
 
 LANGCHAIN. **Text Splitters**. Disponível em: <https://python.langchain.com/docs>. Acesso em: abr. 2026.
 
-KWON, W. et al. **Efficient Memory Management for LLM Serving with PagedAttention**. *ACM SOSP*, 2023.
+OLLAMA. **Ollama — Get up and running with large language models locally**. Disponível em: <https://ollama.com/> e <https://github.com/ollama/ollama>. Acesso em: maio 2026.
+
+BAAI. **BGE-M3: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings**. arXiv:2402.03216, 2024.

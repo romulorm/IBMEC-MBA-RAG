@@ -163,7 +163,7 @@ pre::-webkit-scrollbar { height: 4px; } pre::-webkit-scrollbar-thumb { backgroun
 <div class="progress-bar" id="progressBar"></div>
 <div class="slides-container">
   <div class="slides-track">
-<div class="slide slide-cover" style="--ac1:16,185,129;--ac2:5,150,105"><div class="cover-inner"><div class="cover-badge">🎓 MBA RAG &amp; CAG · Aula 2 de 12</div><div class="cover-icon">📄</div><div class="cover-title" style="background:linear-gradient(135deg,#10b981,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Ingestão, Chunking e Naive RAG</div><div class="cover-subtitle">A Base de Tudo</div><div class="cover-meta"><div class="meta-chip"><span>⏱ </span>5 horas</div><div class="meta-chip"><span>📊 </span>25% Teoria / 75% Prática</div><div class="meta-chip"><span>⚙️ </span>Docling · LangChain · LlamaIndex · BGE-M3 · OpenSearch …</div><div class="meta-chip"><span>📋 </span>Pré-req: Aula 1 concluída</div></div><div class="cover-objetivo"><strong>🎯 Objetivo:</strong> Construir o pipeline Naive RAG completo com estratégias de chunking, ingestão via Docling e registro do baseline para comparação futura.</div></div></div>
+<div class="slide slide-cover" style="--ac1:16,185,129;--ac2:5,150,105"><div class="cover-inner"><div class="cover-badge">🎓 MBA RAG &amp; CAG · Aula 2 de 12</div><div class="cover-icon">📄</div><div class="cover-title" style="background:linear-gradient(135deg,#10b981,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Ingestão, Chunking e Naive RAG</div><div class="cover-subtitle">A Base de Tudo</div><div class="cover-meta"><div class="meta-chip"><span>⏱ </span>5 horas</div><div class="meta-chip"><span>📊 </span>25% Teoria / 75% Prática</div><div class="meta-chip"><span>⚙️ </span>Docling · LangChain · NLTK · BGE-M3 (Ollama) · OpenSearch · Ollama llama3.2:3b</div><div class="meta-chip"><span>📋 </span>Pré-req: Aula 1 concluída</div></div><div class="cover-objetivo"><strong>🎯 Objetivo:</strong> Construir o pipeline Naive RAG completo com estratégias de chunking, ingestão via Docling e registro do baseline para comparação futura.</div></div></div>
 <div class="slide" style="--ac1:16,185,129;--ac2:5,150,105"><div class="slide-header" style="border-color:rgba(16,185,129,.25)"><span class="slide-icon">✂️</span><h2 style="color:#10b981">Por que Chunking é a Decisão mais Crítica<span>Aula 2</span></h2><span class="slide-num">1/6</span></div><div class="slide-body"><div class="content-col"><p class="lead-text" style="border-color:#10b981">O chunk é a menor unidade de informação recuperável. A qualidade da resposta é limitada pela qualidade dos chunks.</p><ul class="bullet-list"><li>⚠️ Chunk muito pequeno: perde contexto, não responde perguntas complexas</li><li>⚠️ Chunk muito grande: ruído, degrada Context Precision no RAGAS</li><li>⚠️ Corte no meio de sentença: embedding incoerente = retrieval incorreto</li><li>✅ Boa estratégia = unidade semântica coerente + tamanho calibrado ao domínio</li></ul></div><div class="diagram-col">
 <div class="diagram">
   <div class="d-row" style="gap:2rem">
@@ -210,18 +210,23 @@ splitter = <span class="cls">SemanticChunker</span>(
 
 chunks = splitter.<span class="fn">split_text</span>(acórdão_texto)
 <span class="fn">print</span>(<span class="str">f&quot;Chunks semânticos: {len(chunks)}&quot;</span>)</pre></div></div></div></div>
-<div class="slide" style="--ac1:16,185,129;--ac2:5,150,105"><div class="slide-header" style="border-color:rgba(16,185,129,.25)"><span class="slide-icon">🪟</span><h2 style="color:#10b981">Estratégia 3 — Sentence-Window Chunking<span>Aula 2</span></h2><span class="slide-num">4/6</span></div><div class="slide-body"><div class="content-col"><p class="lead-text" style="border-color:#10b981">Indexa frases individuais mas recupera janelas maiores (contexto) ao fazer o retrieval.</p><ul class="bullet-list"><li>Índice: 1 sentença por chunk (preciso para retrieval)</li><li>Recuperação: entrega janela de ±2 sentenças (contexto para o LLM)</li><li>Desacopla o que é indexado do que é gerado — inovação do LlamaIndex</li><li>Ideal para documentos onde a resposta está em trechos específicos mas precisa de contexto</li></ul></div><div class="code-col"><div class="code-wrap"><div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>Python 3.11+</div><pre><span class="kw">from</span> llama_index.node_parser <span class="kw">import</span> SentenceWindowNodeParser
-<span class="kw">from</span> llama_index <span class="kw">import</span> VectorStoreIndex, SimpleDirectoryReader
+<div class="slide" style="--ac1:16,185,129;--ac2:5,150,105"><div class="slide-header" style="border-color:rgba(16,185,129,.25)"><span class="slide-icon">🪟</span><h2 style="color:#10b981">Estratégia 3 — Sentence-Window Chunking<span>Aula 2</span></h2><span class="slide-num">4/6</span></div><div class="slide-body"><div class="content-col"><p class="lead-text" style="border-color:#10b981">Indexa frases individuais mas recupera janelas maiores (contexto) ao fazer o retrieval.</p><ul class="bullet-list"><li>Índice: 1 sentença por chunk (preciso para retrieval)</li><li>Recuperação: entrega janela de ±2 sentenças (contexto para o LLM)</li><li>Desacopla o que é indexado do que é gerado — implementado em LangChain + NLTK (Python puro)</li><li>Ideal para documentos onde a resposta está em trechos específicos mas precisa de contexto</li></ul></div><div class="code-col"><div class="code-wrap"><div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>Python 3.11+</div><pre><span class="kw">from</span> langchain.schema <span class="kw">import</span> Document
+<span class="kw">from</span> nltk.tokenize <span class="kw">import</span> sent_tokenize
 
-parser = <span class="cls">SentenceWindowNodeParser</span>.<span class="fn">from_defaults</span>(
-    window_size=<span class="num">2</span>,         <span class="cm"># ±2 sentenças ao redor</span>
-    window_metadata_key=<span class="str">&quot;window&quot;</span>,
-    original_text_metadata_key=<span class="str">&quot;original_sentence&quot;</span>
-)
+<span class="kw">def</span> <span class="fn">sentence_window_chunking</span>(texto, window_size=<span class="num">2</span>):
+    sentencas = <span class="fn">sent_tokenize</span>(texto)
+    docs = []
+    <span class="kw">for</span> i, sent <span class="kw">in</span> <span class="fn">enumerate</span>(sentencas):
+        ini, fim = <span class="fn">max</span>(<span class="num">0</span>, i-window_size), i+window_size+<span class="num">1</span>
+        janela = <span class="str">&quot; &quot;</span>.<span class="fn">join</span>(sentencas[ini:fim])
+        docs.<span class="fn">append</span>(<span class="cls">Document</span>(
+            page_content=sent,                  <span class="cm"># sentença indexada</span>
+            metadata={<span class="str">&quot;window&quot;</span>: janela}    <span class="cm"># contexto para o LLM</span>
+        ))
+    <span class="kw">return</span> docs
 
-documents = <span class="cls">SimpleDirectoryReader</span>(<span class="str">&quot;./docs&quot;</span>).<span class="fn">load_data</span>()
-nodes = parser.<span class="fn">get_nodes_from_documents</span>(documents)
-<span class="fn">print</span>(<span class="str">f&quot;Nodes criados: {len(nodes)}&quot;</span>)</pre></div></div></div></div>
+docs = <span class="fn">sentence_window_chunking</span>(acórdão_texto, window_size=<span class="num">2</span>)
+<span class="fn">print</span>(<span class="str">f&quot;Documents criados: {len(docs)}&quot;</span>)</pre></div></div></div></div>
 <div class="slide" style="--ac1:16,185,129;--ac2:5,150,105"><div class="slide-header" style="border-color:rgba(16,185,129,.25)"><span class="slide-icon">📚</span><h2 style="color:#10b981">Docling — Ingestão Inteligente<span>Aula 2</span></h2><span class="slide-num">5/6</span></div><div class="slide-body"><div class="content-col"><div class="highlight-banner" style="border-color:#10b981;background:rgba(16,185,129,.07);color:#10b981">Docling (IBM Research) converte PDFs complexos em DoclingDocument estruturado, preservando tabelas, layout e hierarquia.</div><ul class="bullet-list"><li>Extrai texto, tabelas, figuras, cabeçalhos e rodapés com fidelidade</li><li>Detecta estrutura hierárquica: Título → Seção → Parágrafo</li><li>Suporte a Header-Based Chunking — respeita a estrutura do acórdão</li><li>Saída: DoclingDocument → LangChain Documents → OpenSearch</li></ul></div><div class="code-col"><div class="code-wrap"><div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>Python 3.11+</div><pre><span class="kw">from</span> docling.document_converter <span class="kw">import</span> DocumentConverter
 <span class="kw">from</span> docling.chunking <span class="kw">import</span> HybridChunker
 
@@ -235,7 +240,7 @@ chunk_iter = chunker.<span class="fn">chunk</span>(dl_doc=doc)
 chunks = <span class="fn">list</span>(chunk_iter)
 <span class="fn">print</span>(<span class="str">f&quot;Chunks estruturados: {len(chunks)}&quot;</span>)
 <span class="fn">print</span>(chunks[<span class="num">0</span>].text[:<span class="num">300</span>])</pre></div></div></div></div>
-<div class="slide" style="--ac1:16,185,129;--ac2:5,150,105"><div class="slide-header" style="border-color:rgba(16,185,129,.25)"><span class="slide-icon">🔄</span><h2 style="color:#10b981">Pipeline Naive RAG Completo<span>Aula 2</span></h2><span class="slide-num">6/6</span></div><div class="slide-body"><div class="content-col"><div class="highlight-banner" style="border-color:#10b981;background:rgba(16,185,129,.07);color:#10b981">O Naive RAG é o baseline: ingere → indexa → recupera → gera. Simples e poderoso.</div><ul class="bullet-list"><li>1. Ingestão: Docling converte PDF → chunks de texto</li><li>2. Indexação: BGE-M3 gera embeddings → OpenSearch kNN index</li><li>3. Retrieval: query embedding → busca top-K por similaridade coseno</li><li>4. Geração: chunks + query → vLLM (Llama 3.1 8B) → resposta fundamentada</li></ul></div><div class="diagram-col">
+<div class="slide" style="--ac1:16,185,129;--ac2:5,150,105"><div class="slide-header" style="border-color:rgba(16,185,129,.25)"><span class="slide-icon">🔄</span><h2 style="color:#10b981">Pipeline Naive RAG Completo<span>Aula 2</span></h2><span class="slide-num">6/6</span></div><div class="slide-body"><div class="content-col"><div class="highlight-banner" style="border-color:#10b981;background:rgba(16,185,129,.07);color:#10b981">O Naive RAG é o baseline: ingere → indexa → recupera → gera. Simples e poderoso.</div><ul class="bullet-list"><li>1. Ingestão: Docling converte PDF → chunks de texto</li><li>2. Indexação: BGE-M3 gera embeddings → OpenSearch kNN index</li><li>3. Retrieval: query embedding → busca top-K por similaridade coseno</li><li>4. Geração: chunks + query → Ollama (llama3.2:3b — Aula 1) → resposta fundamentada</li></ul></div><div class="diagram-col">
 <div class="diagram">
   <div class="d-flow" style="flex-wrap:wrap">
     <span class="d-step">PDF/DOCX</span>
@@ -256,7 +261,7 @@ chunks = <span class="fn">list</span>(chunk_iter)
     <span class="d-arr">→</span>
     <span class="d-step orange">Top-K Chunks</span>
     <span class="d-arr">→</span>
-    <span class="d-step green">vLLM Llama</span>
+    <span class="d-step green">Ollama llama3.2:3b</span>
     <span class="d-arr">→</span>
     <span class="d-step blue">Resposta</span>
   </div>

@@ -4,9 +4,9 @@ AULA 2: INGESTÃO AVANÇADA DE DOCUMENTOS E ESTRATÉGIAS DE CHUNKING
 ================================================================================
 
 DATA DE CRIAÇÃO: 16 de abril de 2026
-PROFESSOR: Sistema de IA Claude
+ATUALIZAÇÃO: maio de 2026 — migração de vLLM para Ollama (infra da Aula 1)
 LINGUAGEM: Python 3.11+
-AMBIENTE: Google Colab
+AMBIENTE: Local (venv_rag da Aula 1) — Jupyter/VS Code; Colab apenas como alternativa
 
 ================================================================================
 NOTEBOOKS CRIADOS (2)
@@ -22,9 +22,9 @@ NOTEBOOKS CRIADOS (2)
    ✓ nbformat=4, nbformat_minor=5
    
    Estrutura:
-   1. Instalação de dependências (Docling, LangChain, reportlab)
+   1. Instalação de dependências (Docling, LangChain, reportlab — fallback)
    2. Teoria: Problema que Docling resolve (PyPDF2 vs Docling)
-   3. Geração de PDFs de teste (acórdão simples + relatório com tabela)
+   3. Carga dos 2 PDFs reais do dataset (`Manual_DPCA_atualizado.pdf` digital + `Laudo.pdf` escaneado/OCR), com fallback ReportLab
    4. Extração com PyPDF2 (baseline ilegível)
    5. Inicialização e configuração do Docling
    6. Conversão de PDF simples (sem tabela)
@@ -40,7 +40,8 @@ NOTEBOOKS CRIADOS (2)
    • Docling (processamento estruturado de PDFs)
    • PyPDF2 (baseline para comparação)
    • LangChain (integração com Documents)
-   • reportlab (geração de PDFs de teste)
+   • reportlab (apenas para fallback se PDFs do dataset não estiverem disponíveis)
+   • Datasets: aula2/datasets/Manual_DPCA_atualizado.pdf + Laudo.pdf
    • pandas/matplotlib (análise e visualização)
 
 2. LAB2_Comparacao_Chunking.ipynb
@@ -57,8 +58,8 @@ NOTEBOOKS CRIADOS (2)
    2. Texto de referência: acórdão jurídico (~2000 chars)
    3. Estratégia 1: Fixed-Size Character Chunking
    4. Estratégia 2: Recursive Character Splitting
-   5. Estratégia 3: Semantic Chunking (com embeddings)
-   6. Estratégia 4: Sentence-Window Chunking (LlamaIndex)
+   5. Estratégia 3: Semantic Chunking (BGE-M3 via Ollama)
+   6. Estratégia 4: Sentence-Window Chunking (LangChain + NLTK — implementação Python pura)
    7. Estratégia 5: Document-Aware Header-Based
    8. Comparativo final (tabela + 4 gráficos)
    9. Visualização de fronteiras de chunk
@@ -76,28 +77,34 @@ NOTEBOOKS CRIADOS (2)
    | 5 | Header-Based      | Sim     | Sim    | Sim*      | Documentos jurídicos |
    
    Stack:
-   • LangChain (CharacterTextSplitter, RecursiveCharacterTextSplitter)
+   • LangChain (CharacterTextSplitter, RecursiveCharacterTextSplitter,
+     MarkdownHeaderTextSplitter, Document)
    • LangChain Experimental (SemanticChunker)
-   • LlamaIndex (SentenceWindowNodeParser)
-   • HuggingFace Embeddings (paraphrase-multilingual-MiniLM-L12-v2)
+   • NLTK (sent_tokenize) — base do sentence-window chunking
+   • Embeddings: BGE-M3 via Ollama da Aula 1 (langchain-ollama), com fallback
+     HuggingFaceEmbeddings(BAAI/bge-m3) automático quando o Ollama está fora
    • pandas/numpy/matplotlib (análise comparativa)
 
 ================================================================================
 REQUISITOS PRÉ-AULA (Aula 1)
 ================================================================================
 
-✓ Python 3.11+
-✓ Google Colab com GPU (recomendado para semantic chunking)
+✓ Python 3.11+ (venv_rag da Aula 1)
+✓ Ollama em http://localhost:11434 com `llama3.2:3b` e `bge-m3` instalados
+✓ OpenSearch em http://localhost:9200 (opcional — há fallback FAISS)
 ✓ Conhecimento: RAG básico, estrutura de embedding, LLMs
 
-Dependências que serão instaladas:
+Dependências que serão instaladas (a maioria já vem do LAB1 da Aula 1):
 • docling
 • langchain + langchain-community + langchain-text-splitters
+• langchain-ollama (cliente nativo do Ollama)
+• langchain-openai (caminho portátil via /v1 do Ollama)
 • langchain-experimental (semantic chunking)
-• llama-index-core
-• sentence-transformers
-• reportlab
-• pandas, numpy, matplotlib
+• nltk (sent_tokenize — base do sentence-window)
+• sentence-transformers (fallback de BGE-M3)
+• faiss-cpu + opensearch-py
+• reportlab (apenas fallback se os PDFs do dataset não existirem)
+• pandas, numpy, matplotlib, seaborn, umap-learn
 
 ================================================================================
 ESTILO E PEDAGOGIA
@@ -171,7 +178,7 @@ LAB2 - COMPARAÇÃO DE CHUNKING:
     ▼         ▼                  ▼              ▼              ▼
  Fixed-Size Recursive        Semantic      Sentence-Window  Header-Based
  chunk_size separadores      embeddings    SentenceWindow   Markdown
-    800     jurídicos        HuggingFace   (LlamaIndex)    Headers
+    800     jurídicos        Ollama bge-m3 (LangChain+NLTK) Headers
               │                  │              │              │
               └──────────────────┴──────────────┴──────────────┘
                            │
@@ -224,20 +231,23 @@ LangChain ✓ (LAB1 + LAB2)
   → TextSplitters (5 tipos)
   → Integração com embeddings
 
-LlamaIndex ✓ (LAB2)
-  → SentenceWindowNodeParser
-  → Node schema
+NLTK ✓ (LAB2 — sentence-window)
+  → sent_tokenize() para extrair sentenças
+  → integrado em função Python pura que devolve langchain.schema.Document
+  → substitui o SentenceWindowNodeParser do LlamaIndex sem adicionar dependência extra
 
-BGE-M3 ✓ (LAB2 - Semantic Chunking)
-  → HuggingFaceEmbeddings("paraphrase-multilingual-MiniLM-L12-v2")
-  → Para detecção de breakpoints semânticos
+BGE-M3 ✓ (LAB2/LAB4 - Embeddings + Semantic Chunking)
+  → OllamaEmbeddings(model="bge-m3", base_url="http://localhost:11434")
+  → Fallback: HuggingFaceEmbeddings("BAAI/bge-m3")
+  → Mesmo modelo (e mesmo espaço vetorial) usado em todas as estratégias
 
-OpenSearch (Aula 3)
-  → Indexação de Documents
-  → Vector search + BM25
+OpenSearch ✓ (LAB4 — Aula 1 já provisionou)
+  → Indexação de Documents (vector field "embedding" dim=1024)
+  → Vector search; combinado com BM25 nas Aulas 3-4
 
-vLLM (Aula 3+)
-  → Geração com Documents retrived
+Ollama ✓ (servidor LLM da Aula 1, usado a partir do LAB4)
+  → http://localhost:11434  •  modelo padrão: llama3.2:3b
+  → Geração com Documents recuperados; portabilidade para vLLM em produção
 
 ================================================================================
 PRÓXIMOS PASSOS (AULA 3)
@@ -252,9 +262,9 @@ PRÓXIMOS PASSOS (AULA 3)
    • Implementar ensemble retriever
    • Avaliar NDCG, MAP, MRR
 
-3. Integração com vLLM
-   • Endpoint local de LLM
-   • Prompting com context window
+3. Integração com Ollama (da Aula 1) — já consolidada no LAB4 desta Aula 2
+   • Endpoint local de LLM em http://localhost:11434
+   • Prompting com context window (limit padrão 4096 tokens em llama3.2:3b)
 
 4. Evaluation
    • Métricas de RAG
@@ -276,7 +286,8 @@ ABNT NBR ISO/IEC 9126:2003
 Documentação Técnica:
   • Docling: https://github.com/DS4SD/docling
   • LangChain: https://python.langchain.com
-  • LlamaIndex: https://docs.llamaindex.ai
+  • NLTK: https://www.nltk.org/api/nltk.tokenize.punkt.html
+  • Ollama: https://ollama.com/ · https://github.com/ollama/ollama
   • RFC 7763: Markdown specification
 
 ================================================================================
@@ -288,7 +299,7 @@ CHECKLIST DE VALIDAÇÃO
     [✓] 23 células bem estruturadas
     [✓] Comentários em CADA linha de código relevante
     [✓] Diagramas ASCII (pipeline Docling)
-    [✓] PDFs de teste gerados (acórdão + relatório)
+    [✓] Datasets reais carregados (Manual_DPCA_atualizado.pdf + Laudo.pdf), com fallback ReportLab
     [✓] Comparação PyPDF2 vs Docling
     [✓] OCR configurado (não executado)
     [✓] Processamento em lote
@@ -307,10 +318,10 @@ CHECKLIST DE VALIDAÇÃO
     [✓] Exercício com 3 cenários jurídicos
     [✓] Referências ABNT
 
-[✓] Compatibilidade Colab
-    [✓] Metadata para Google Colab
-    [✓] Sem dependências exóticas
-    [✓] Sem vLLM (apenas vLLM mencionado)
+[✓] Compatibilidade com o ambiente da Aula 1 (Ollama + OpenSearch)
+    [✓] Notebooks rodam sob o venv_rag e o kernel "MBA RAG (Python 3.11)"
+    [✓] Sem dependências de GPU obrigatória (Ollama detecta hardware automaticamente)
+    [✓] Sem vLLM como dependência — Ollama é o servidor LLM padrão (vLLM apenas citado para portabilidade em produção)
     [✓] Python 3.11+
 
 ================================================================================

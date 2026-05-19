@@ -23,7 +23,7 @@
 
 #### Stack:
 - LangChain (splitters, documents)
-- Sentence-Transformers (paraphrase-multilingual-MiniLM)
+- Embeddings: BGE-M3 via Ollama (`langchain-ollama`) — herdado da Aula 1; fallback HuggingFaceEmbeddings("BAAI/bge-m3")
 - Scikit-learn (cosine_similarity)
 - Pandas, Matplotlib, Seaborn, UMAP
 
@@ -43,27 +43,25 @@
 - **Pipeline Completo**:
   1. **Ingestão (Docling)**: PDFs → Markdown estruturado
   2. **Chunking (LangChain)**: Respeitando artigos, incisos, alíneas
-  3. **Embeddings (BGE-M3)**: 1024 dimensões, multilíngue, HuggingFace
-  4. **Indexação (FAISS)**: Vetorial local, rápido, k-NN search
+  3. **Embeddings (BGE-M3 via Ollama)**: 1024 dimensões, multilíngue; fallback HuggingFace
+  4. **Indexação (OpenSearch da Aula 1 — fallback FAISS local)**: k-NN search
   5. **Retrieval**: Top-5 chunks por similaridade
-  6. **Geração (vLLM/OpenAI)**: LLM com contexto jurídico
+  6. **Geração (Ollama llama3.2:3b)**: LLM local da Aula 1, com contexto jurídico
   7. **Citações**: [Fonte N] automáticas
 
-#### Documentos Criados:
-1. `acordao_hc.pdf` - Acórdão de Habeas Corpus estruturado
-2. `lei_11343.pdf` - Lei de Drogas com artigos completos
-3. `relatorio_inteligencia.pdf` - Relatório com tabela de dados
-4. `parecer_mp.pdf` - Parecer Ministerial
-5. `sumulas.pdf` - Súmulas STJ/STF
+#### Datasets utilizados (PDFs reais em `aula2/datasets/`):
+1. **`Manual_DPCA_atualizado.pdf`** — PDF DIGITAL com estrutura hierárquica (texto extraível, sem OCR)
+2. **`Laudo.pdf`** — PDF ESCANEADO (imagem de texto, exige `do_ocr=True`)
+3. (Corpus inline opcional no LAB4/EXEMPLO3 — fragmentos da Lei 11.343/2006, Acórdão HC, Relatório de Inteligência — usado quando `USE_DOCLING_REAL=False`)
 
-#### Stack Obrigatório:
-- **Framework**: LangChain (LCEL = LangChain Expression Language)
-- **Embedding**: BAAI/bge-m3 (HuggingFace)
-- **Vectorstore**: FAISS (fallback local para OpenSearch)
-- **LLM**: Meta-Llama/Llama-3.1-8B-Instruct via vLLM
+#### Stack Obrigatório (alinhado com Aula 1):
+- **Framework**: LangChain (LCEL = LangChain Expression Language) + langchain-ollama
+- **Embedding**: BGE-M3 via Ollama (`ollama pull bge-m3`, dim=1024); fallback BAAI/bge-m3 via HuggingFace
+- **Vectorstore**: OpenSearch kNN (Podman/Docker da Aula 1) com fallback FAISS local
+- **LLM**: `llama3.2:3b` (padrão) ou `llama3.1:8b` (opcional) — servido pelo Ollama da Aula 1 em http://localhost:11434
 - **Ingestão**: Docling + ReportLab
-- **Python**: 3.11+
-- **Ambiente**: Google Colab
+- **Python**: 3.11+ (venv_rag da Aula 1)
+- **Ambiente**: Local (Jupyter/VS Code com o kernel "MBA RAG (Python 3.11)")
 
 #### Funcionalidades:
 - RAG chain declarativa (LCEL)
@@ -107,12 +105,12 @@
 - ✅ Exercício prático para aluno
 
 ### LAB 4
-- ✅ 5 PDFs jurídicos com ReportLab
+- ✅ Ingestão dos 2 PDFs reais do dataset (`Manual_DPCA_atualizado.pdf` + `Laudo.pdf`) via Docling, com fallback de corpus inline para execução rápida
 - ✅ Ingestão com Docling
 - ✅ Chunking jurídico customizado (artigos, incisos, alíneas)
 - ✅ Embeddings BGE-M3 (1024d, multilíngue)
 - ✅ Indexação FAISS com fallback
-- ✅ Configuração vLLM (com fallback OpenAI)
+- ✅ Configuração do LLM via Ollama (com caminho portátil ChatOpenAI → /v1)
 - ✅ Prompt template jurídico especialista
 - ✅ RAG chain LCEL ponta-a-ponta
 - ✅ Debugging integrado (retrieval + scores + latência)
@@ -152,7 +150,7 @@
    - Chunking jurídico
    - Gerar embeddings
    - Indexar com FAISS
-   - Configurar vLLM
+   - Confirmar Ollama da Aula 1 (`ollama list` mostra llama3.2:3b e bge-m3)
    - Executar RAG queries
    - Testar persistência
 
@@ -184,7 +182,7 @@ Ambos os notebooks incluem:
 - ✅ nbformat: 4
 - ✅ nbformat_minor: 5
 - ✅ Estrutura válida (cells, metadata, etc.)
-- ✅ Sem vLLM (apenas vLLM)
+- ✅ Sem dependência de vLLM — Ollama como servidor LLM padrão (vLLM mencionado apenas para portabilidade em produção)
 - ✅ Comentários em português em 100% das células code
 
 ---
@@ -194,12 +192,12 @@ Ambos os notebooks incluem:
 | Componente | Escolha | Por quê |
 |------------|---------|--------|
 | **Chunking** | LangChain | API unificada, splitters jurídicos |
-| **Embeddings** | BGE-M3 | 1024d, multilíngue, state-of-art |
-| **Vectorstore** | FAISS | Local, rápido, sem dependências externas |
-| **LLM** | vLLM | Production-grade, melhor que vLLM |
+| **Embeddings** | BGE-M3 (via Ollama) | 1024d, multilíngue, mesmo servidor que o LLM |
+| **Vectorstore** | OpenSearch (Aula 1) + FAISS fallback | Persistente em produção; local e rápido para dev |
+| **LLM** | Ollama llama3.2:3b | Local, sem CUDA obrigatório, Windows/macOS/Linux |
 | **Framework** | LangChain LCEL | Composição declarativa, rastreável |
 | **Ingestão** | Docling | Entende tabelas, estrutura de PDFs |
-| **Ambiente** | Google Colab | Sem GPU necessária (CPU funciona) |
+| **Ambiente** | venv_rag (Aula 1) | Reaproveita ambiente já provisionado |
 
 ---
 
