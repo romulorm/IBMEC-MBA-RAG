@@ -49,8 +49,16 @@ assert len(md) > 1000, "Extração muito curta do Manual_DPCA — problema na co
 print(f"✅ Manual_DPCA: {len(md)} chars | Tabelas: {len(result.document.tables)}")
 
 # Caso 2 — PDF escaneado (precisa OCR)
-from docling.datamodel.pipeline_options import PipelineOptions
-conv_ocr = DocumentConverter(pipeline_options=PipelineOptions(do_ocr=True))
+from docling.document_converter import DocumentConverter, PdfFormatOption
+from docling.datamodel.base_models import InputFormat
+from docling.datamodel.pipeline_options import PdfPipelineOptions
+conv_ocr = DocumentConverter(
+    format_options={
+        InputFormat.PDF: PdfFormatOption(
+            pipeline_options=PdfPipelineOptions(do_ocr=True)
+        )
+    }
+)
 result_ocr = conv_ocr.convert(str(DATASET / "Laudo.pdf"))
 md_ocr = result_ocr.document.export_to_markdown()
 assert len(md_ocr) > 200, "OCR não retornou texto — verificar se EasyOCR foi baixado"
