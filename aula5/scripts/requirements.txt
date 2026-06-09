@@ -24,6 +24,7 @@ openai>=1.40
 
 # --- Observabilidade ---
 langfuse>=4.0             # Scores API
+langfuse-haystack>=1.0   # LangfuseConnector (auto-instrumentacao do chat - script 06)
 
 # --- Utilidades ---
 pandas>=2.0

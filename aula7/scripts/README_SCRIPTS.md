@@ -1,0 +1,123 @@
+# Scripts da Aula 7 — Guia de Uso
+
+Scripts Python simples, de linha de comando, sobre **Query Enhancement**:
+**Multi-Query RAG (#T10)**, **Step-Back Prompting (#T11)** e **RAG-Fusion (#T12)**.
+
+Stack: **Haystack** · **OpenSearch** (vetores) · **Ollama** (embeddings) · **Groq** (LLM) · **LangFuse** (observabilidade).
+
+> **Corpus/índice:** a Aula 7 **reaproveita os acórdãos do TCU** (o índice `aula4_hibrido`
+> da Aula 4). As 3 técnicas mudam só a **estratégia de query** — o índice é o mesmo.
+
+---
+
+## 1. Como funciona o conjunto
+
+As três técnicas atacam o mesmo problema (a pergunta usa palavras diferentes dos documentos):
+
+- **Multi-Query** — o LLM gera N reformulações; busca por todas; junta (dedup).
+- **Step-Back** — o LLM cria uma pergunta mais geral; busca a específica + a geral.
+- **RAG-Fusion** — gera N reformulações; busca por todas; funde os rankings com **RRF**.
+
+O `05_benchmark` mede o **trade-off**: quanto cada técnica melhora o **Recall** vs.
+quanto custa a mais (mais buscas + 1 chamada de LLM) e a **latência**.
+
+---
+
+## 2. Pré-requisitos
+
+1. **Python 3.10+** com o ambiente virtual do curso ativado.
+2. **OpenSearch** em `localhost:9200` com o índice do TCU. Use o `01` (reaproveita
+   `aula4_hibrido`; se vazio, indexa o corpus do TCU).
+3. **Ollama** com o modelo de embedding: `ollama pull nomic-embed-text`.
+4. **Chave da Groq** no `.env`.
+5. **LangFuse** (para o `06`) — veja `GUIA_LANGFUSE_WINDOWS.md` da **Aula 3**.
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 3. Ordem recomendada e como usar cada script
+
+Rode tudo de dentro da pasta `aula7/scripts`.
+
+### `00_check_ambiente.py` — confere se está tudo pronto
+```bash
+python 00_check_ambiente.py --testar-groq
+```
+
+### `01_indexar_opensearch.py` — garante/reusa o índice do TCU
+```bash
+python 01_indexar_opensearch.py            # reaproveita aula4_hibrido se existir
+python 01_indexar_opensearch.py --recriar  # reindexa o corpus do TCU
+```
+
+### `02_multi_query.py` — Multi-Query RAG (#T10)
+```bash
+python 02_multi_query.py --pergunta "o gestor pode ser multado pelo tribunal de contas?" --n 4
+```
+
+### `03_step_back.py` — Step-Back Prompting (#T11)
+```bash
+python 03_step_back.py --pergunta "Qual foi a decisão do TCU sobre fiscalização sobre armas de fogo?"
+```
+
+### `04_rag_fusion.py` — RAG-Fusion (#T12)
+```bash
+python 04_rag_fusion.py --pergunta "quando as contas sao julgadas irregulares?" --n 4
+```
+
+### `05_benchmark.py` — Recall vs Latência vs Custo (todas as técnicas)
+Gera o benchmark a partir do TCU (na 1ª vez) e compara **Baseline, Multi-Query,
+Step-Back e RAG-Fusion** por Hit@k, Recall@k, latência e custo.
+
+Dois modos:
+- **padrão** (1 doc relevante por pergunta, "lookup"): o Baseline costuma bastar.
+- **`--multi-doc`** (perguntas temáticas com vários docs relevantes, via clustering):
+  é onde **Multi-Query/RAG-Fusion ganham** no Recall. Use `--top-k 10`.
+
+```bash
+python 05_benchmark.py                       # modo coloquial (1 relevante/pergunta)
+python 05_benchmark.py --multi-doc --top-k 10  # modo temático (vários relevantes)
+python 05_benchmark.py --gerar               # força regerar o benchmark do modo atual
+```
+
+### `06_chat_langfuse.py` — testa as técnicas com observabilidade
+Para cada pergunta, roda **uma técnica ou todas** (baseline, multi_query, step_back,
+rag_fusion). Cada execução vira um **trace no LangFuse nomeado por técnica**
+(`chat-aula7-<tecnica>`), então a auto-instrumentação captura o comportamento de cada
+uma e você compara lado a lado (latência, tokens, trechos no prompt, resposta).
+```bash
+python 06_chat_langfuse.py                 # roda TODAS as técnicas por pergunta
+python 06_chat_langfuse.py --tecnica rag_fusion
+```
+
+---
+
+## 4. Resumo de dependências por script
+
+| Script | OpenSearch | Ollama | Groq | LangFuse |
+|--------|:----------:|:------:|:----:|:--------:|
+| 00_check_ambiente | ✓ (checa) | ✓ (checa) | ✓ (checa) | ✓ (checa) |
+| 01_indexar_opensearch | ✓ | ✓ | — | — |
+| 02_multi_query | ✓ | ✓ | ✓ | — |
+| 03_step_back | ✓ | ✓ | ✓ | — |
+| 04_rag_fusion | ✓ | ✓ | ✓ | — |
+| 05_benchmark | ✓ | ✓ | ✓ | — |
+| 06_chat_langfuse | ✓ | ✓ | ✓ | ✓ |
+
+> `_comum.py` não é executado diretamente: carrega o `.env`, lê o corpus do TCU,
+> e oferece os blocos (busca densa, geração de variações/step-back, dedup e RRF).
+
+---
+
+## 5. Observações
+
+- **Reaproveitamento do TCU:** o `01` não reindexa se o `aula4_hibrido` já tiver documentos.
+  Garanta que esse índice contém o corpus completo (rode a Aula 4 ou `01 --recriar`).
+- **Benchmark gerado:** o `05` cria perguntas **coloquiais** a partir dos acórdãos
+  (gabarito = o documento de origem), ideais para exercitar o query enhancement.
+- **Multi-Query vs RAG-Fusion:** ambos geram variações; o RAG-Fusion **funde por RRF**
+  (mais robusto), o Multi-Query apenas deduplica.
+- **LangFuse:** o `06` liga o tracing automaticamente quando há chaves no `.env`.

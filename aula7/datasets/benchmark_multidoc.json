@@ -1,0 +1,132 @@
+[
+  {
+    "id": "BT001",
+    "query": "Quais são as principais causas e características das Tomadas de Contas Especiais (TCEs) instauradas por diferentes ministérios e órgãos governamentais, conforme acórdãos do Tribunal de Contas da União (TCU)?",
+    "documentos_relevantes": [
+      "acordao_2026_2338_2766861",
+      "acordao_2026_2337_2742797",
+      "acordao_2026_1248_2766263"
+    ],
+    "resposta_esperada": "As Tomadas de Contas Especiais (TCEs) são instauradas devido à não comprovação da regular aplicação de recursos repassados pela União, prática de atos ilegais, ilegítimos ou antieconômicos que resultem em dano ao erário, e outras irregularidades. As TCEs são caracterizadas por envolver projetos e programas governamentais, como o ProJovem Trabalhador, ações de recuperação em municípios e concessão de bolsas de estudo. Os ministérios e órgãos governamentais envolvidos incluem o Ministério do Trabalho e Emprego, o Ministério da Integração e do Desenvolvimento Regional e o Conselho Nacional de Desenvolvimento Científico e Tecnológico. As TCEs são investigadas pelo TCU, que verifica a regularidade da aplicação dos recursos e aplica sanções caso sejam constatadas irregularidades.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT002",
+    "query": "Qual é o panorama geral dos acórdãos do Tribunal de Contas da União (TCU) relativos à aposentadoria, considerando os fundamentos legais e regimentais que embasam as decisões?",
+    "documentos_relevantes": [
+      "acordao_2026_2282_2766249",
+      "acordao_2026_2287_2766389",
+      "acordao_2026_2309_2766366"
+    ],
+    "resposta_esperada": "Os acórdãos do TCU sobre aposentadoria demonstram uma abordagem uniforme, fundamentada nos arts. 71, inciso III, da Constituição Federal de 1998, e nas leis e regulamentos específicos, como a Lei nº 8.443/1992 e o Regimento Interno do TCU. As decisões são tomadas por unanimidade, ordenando o registro dos atos de concessão de aposentadoria, após análise e julgamento dos atos de aposentadoria enviados pelas unidades emissoras e controladas pela Controladoria-Geral da União. Isso sugere que o TCU está exercendo seu papel de fiscalização e controle, garantindo a legalidade e a regularidade dos processos de aposentadoria no âmbito da administração pública federal.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT003",
+    "query": "Qual é o panorama geral dos acórdãos do TCU sobre pensão militar, considerando as decisões recentes da 2ª Câmara?",
+    "documentos_relevantes": [
+      "acordao_2026_2316_2766368",
+      "acordao_2026_2318_2766370",
+      "acordao_2026_2336_2765799"
+    ],
+    "resposta_esperada": "Os acórdãos do TCU sobre pensão militar indicam que o Tribunal está analisando e julgando atos de pensão militar emitidos pelas Forças Armadas, incluindo o Comando da Marinha, Comando do Exército e Comando da Aeronáutica, com base nas leis e regulamentos aplicáveis, como a Lei 8.443/1992 e o Regimento Interno do TCU. As decisões do TCU visam garantir a regularidade e a legalidade dos atos de pensão militar, e podem incluir a análise de ressalvas indicadas pela unidade técnica e a aplicação de sanções ou recomendações às unidades emissoras.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT004",
+    "query": "Quais são as principais irregularidades e sanções aplicadas pelo Tribunal de Contas da União (TCU) em processos de tomada de contas especiais relacionados à concessão indevida de benefícios previdenciários?",
+    "documentos_relevantes": [
+      "acordao_2026_1283_2766274",
+      "acordao_2026_1201_2759593",
+      "acordao_2026_1299_2765844"
+    ],
+    "resposta_esperada": "As principais irregularidades incluem a concessão indevida de benefícios previdenciários, habilitação irregular e dano ao erário. As sanções aplicadas pelo TCU incluem a declaração de irregularidade das contas, débito, multa, inabilitação temporária ou permanente para o exercício de função pública na administração federal, além da possibilidade de ação civil de improbidade administrativa. O TCU também considera a interrupção da prescrição das pretensões punitiva e ressarcitória por atos praticados no âmbito de processo administrativo disciplinar, visando a eficiência, economia processual e segurança jurídica.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT005",
+    "query": "Quais são as principais irregularidades e desafios identificados pelo Tribunal de Contas da União (TCU) em processos de licitação e contratação de serviços, e como essas irregularidades afetam a legalidade e a eficiência das contratações públicas?",
+    "documentos_relevantes": [
+      "acordao_2026_1240_2766993",
+      "acordao_2026_1206_2766312",
+      "acordao_2026_1223_2766214"
+    ],
+    "resposta_esperada": "Os acórdãos do TCU apontam para uma variedade de irregularidades e desafios, incluindo a não consideração de margens de preferência para produtos nacionais, a classificação de propostas mais onerosas, a ausência de evidência da correta internalização de encargos trabalhistas, distorções na frequência de limpeza, alteração de áreas e desclassificação massiva de licitantes. Essas irregularidades podem comprometer os princípios de vinculação ao edital e de julgamento objetivo, afetando a legalidade e a eficiência das contratações públicas. Além disso, a alta materialidade envolvida e a longa duração dos contratos destacam a importância de uma fiscalização rigorosa e eficaz para garantir a conformidade com as normas legais e regulamentares.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT006",
+    "query": "Quais são as principais irregularidades e consequências identificadas pelo Tribunal de Contas da União (TCU) em processos de tomada de contas especial e prestação de contas simplificada?",
+    "documentos_relevantes": [
+      "acordao_2026_2321_2762112",
+      "acordao_2026_1194_2765977",
+      "acordao_2026_2257_2765199"
+    ],
+    "resposta_esperada": "As principais irregularidades identificadas incluem a não comprovação da execução física do objeto, documentação parcialmente apresentada, insuficiência probatória, não atendimento dos quantitativos mínimos de pacientes e carga horária de profissionais estabelecidos pelas normas do SUS, e desperdício de recursos. As consequências incluem a aplicação de multas aos responsáveis, rejeição das alegações de defesa, contas irregulares, débito e apreensão de bens. Além disso, o TCU também examina o recolhimento dos débitos e das multas estabelecidas em acórdãos anteriores, demonstrando a importância da fiscalização e controle dos recursos públicos.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT007",
+    "query": "Quais são as principais irregularidades e questões identificadas pelo Tribunal de Contas da União (TCU) em processos relacionados a contratos, licitações e atos de gestão em diferentes órgãos e entidades do governo?",
+    "documentos_relevantes": [
+      "acordao_2026_1252_2765875",
+      "acordao_2026_1262_2764190",
+      "acordao_2026_1237_2767084"
+    ],
+    "resposta_esperada": "O TCU identificou irregularidades em processos de dispensa de licitação, como a realização de compras sem competição, e questões relacionadas a atos de gestão, como o cancelamento indevido de protocolos e o uso indevido de recursos públicos, como o transporte de autoridades em aeronaves do Comando da Aeronáutica. Além disso, o TCU também verificou a existência de denúncias sobre supostas irregularidades em órgãos como a Anatel, relacionadas a questões consumeristas e trâmites administrativos. Em geral, as irregularidades identificadas pelo TCU estão relacionadas à falta de transparência, competitividade e eficiência em processos de contratação e gestão de recursos públicos.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT009",
+    "query": "Quais são os principais aspectos que o Tribunal de Contas da União (TCU) considera ao analisar recursos e embargos de declaração relacionados a aposentadoria, incorporação de quintos e funções comissionadas, e como esses aspectos afetam a decisão final do Tribunal?",
+    "documentos_relevantes": [
+      "acordao_2026_2322_2767110",
+      "acordao_2026_2277_2760012"
+    ],
+    "resposta_esperada": "O TCU considera aspectos como a tempestividade do recurso, a observância dos pressupostos legais e regimentais, a comprovação de que o interessado está efetivamente abrangido pela decisão judicial transitada em julgado, a modulação dos efeitos estabelecida pelo Supremo Tribunal Federal e a ausência de contradições. Além disso, o Tribunal analisa se o recurso está dentro do prazo estabelecido e se as razões recursais são claras e específicas, considerando a jurisprudência pacífica do TCU e as disposições do Regimento Interno. Se esses aspectos forem atendidos, o TCU pode conhecer do recurso e decidir sobre o mérito, caso contrário, pode negar o provimento do recurso.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT010",
+    "query": "Quais são as principais considerações e determinações do Tribunal de Contas da União (TCU) em relação aos atos de aposentadoria e pensão civil, especialmente no que tange à legalidade, registro e regularização financeira?",
+    "documentos_relevantes": [
+      "acordao_2026_2274_2766378",
+      "acordao_2026_2273_2766372",
+      "acordao_2026_2256_2748266"
+    ],
+    "resposta_esperada": "O TCU exerce um papel fundamental na fiscalização dos atos de aposentadoria e pensão civil, verificando a legalidade e a regularidade desses atos. Em casos de irregularidades, o TCU pode determinar a regularização financeira ou o registro com ressalvas, especialmente quando os valores envolvidos são insignificantes. Além disso, o TCU considera a razoabilidade, a eficiência e a economicidade na apreciação desses atos, podendo levar em conta precedentes do Supremo Tribunal Federal (STF) e de seus próprios acórdãos. A análise integral dos atos de aposentadoria e pensão civil é competência do TCU, que não se vincula aos fundamentos da primeira apreciação, podendo identificar novas irregularidades e determinar as medidas necessárias para a regularização.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT011",
+    "query": "Quais são as principais irregularidades e problemas identificados pelo Tribunal de Contas da União (TCU) em licitações públicas no Brasil, e como essas irregularidades afetam a execução de projetos e a gestão de recursos públicos?",
+    "documentos_relevantes": [
+      "acordao_2026_2343_2765696",
+      "acordao_2026_2324_2766315",
+      "acordao_2026_2327_2766313"
+    ],
+    "resposta_esperada": "As principais irregularidades identificadas pelo TCU incluem problemas na condução de licitações, como a falta de transparência e competitividade, a presença de cláusulas restritivas e a não observância das normas legais. Além disso, o TCU também identificou problemas na execução de contratos, como atrasos, superfaturamento e a não entrega de obras e serviços. Essas irregularidades podem levar a prejuízos financeiros e materiais para a administração pública, além de comprometer a qualidade e a eficiência dos serviços prestados à população. Portanto, é fundamental que as autoridades públicas adotem medidas para prevenir e combater essas irregularidades, garantindo a integridade e a eficácia das licitações e contratos públicos.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT013",
+    "query": "Quais são as principais fragilidades e inconsistências identificadas pelo TCU nos processos de licitação e desestatização de infraestruturas de transporte no Brasil, e como elas afetam a eficiência e a transparência desses processos?",
+    "documentos_relevantes": [
+      "acordao_2026_1218_2761414",
+      "acordao_2026_1274_2749721"
+    ],
+    "resposta_esperada": "Os acórdãos do TCU destacam várias fragilidades e inconsistências nos processos de licitação e desestatização de infraestruturas de transporte no Brasil, incluindo a falta de consistência nos orçamentos referenciais, a superestimativa de taxas de risco e reservas de contingência, a utilização exclusiva de opiniões de especialistas em detrimento de dados históricos, deficiências nos projetos básicos e alterações não justificadas em soluções técnicas. Além disso, os acórdãos também apontam fragilidades nos estudos de engenharia, desalinhamento cronológico entre projetos e a necessidade de melhor compartilhamento de riscos. Essas inconsistências podem levar a ineficiências, desperdício de recursos e falta de transparência nos processos de licitação e desestatização, afetando a qualidade e a sustentabilidade das infraestruturas de transporte no país.",
+    "tipo": "tematica"
+  },
+  {
+    "id": "BT015",
+    "query": "Quais são as principais irregularidades e consequências identificadas pelo Tribunal de Contas da União (TCU) em processos de tomada de contas especiais relacionados a contratações, licitações e execução de contratos?",
+    "documentos_relevantes": [
+      "acordao_2026_1228_2762185",
+      "acordao_2026_1203_2745515",
+      "acordao_2026_2258_2765431"
+    ],
+    "resposta_esperada": "As principais irregularidades identificadas incluem a falta de comprovação da prestação de serviços, ausência de documentos comprobatórios, inexecução parcial de obras e não adoção de medidas para a continuidade da execução do objeto. As consequências incluem a declaração de contas irregulares, débito, multa, inabilitação para o exercício de cargo em comissão ou função de confiança e responsabilização de agentes públicos. Os recursos de reconsideração apresentados têm sido negados devido à insuficiência das razões recursais para alterar a decisão proferida.",
+    "tipo": "tematica"
+  }
+]

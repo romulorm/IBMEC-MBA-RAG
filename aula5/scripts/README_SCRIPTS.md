@@ -80,6 +80,17 @@ Lê os resultados do `03` e registra como scores (Scores API).
 python 05_langfuse_scores.py
 ```
 
+### `06_chat_rag_langfuse.py` — chat RAG instrumentado (LLM-as-a-Judge nativo)
+Chat interativo cujas perguntas/respostas viram traces no LangFuse. Depois, na UI
+do LangFuse, você configura um **avaliador LLM-as-a-Judge (Ragas)** que pontua os
+traces **automaticamente** — sem RAGAS em código. Passo a passo em
+`GUIA_LANGFUSE_LLM_AS_JUDGE.md`.
+```bash
+python 06_chat_rag_langfuse.py --indice aula4_hibrido
+```
+Diferença para o `05`: no `05` o seu código calcula e envia os scores (RAGAS);
+no `06` quem avalia é o **próprio LangFuse**, continuamente, sobre os traces.
+
 ---
 
 ## 4. Resumo de dependências por script
@@ -92,6 +103,7 @@ python 05_langfuse_scores.py
 | 03_ragas_avaliar | — | ✓ | ✓ | ✓ | — | — |
 | 04_deepeval_testes | — | — | ✓ | — | ✓ | — |
 | 05_langfuse_scores | — | — | — | — | — | ✓ |
+| 06_chat_rag_langfuse | ✓ | ✓ | ✓ | — | — | ✓ |
 
 > `_comum.py` não é executado diretamente: carrega o `.env`, lê as perguntas/acórdãos,
 > prepara os juízes LangChain (Groq/Ollama) e as configurações.
