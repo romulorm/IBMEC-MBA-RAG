@@ -77,8 +77,10 @@ def avaliar_ragas(amostras):
     samples = [SingleTurnSample(user_input=a["pergunta"], response=a["resposta"],
                                 retrieved_contexts=a["contextos"]) for a in amostras]
     dataset = EvaluationDataset(samples=samples)
-    resultado = evaluate(dataset=dataset, metrics=[Faithfulness(), ResponseRelevancy()],
-                         llm=juiz, embeddings=emb)
+    # strictness=1: a ResponseRelevancy gera 1 pergunta por amostra (n=1). A Groq NAO
+    # aceita n>1 ("'n' must be at most 1"); o padrao 3 do RAGAS quebra os jobs.
+    metricas = [Faithfulness(), ResponseRelevancy(strictness=1)]
+    resultado = evaluate(dataset=dataset, metrics=metricas, llm=juiz, embeddings=emb)
     return resultado.to_pandas()
 
 

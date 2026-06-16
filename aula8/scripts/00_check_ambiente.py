@@ -73,10 +73,20 @@ def checar_langfuse():
 
 
 def checar_tavily():
-    if _comum.tavily_configurado():
-        print("[Tavily]     OK - TAVILY_API_KEY presente (web search real no CRAG)")
+    try:
+        from haystack_integrations.components.websearch.tavily import TavilyWebSearch  # noqa: F401
+        tem_pacote = True
+    except Exception:
+        tem_pacote = False
+
+    if _comum.tavily_configurado() and tem_pacote:
+        print("[Tavily]     OK - chave + tavily-haystack presentes (web search real)")
+    elif _comum.tavily_configurado() and not tem_pacote:
+        print("[Tavily]     (parcial) chave presente, falta 'pip install tavily-haystack' -> fallback OFFLINE")
+    elif tem_pacote:
+        print("[Tavily]     (opcional) pacote presente, sem TAVILY_API_KEY -> fallback OFFLINE")
     else:
-        print("[Tavily]     (opcional) sem chave - CRAG usa fallback OFFLINE (stub)")
+        print("[Tavily]     (opcional) sem chave e sem pacote -> CRAG usa fallback OFFLINE (stub)")
     return True
 
 

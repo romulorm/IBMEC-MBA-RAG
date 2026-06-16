@@ -6,9 +6,10 @@ Scripts Python simples, de linha de comando, sobre **RAG Reflexivo e Auto-Corret
 Stack: **Haystack** · **OpenSearch** (vetores) · **Ollama** (embeddings) · **Groq** (LLM/avaliador) · **Tavily** (web search de fallback, opcional) · **LangFuse** (observabilidade).
 
 > **Decisões desta aula:**
+> - **Self-RAG e CRAG são pipelines Haystack** — todas as etapas (decisão, avaliador, busca, geração, crítica) viram componentes, traçados no LangFuse.
 > - O roteamento condicional do CRAG é feito com o **`ConditionalRouter` do Haystack** (sem LangGraph).
-> - O **web search** usa **Tavily** se houver `TAVILY_API_KEY` no `.env`; senão cai para um **fallback offline** (stub) para os scripts rodarem sempre.
-> - Reaproveita o **índice do TCU** da Aula 4 (`aula4_hibrido`).
+> - O **web search** usa o componente **oficial `TavilyWebSearch`** (pacote `tavily-haystack`) se houver `TAVILY_API_KEY`; senão cai para um **fallback offline** (stub) para os scripts rodarem sempre.
+> - Reaproveita o **índice do TCU** da Aula 4 (`aula4_hibrido`); as queries de teste foram **adaptadas à realidade da Aula 8** em `datasets/queries_crag_tcu.json` (umas respondíveis localmente, outras que forçam a rota web).
 
 ---
 
@@ -64,12 +65,15 @@ python 01_indexar_opensearch.py            # reaproveita aula4_hibrido se existi
 python 01_indexar_opensearch.py --recriar  # reindexa o corpus do TCU
 ```
 
-### `02_self_rag.py` — Self-RAG training-free (4 tokens de controle)
-Mostra a decisão `[Retrieve]`, a relevância `[ISREL]` de cada documento, a resposta e a
-auditoria `[ISSUP]`/`[ISUSE]`.
+### `02_self_rag.py` — Self-RAG training-free (pipeline Haystack)
+Pipeline linear: `[Retrieve]` (LLM) → `ConditionalRouter` → (busca + `[ISREL]`) →
+montar contexto → geração → `[ISSUP]`/`[ISUSE]`. Cada etapa é um componente, então o
+LangFuse captura tudo no trace `self-rag-aula8`. Mostra a decisão `[Retrieve]`, a
+relevância `[ISREL]` por documento, a resposta e a autocrítica `[ISSUP]`/`[ISUSE]`.
 ```bash
 python 02_self_rag.py --pergunta "o gestor pode ser multado pelo TCU?"
 python 02_self_rag.py --pergunta "o que e responsabilidade civil?"   # tende a [Retrieve=no]
+python 02_self_rag.py --pergunta "..." --sem-langfuse
 ```
 
 ### `03_avaliador.py` — o avaliador LLM-as-Judge isolado
@@ -80,11 +84,13 @@ python 03_avaliador.py --pergunta "decisoes do STF em 2024 sobre interceptacao" 
 ```
 
 ### `04_crag.py` — CRAG completo com ConditionalRouter
-Pipeline único: recupera → avalia → **roteia** (local/fusão/web) → (web search) → gera.
+Pipeline único: recupera → avalia → **roteia** (local/fusão/web) → (`TavilyWebSearch`) → gera.
 Imprime o score, a rota escolhida, as fontes e a resposta (e o trace, se LangFuse ligado).
+O `--demo` roda o conjunto curado (`queries_crag_tcu.json`) e mostra a rota de cada query
+(esperada vs obtida) — ótimo para ver o roteamento local vs web em ação.
 ```bash
 python 04_crag.py --pergunta "quando as contas sao julgadas irregulares?"
-python 04_crag.py --pergunta "decisoes do STF em 2024 sobre interceptacao"
+python 04_crag.py --demo                    # roda as queries curadas (local vs web)
 python 04_crag.py --pergunta "..." --sem-langfuse
 ```
 

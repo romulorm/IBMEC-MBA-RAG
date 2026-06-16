@@ -68,7 +68,7 @@ def _llm():
     groq_key, groq_modelo, groq_base = _comum.config_groq()
     return OpenAIGenerator(api_key=Secret.from_token(groq_key), model=groq_modelo,
                            api_base_url=groq_base,
-                           generation_kwargs={"temperature": 0.2, "max_tokens": 500})
+                           generation_kwargs=_comum.gen_kwargs(groq_modelo, 0.2, 500))
 
 
 def montar_pipeline(store, top_k, usar_langfuse):
@@ -112,12 +112,18 @@ def responder(pipe, pergunta, usar_langfuse):
     return resultado
 
 
+def _rotulo_rota(rota):
+    return "so local" if rota == "local" else "local+web" if rota == "fusao" else "so web"
+
+
 def main():
     parser = argparse.ArgumentParser(description="CRAG com ConditionalRouter (Aula 8).")
-    parser.add_argument("--pergunta", required=True)
+    parser.add_argument("--pergunta", default=None)
     parser.add_argument("--indice", default=_comum.INDICE_TCU)
     parser.add_argument("--top-k", type=int, default=4)
     parser.add_argument("--sem-langfuse", action="store_true")
+    parser.add_argument("--demo", action="store_true",
+                        help="roda as queries curadas (local vs web) e mostra a rota de cada")
     args = parser.parse_args()
 
     usar_langfuse = _comum.langfuse_configurado() and not args.sem_langfuse
@@ -125,10 +131,9 @@ def main():
     print("=" * 60)
     print("  CRAG (Corrective RAG) com ConditionalRouter - Aula 8")
     print("=" * 60)
-    print(f"Pergunta: {args.pergunta}")
     print(f"LangFuse: {'ligado' if usar_langfuse else 'desligado'} | "
           f"Tavily: {'real' if _comum.tavily_configurado() else 'OFFLINE (stub)'}")
-    print(f"Limiares: alto>={_comum.LIMITE_ALTO} | baixo>={_comum.LIMITE_BAIXO}\n")
+    print(f"Limiares: alto>={_comum.LIMITE_ALTO} | baixo>={_comum.LIMITE_BAIXO}")
 
     store = _comum.abrir_store(args.indice)
     try:
@@ -140,7 +145,27 @@ def main():
         return
 
     pipe = montar_pipeline(store, args.top_k, usar_langfuse)
-    resultado = responder(pipe, args.pergunta, usar_langfuse)
+
+    # Modo demo: roda o conjunto curado (queries 'local' e 'web') e compara as rotas.
+    if args.demo:
+        queries = _comum.carregar_queries_teste()
+        if not queries:
+            print("\n[ATENCAO] queries_crag_tcu.json nao encontrado em aula8/datasets.")
+            return
+        print(f"\nDEMO - {len(queries)} queries curadas (rota_esperada vs rota_obtida):\n")
+        for q in queries:
+            r = responder(pipe, q["pergunta"], usar_langfuse)
+            rota = r["avaliar"]["rota"]
+            esperada = q.get("rota_esperada", "?")
+            marca = "OK" if (esperada == rota or (esperada == "web" and rota in ("web", "fusao"))) else "~"
+            print(f"  [{marca}] {q['id']}: esperada={esperada:<5} obtida={rota:<6} "
+                  f"score={r['avaliar']['score']:.2f} | {q['pergunta'][:60]}")
+        print("\n(esperada=web aceita rota web OU fusao; o limiar pode variar com o corpus.)")
+        return
+
+    pergunta = args.pergunta or "quando as contas sao julgadas irregulares?"
+    print(f"Pergunta: {pergunta}\n")
+    resultado = responder(pipe, pergunta, usar_langfuse)
 
     score = resultado["avaliar"]["score"]
     rota = resultado["avaliar"]["rota"]
@@ -148,8 +173,7 @@ def main():
     resposta = resultado["llm"]["replies"][0]
 
     print(f"Score medio dos documentos locais: {score:.2f}")
-    print(f"ROTA escolhida: {rota.upper()} "
-          f"({'so local' if rota=='local' else 'local+web' if rota=='fusao' else 'so web'})")
+    print(f"ROTA escolhida: {rota.upper()} ({_rotulo_rota(rota)})")
     print(f"Fontes usadas: {[d.meta.get('id_original') for d in docs]}\n")
     print(f"Resposta:\n{resposta}")
     if usar_langfuse:

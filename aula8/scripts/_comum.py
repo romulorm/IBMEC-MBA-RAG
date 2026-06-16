@@ -16,6 +16,7 @@ Voce NAO executa este arquivo diretamente. Ele e importado pelos outros scripts.
 
 import json
 import os
+import re
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -30,6 +31,7 @@ INDICE_TCU = os.getenv("AULA8_INDICE", "aula4_hibrido")
 CORPUS_ACORDAOS_AULA4 = PASTA_PROJETO / "aula4" / "datasets" / "corpus_juridico_aula4_v2.json"
 # Queries de teste calibradas (algumas forcam o web search).
 QUERIES_TESTE = PASTA_DATASETS / "queries_teste_aula8.json"
+QUERIES_CRAG = PASTA_DATASETS / "queries_crag_tcu.json"  # curado p/ o TCU (local vs web)
 
 
 # ---------------------------------------------------------------------------
@@ -167,12 +169,45 @@ def groq_client():
     return OpenAI(api_key=api_key, base_url=base_url), modelo
 
 
+def _eh_reasoning(modelo):
+    """Heuristica: o modelo e de 'raciocinio' (gasta tokens pensando)?"""
+    m = (modelo or "").lower()
+    return any(t in m for t in ["gpt-oss", "deepseek-r1", "qwq", "o1", "o3", "reason"])
+
+
 def gerar_texto(cliente, modelo, prompt, max_tokens=400, temperature=0.2):
-    resp = cliente.chat.completions.create(
-        model=modelo, messages=[{"role": "user", "content": prompt}],
-        temperature=temperature, max_tokens=max_tokens,
-    )
-    return resp.choices[0].message.content.strip()
+    """Chama o LLM e devolve o texto, robusto a modelos de RACIOCINIO.
+
+    Modelos de reasoning (ex.: gpt-oss) consomem o orcamento de tokens 'pensando' e,
+    com max_tokens baixo, devolvem content VAZIO. Aqui: pedimos reasoning_effort baixo,
+    damos folga de tokens, protegemos content None/"" e removemos blocos <think>.
+    """
+    kwargs = dict(model=modelo, messages=[{"role": "user", "content": prompt}],
+                  temperature=temperature, max_tokens=max_tokens)
+    if _eh_reasoning(modelo):
+        kwargs["max_tokens"] = max(max_tokens, 1024)
+        kwargs["extra_body"] = {"reasoning_effort": "low"}
+    try:
+        resp = cliente.chat.completions.create(**kwargs)
+    except Exception:
+        kwargs.pop("extra_body", None)  # SDK/endpoint sem suporte a reasoning_effort
+        resp = cliente.chat.completions.create(**kwargs)
+    conteudo = (resp.choices[0].message.content or "").strip()
+    return re.sub(r"<think>.*?</think>", "", conteudo, flags=re.DOTALL).strip()
+
+
+def gen_kwargs(modelo, temperature, max_tokens):
+    """generation_kwargs para o OpenAIGenerator (Haystack), robusto a reasoning.
+
+    Os componentes Haystack (Self-RAG/CRAG) usam OpenAIGenerator, que NAO passa pelo
+    gerar_texto. Para modelos de raciocinio, pedimos reasoning_effort baixo e damos
+    folga de tokens - senao a saida pode vir vazia (mesmo problema do gerar_texto).
+    """
+    kw = {"temperature": temperature, "max_tokens": max_tokens}
+    if _eh_reasoning(modelo):
+        kw["max_tokens"] = max(max_tokens, 1024)
+        kw["reasoning_effort"] = "low"
+    return kw
 
 
 def extrair_json(texto):
@@ -357,3 +392,32 @@ def importar_script(nome_arquivo):
     modulo = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(modulo)
     return modulo
+
+
+def carregar_queries_teste():
+    """Carrega as queries curadas (local vs web) adaptadas ao indice do TCU.
+
+    Formato: lista de {"id","pergunta","rota_esperada":"local"|"web","motivo"}.
+    Se o arquivo nao existir, devolve lista vazia (os scripts seguem sem demo guiado).
+    """
+    if not QUERIES_CRAG.exists():
+        return []
+    with open(QUERIES_CRAG, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def criar_tavily(top_k=3):
+    """Cria o componente OFICIAL TavilyWebSearch (Haystack) ou None se nao der.
+
+    Usa TAVILY_API_KEY do ambiente. Se a chave nao existir ou o pacote
+    tavily-haystack nao estiver instalado, devolve None (o chamador cai no
+    fallback offline). Assim os scripts rodam sempre.
+    """
+    if not tavily_configurado():
+        return None
+    try:
+        from haystack_integrations.components.websearch.tavily import TavilyWebSearch
+
+        return TavilyWebSearch(top_k=top_k, search_params={"search_depth": "advanced"})
+    except Exception:
+        return None
