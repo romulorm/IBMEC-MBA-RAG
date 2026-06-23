@@ -1,0 +1,159 @@
+{
+  "descricao": "Corpus para Aula 6 — Indexação Avançada: Hierarchical Indexing, RAPTOR e HyDE",
+  "versao": "1.0",
+  "total_documentos": 10,
+  "uso": "Dataset de treino e avaliação para comparação de estratégias de indexação (Flat, Parent-Child, RAPTOR, HyDE)",
+  "documentos": [
+    {
+      "id": "DOC001",
+      "tipo": "acordao",
+      "tribunal": "STF",
+      "numero": "HC 143641/SP",
+      "data": "2018-02-20",
+      "relator": "Min. Ricardo Lewandowski",
+      "assuntos": ["prisão domiciliar", "mães encarceradas", "direitos fundamentais", "proteção à criança"],
+      "texto": "HABEAS CORPUS COLETIVO. ADMISSIBILIDADE. DOUTRINA DA PROTEÇÃO INTEGRAL. INTELIGÊNCIA DO ART. 5º, LXV E LXVI, DA CF/88 E DO ART. 318, IV E V, DO CPP. SUBSTITUIÇÃO DA PRISÃO PREVENTIVA PELA DOMICILIAR. MULHERES PRESAS GESTANTES OU QUE SEJAM MÃES DE CRIANÇAS ATÉ 12 ANOS DE IDADE INCOMPLETOS. EXCEÇÕES. 1. Trata-se de habeas corpus coletivo impetrado em favor de todas as mulheres submetidas à prisão cautelar no sistema penitenciário nacional, que ostentem a condição de gestantes, de puérperas ou de mães com crianças de até 12 anos de idade sob sua responsabilidade, e quanto às pessoas com deficiência, nos termos do Art. 2º da Lei n. 13.146/2015. 2. A questão posta nestes autos é de extrema relevância e envolve direitos fundamentais. A Lei n. 13.257/2016 alterou o Código de Processo Penal para contemplar a possibilidade de substituição de prisão preventiva por domiciliar quando se tratar de mulher gestante ou que for mãe ou responsável por crianças ou pessoas com deficiência. 3. Diante da situação caótica do sistema penitenciário brasileiro, que não tem estrutura para atender mães que amamentam nem para garantir os cuidados mínimos às crianças que vivem nesse ambiente, o STF, em interpretação conforme à Constituição, determinou a substituição da prisão preventiva pela domiciliar, ressalvadas as hipóteses excepcionais. 4. HABEAS CORPUS COLETIVO CONCEDIDO COM EFEITOS ERGA OMNES."
+    },
+    {
+      "id": "DOC002",
+      "tipo": "legislacao",
+      "tribunal": "Congresso Nacional",
+      "numero": "Lei 13.964/2019 - Pacote Anticrime",
+      "data": "2019-12-24",
+      "assuntos": ["pacote anticrime", "cadeia de custódia", "plea bargain", "juiz das garantias", "provas ilícitas"],
+      "texto": "LEI Nº 13.964, DE 24 DE DEZEMBRO DE 2019. Aperfeiçoa a legislação penal e processual penal. Art. 3º-A. O processo penal terá estrutura acusatória, vedadas a iniciativa do juiz na fase de investigação e a substituição da atuação probatória do órgão de acusação. Art. 3º-B. O juiz das garantias é responsável pelo controle da legalidade da investigação criminal e pela salvaguarda dos direitos individuais cuja franquia tenha sido reservada à autorização prévia do Poder Judiciário. § 1º O juiz das garantias é competente para: I - receber a comunicação imediata da prisão, nos termos do inciso LXII do caput do art. 5º da Constituição Federal; II - receber o auto da prisão em flagrante para o controle da legalidade da prisão, observado o disposto no art. 310 deste Código; III - zelar pela observância dos direitos do preso, podendo determinar que este seja conduzido à sua presença, a qualquer tempo. Art. 158-A. Considera-se cadeia de custódia o conjunto de todos os procedimentos utilizados para manter e documentar a história cronológica do vestígio coletado em locais ou em vítimas de crimes, para rastrear sua posse e manuseio a partir de seu reconhecimento até o descarte."
+    },
+    {
+      "id": "DOC003",
+      "tipo": "relatorio_inteligencia",
+      "tribunal": "MJSP - Secretaria Nacional de Segurança Pública",
+      "numero": "SENASP/RIOL-2024-087",
+      "data": "2024-03-15",
+      "assuntos": ["crime organizado", "tráfico transnacional", "lavagem de dinheiro", "cooperação internacional"],
+      "texto": "RELATÓRIO DE INTELIGÊNCIA OPERACIONAL — SIGILOSO. Ref.: Operação Fronteira Segura II. Período de análise: Jan-Mar/2024. SUMÁRIO EXECUTIVO: Análise das redes criminosas transnacionais atuando na tríplice fronteira Brasil-Paraguai-Argentina identificou fluxo financeiro suspeito de aproximadamente R$ 2,3 bilhões no período. Foram mapeadas 14 organizações criminosas com vínculos confirmados a grupos internacionais. METODOLOGIA: Cruzamento de dados de inteligência financeira (COAF), relatórios do DRCI/MJ, interceptações telefônicas autorizadas judicialmente e informações compartilhadas por parceiros internacionais (DEA, Europol, Interpol). ACHADOS PRINCIPAIS: 1. Utilização crescente de criptomoedas para lavagem de ativos (aumento de 340% em relação a 2023). 2. Infiltração de membros em cargos públicos de nível municipal em 3 estados da federação. 3. Uso de empresas de fachada no setor agropecuário como mecanismo primário de lavagem. RECOMENDAÇÕES: Intensificação de operações conjuntas com unidades estaduais especializadas. Solicitação de cooperação via MLAT com 4 países identificados como destino dos recursos. Bloqueio preventivo de 23 contas bancárias identificadas no relatório técnico anexo."
+    },
+    {
+      "id": "DOC004",
+      "tipo": "sumula",
+      "tribunal": "STJ",
+      "numero": "Súmula 437",
+      "data": "2010-10-13",
+      "assuntos": ["prisão preventiva", "excesso de prazo", "constrangimento ilegal"],
+      "texto": "SÚMULA 437 DO STJ: É cabível a impetração de habeas corpus para trancamento de inquérito policial, quando manifestamente ilegal o procedimento investigatório. Precedentes: HC 84.548/SP, Rel. Ministro Marco Aurélio, Plenário, DJ 13/6/2008. HC 88.859/SP, Rel. Ministro Celso de Mello, Segunda Turma, DJe 5/12/2008. HC 91.661/PE, Rel. Ministra Cármen Lúcia, Primeira Turma, DJe 5/11/2008. Fundamentação: A jurisprudência consolidada desta Corte reconhece que, em situações excepcionais, é possível o manejo do habeas corpus para o trancamento do inquérito policial quando verificada flagrante ilegalidade, ausência de justa causa para a investigação, atipicidade manifesta da conduta investigada, presença de causa extintiva da punibilidade ou quando o fato for evidentemente não criminoso."
+    },
+    {
+      "id": "DOC005",
+      "tipo": "laudo",
+      "tribunal": "Polícia Federal - INC",
+      "numero": "Laudo Pericial n. 2024/00312-INC",
+      "data": "2024-06-10",
+      "assuntos": ["perícia digital", "análise forense", "criptomoedas", "blockchain", "cadeia de custódia"],
+      "texto": "LAUDO PERICIAL CRIMINAL DIGITAL. Requisitante: Vara Federal Criminal - 3ª Vara de São Paulo. Objeto: Análise forense de dispositivos eletrônicos e transações em blockchain. PEÇA PERICIADA: 1 notebook marca Dell, modelo XPS 15, SN: XPS15-2023-BR-00832; 1 HD externo 2TB Seagate, SN: SEA-2TB-2023-9912. METODOLOGIA: Preservação dos dispositivos com hash SHA-256 para garantia da cadeia de custódia. Imagem forense criada com FTK Imager v4.7. Análise com Autopsy 4.20 e ferramenta Chainalysis Reactor para rastreamento de criptomoedas. CONCLUSÕES PERICIAIS: 1. Foram identificadas 847 transações em Bitcoin (BTC) no período de jan/2022 a dez/2023, totalizando 12,4 BTC (aproximadamente R$ 3,2 milhões à cotação atual). 2. Rastreamento blockchain confirmou envio para exchanges não regulamentadas nos domicílios de Seychelles e Malta. 3. Análise de metadados confirma que os arquivos foram criados nos dispositivos periciados entre 15/03/2022 e 30/11/2023. 4. Recuperação de 234 arquivos deletados com dados financeiros relevantes à investigação. RESSALVAS: A perícia foi realizada exclusivamente sobre os dispositivos listados. Não há como afirmar, com base nos elementos analisados, a identidade do operador dos dispositivos no período investigado."
+    },
+    {
+      "id": "DOC006",
+      "tipo": "acordao",
+      "tribunal": "STJ",
+      "numero": "RHC 143.308/SP",
+      "data": "2021-09-14",
+      "relator": "Min. Rogerio Schietti Cruz",
+      "assuntos": ["tráfico de drogas", "flagrante", "abordagem policial", "fundada suspeita", "prova ilícita"],
+      "texto": "RECURSO ORDINÁRIO EM HABEAS CORPUS. TRÁFICO DE DROGAS. PRISÃO EM FLAGRANTE. ABORDAGEM POLICIAL. AUSÊNCIA DE FUNDADA SUSPEITA. PROVA ILÍCITA. TRANCAMENTO DA AÇÃO PENAL. 1. Para a realização de busca pessoal, sem mandado judicial, é necessária a presença de fundada suspeita — elemento objetivo e concreto — de que o indivíduo porta consigo objeto ilícito ou arma proibida, nos termos do art. 240, § 2º, do CPP. 2. A simples presença em local de tráfico de drogas, atitudes nervosas e deslocamento rápido ao notar a viatura policial não constituem, por si sós, fundada suspeita suficiente para autorizar a busca pessoal sem mandado. Tais circunstâncias, genéricas e aplicáveis a qualquer transeunte em tais situações, não satisfazem o requisito legal. 3. Provas obtidas mediante busca pessoal ilegal são ilícitas (art. 157, § 1º, do CPP — teoria dos frutos da árvore envenenada) e devem ser desentranhadas dos autos, com o trancamento da ação penal por ausência de justa causa. 4. RECURSO PROVIDO para trancar a ação penal."
+    },
+    {
+      "id": "DOC007",
+      "tipo": "decreto",
+      "tribunal": "Presidência da República",
+      "numero": "Decreto 11.531/2023",
+      "data": "2023-05-12",
+      "assuntos": ["PNSP", "segurança pública", "política nacional", "prevenção", "integração"],
+      "texto": "DECRETO Nº 11.531, DE 12 DE MAIO DE 2023. Institui a Política Nacional de Segurança Pública e Defesa Social - PNSP. Art. 1º Fica instituída a Política Nacional de Segurança Pública e Defesa Social - PNSP, com o objetivo de orientar o planejamento e as ações dos órgãos e entidades da administração pública federal com atuação na área de segurança pública. Art. 2º São objetivos da PNSP: I - reduzir os índices de criminalidade violenta e os demais crimes que afetam a qualidade de vida da população; II - aprimorar a integração e a cooperação entre os órgãos de segurança pública federais, estaduais, distritais e municipais; III - promover a prevenção da violência e da criminalidade; IV - modernizar e integrar os sistemas de informação e de inteligência de segurança pública; V - fortalecer os mecanismos de controle externo da atividade policial. Art. 5º O SUSP - Sistema Único de Segurança Pública é o instrumento de organização da segurança pública, composto pelos órgãos e entidades de que trata o art. 144 da Constituição Federal, além de outros órgãos e entidades públicos e privados."
+    },
+    {
+      "id": "DOC008",
+      "tipo": "acordao",
+      "tribunal": "STF",
+      "numero": "RE 1.055.941/SP (Tema 990)",
+      "data": "2019-11-04",
+      "relator": "Min. Dias Toffoli",
+      "assuntos": ["COAF", "compartilhamento de dados", "sigilo bancário", "MPF", "lavagem de dinheiro"],
+      "texto": "RECURSO EXTRAORDINÁRIO. REPERCUSSÃO GERAL. DIREITO PROCESSUAL PENAL E CONSTITUCIONAL. COMPARTILHAMENTO DE DADOS FINANCEIROS E FISCAIS DO CONTRIBUINTE. COAF E RECEITA FEDERAL. MINISTÉRIO PÚBLICO. SIGILO BANCÁRIO E FISCAL. 1. É constitucional o compartilhamento de dados financeiros e fiscais, obtidos pela Receita Federal e pelo COAF no exercício de suas atribuições legais, com o Ministério Público para fins de instrução de procedimento investigatório ou ação penal, desde que o repasse de informações seja precedido de deliberação fundamentada e a remessa das informações seja feita exclusivamente ao órgão ministerial. 2. O repasse de dados financeiros pelo COAF ao MP sem prévia autorização judicial é constitucional, desde que os dados hajam sido obtidos pelo COAF no exercício regular de suas atribuições legais. 3. Tese fixada: É constitucional o compartilhamento dos relatórios de inteligência financeira da UIF (antigo COAF) e da íntegra do procedimento fiscalizatório da Receita Federal do Brasil, que define o lançamento do tributo, com os órgãos de persecução penal para fins criminais, sem que haja prévia autorização judicial. RECURSO PROVIDO."
+    },
+    {
+      "id": "DOC009",
+      "tipo": "parecer",
+      "tribunal": "PGR - Procuradoria Geral da República",
+      "numero": "Parecer PGR nº 223.477/2023",
+      "data": "2023-08-22",
+      "assuntos": ["reconhecimento facial", "uso de IA em segurança", "direitos fundamentais", "viés algorítmico", "privacidade"],
+      "texto": "PARECER DA PROCURADORIA GERAL DA REPÚBLICA. Ref.: Uso de sistemas de reconhecimento facial em operações policiais. I — DA QUESTÃO POSTA. Analisa-se a constitucionalidade e legalidade do uso de tecnologias de reconhecimento facial por forças policiais em espaços públicos, à luz da Constituição Federal e da LGPD (Lei 13.709/2018). II — CONCLUSÕES. 1. O uso de reconhecimento facial para fins de segurança pública é compatível com a Constituição desde que: (a) haja base legal específica; (b) o processamento de dados biométricos seja proporcional e necessário ao fim legítimo perseguido; (c) existam salvaguardas contra o uso arbitrário. 2. Sistemas com viés algorítmico comprovado — especialmente aqueles com maior taxa de falsos positivos para populações afrodescendentes — não podem ser utilizados como prova direta em processos penais, devendo servir apenas como elemento investigativo sujeito a confirmação humana. 3. Recomenda-se a criação de protocolo padronizado nacional para uso de tais tecnologias, com auditoria periódica dos sistemas quanto ao viés e à precisão. 4. A ausência de regulamentação específica não implica proibição, mas impõe ao agente público o dever de motivação reforçada e documentação detalhada do uso da tecnologia."
+    },
+    {
+      "id": "DOC010",
+      "tipo": "boletim",
+      "tribunal": "SSP-SP - Secretaria de Segurança Pública de São Paulo",
+      "numero": "Boletim Estatístico Anual 2023",
+      "data": "2024-01-31",
+      "assuntos": ["estatísticas criminais", "homicídios dolosos", "latrocínio", "roubos", "tendências"],
+      "texto": "BOLETIM ESTATÍSTICO ANUAL DE SEGURANÇA PÚBLICA — SÃO PAULO 2023. PRINCIPAIS INDICADORES: Homicídios Dolosos: 3.847 vítimas em 2023 (queda de 8,2% em relação a 2022). Taxa: 8,3 por 100 mil habitantes. Latrocínio (roubo seguido de morte): 247 casos (redução de 12% em relação a 2022). Estupro: 12.934 registros (crescimento de 3,1%, atribuído ao aumento de denúncias). Roubo de veículos: 89.234 ocorrências (redução de 18% após expansão de câmeras e rastreamento). Furto de veículos: 41.102 casos. ANÁLISE TERRITORIAL: As 3 regiões com maiores índices de crimes violentos letais intencionais (CVLI) são: Região Metropolitana de São Paulo (46% dos CVLI estaduais), Baixada Santista (11%) e Vale do Paraíba (8%). FATORES ASSOCIADOS À REDUÇÃO: Ampliação do programa 'Delegacia Legal Digital' com BO eletrônico (redução de subnotificação), expansão de câmeras de monitoramento com reconhecimento de placas (aumento de 340% de recuperação de veículos), integração de bases de dados entre SSP, SEADE e MP."
+    }
+  ],
+  "perguntas_teste": [
+    {
+      "id": "Q001",
+      "pergunta": "Quais são os critérios estabelecidos pelo STF para substituição de prisão preventiva por domiciliar de mães encarceradas?",
+      "documentos_relevantes": ["DOC001"],
+      "resposta_esperada": "O STF determinou a substituição da prisão preventiva por domiciliar para mulheres gestantes, puérperas ou mães de crianças até 12 anos, ressalvadas hipóteses excepcionais, considerando a situação do sistema penitenciário e os direitos das crianças.",
+      "nivel_dificuldade": "medio",
+      "tecnica_ideal": "HyDE"
+    },
+    {
+      "id": "Q002",
+      "pergunta": "O que é cadeia de custódia e qual lei a regulamenta no Brasil?",
+      "documentos_relevantes": ["DOC002", "DOC005"],
+      "resposta_esperada": "A cadeia de custódia é o conjunto de procedimentos para manter e documentar a história cronológica de vestígios coletados em crimes. É regulamentada pelo art. 158-A do CPP, inserido pela Lei 13.964/2019 (Pacote Anticrime).",
+      "nivel_dificuldade": "basico",
+      "tecnica_ideal": "Parent-Child"
+    },
+    {
+      "id": "Q003",
+      "pergunta": "Quais são os requisitos legais para realização de busca pessoal sem mandado judicial?",
+      "documentos_relevantes": ["DOC006"],
+      "resposta_esperada": "O STJ exige fundada suspeita — elemento objetivo e concreto — de que o indivíduo porta objeto ilícito ou arma proibida (art. 240, §2º, CPP). Atitudes genéricas como nervosismo e presença em local de tráfico não são suficientes.",
+      "nivel_dificuldade": "medio",
+      "tecnica_ideal": "Parent-Child"
+    },
+    {
+      "id": "Q004",
+      "pergunta": "Quais são as tendências gerais de criminalidade em São Paulo em 2023 e quais fatores contribuíram para as reduções?",
+      "documentos_relevantes": ["DOC010"],
+      "resposta_esperada": "Em 2023, SP registrou queda de 8,2% nos homicídios dolosos e 18% em roubos de veículos. Fatores: expansão de câmeras com reconhecimento de placas, digitalização de boletins de ocorrência e integração de bases de dados.",
+      "nivel_dificuldade": "medio",
+      "tecnica_ideal": "RAPTOR"
+    },
+    {
+      "id": "Q005",
+      "pergunta": "O STF autorizou o compartilhamento de dados financeiros do COAF com o Ministério Público sem autorização judicial?",
+      "documentos_relevantes": ["DOC008"],
+      "resposta_esperada": "Sim. No RE 1.055.941 (Tema 990), o STF fixou tese de que é constitucional o compartilhamento de relatórios da UIF/COAF com órgãos de persecução penal sem prévia autorização judicial, desde que os dados tenham sido obtidos pelo COAF no exercício regular de suas atribuições.",
+      "nivel_dificuldade": "avancado",
+      "tecnica_ideal": "HyDE"
+    },
+    {
+      "id": "Q006",
+      "pergunta": "Quais são os riscos identificados pela PGR no uso de reconhecimento facial em operações policiais?",
+      "documentos_relevantes": ["DOC009"],
+      "resposta_esperada": "A PGR identificou risco de viés algorítmico com maior taxa de falsos positivos para populações afrodescendentes, necessidade de base legal específica, e ausência de regulamentação nacional. Recomenda que o reconhecimento facial seja apenas elemento investigativo sujeito a confirmação humana.",
+      "nivel_dificuldade": "avancado",
+      "tecnica_ideal": "RAPTOR"
+    },
+    {
+      "id": "Q007",
+      "pergunta": "Quais são os objetivos da Política Nacional de Segurança Pública instituída em 2023?",
+      "documentos_relevantes": ["DOC007"],
+      "resposta_esperada": "O Decreto 11.531/2023 estabelece como objetivos da PNSP: reduzir criminalidade violenta, aprimorar integração entre órgãos de segurança, promover prevenção da violência, modernizar sistemas de informação e fortalecer controle externo da atividade policial.",
+      "nivel_dificuldade": "basico",
+      "tecnica_ideal": "Parent-Child"
+    }
+  ]
+}

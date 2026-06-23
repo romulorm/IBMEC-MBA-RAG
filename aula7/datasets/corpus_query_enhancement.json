@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "nome": "Corpus Query Enhancement — Aula 7",
+    "descricao": "15 documentos jurídicos com 20 queries para benchmark de técnicas de Query Enhancement (Multi-Query RAG, Step-Back Prompting, RAG-Fusion). Inclui variações de vocabulário para testar vocabulary mismatch.",
+    "dominio": "Direito Processual Penal e Segurança Pública",
+    "total_documentos": 15,
+    "total_queries": 20,
+    "versao": "1.0",
+    "data_criacao": "2026-04"
+  },
+  "documentos": [
+    {
+      "id": "doc_001",
+      "titulo": "Prisão Preventiva — Requisitos Legais",
+      "tipo_documento": "doutrina",
+      "fonte": "Manual de Processo Penal — Corpus Fictício MBA",
+      "content": "A prisão preventiva é medida cautelar de natureza pessoal prevista nos artigos 311 a 316 do Código de Processo Penal. Seus pressupostos materiais são: prova da existência do crime (materialidade delitiva) e indício suficiente de autoria. Os fundamentos, previstos no art. 312 do CPP, são: garantia da ordem pública, garantia da ordem econômica, conveniência da instrução criminal e assegurar a aplicação da lei penal. A prisão preventiva somente é cabível nos crimes dolosos punidos com pena privativa de liberdade máxima superior a 4 (quatro) anos ou quando o investigado tiver sido condenado por outro crime doloso.",
+      "vocabulario_alternativo": ["decreto prisional", "custódia cautelar", "prisão provisória", "restrição de liberdade antes do julgamento"]
+    },
+    {
+      "id": "doc_002",
+      "titulo": "Medidas Cautelares Alternativas à Prisão",
+      "tipo_documento": "doutrina",
+      "fonte": "Direito Processual Penal — Corpus Fictício MBA",
+      "content": "As medidas cautelares diversas da prisão estão previstas no art. 319 do CPP, com redação dada pela Lei 12.403/2011. São elas: comparecimento periódico em juízo, proibição de acesso ou frequência a determinados lugares, proibição de manter contato com pessoa determinada, proibição de ausentar-se da comarca, recolhimento domiciliar no período noturno e nos dias de folga, suspensão do exercício de função pública, internação provisória, fiança, monitoração eletrônica. O juiz deverá sempre preferir essas medidas à prisão quando suficientes para a situação concreta.",
+      "vocabulario_alternativo": ["alternativa à prisão", "medida não privativa", "substitutos da prisão", "cautelar não encarcerizante"]
+    },
+    {
+      "id": "doc_003",
+      "titulo": "Garantia da Ordem Pública como Fundamento da Preventiva",
+      "tipo_documento": "jurisprudencia",
+      "fonte": "Corpus de Jurisprudência Fictício — MBA",
+      "content": "A garantia da ordem pública como fundamento da prisão preventiva deve ser interpretada de forma restritiva. O STF e o STJ entendem que a gravidade abstrata do delito, por si só, não autoriza a decretação da preventiva. É necessário demonstrar, com base em elementos concretos do caso, que o acusado representa risco real e atual à ordem pública. Reiteração de condutas criminosas, periculosidade comprovada e risco de novas práticas delitivas são fundamentos aceitos pelos tribunais superiores.",
+      "vocabulario_alternativo": ["perigo à sociedade", "risco à comunidade", "proteção social", "prevenção de novos crimes"]
+    },
+    {
+      "id": "doc_004",
+      "titulo": "Prazo da Prisão Preventiva",
+      "tipo_documento": "legislacao",
+      "fonte": "Código de Processo Penal — Art. 316",
+      "content": "A prisão preventiva não tem prazo determinado expresso no CPP para crimes comuns, o que gerou críticas doutrinais e jurisprudenciais. O STJ construiu entendimento de que a prisão não pode ser mantida por prazo excessivo (princípio da razoável duração do processo). Com a Lei 13.964/2019 (Pacote Anticrime), o art. 316, parágrafo único, estabeleceu que o órgão emissor da medida cautelar deve revisar a necessidade da prisão a cada 90 dias, sob pena de tornar-se ilegal.",
+      "vocabulario_alternativo": ["tempo máximo preso sem julgamento", "quanto tempo fica preso esperando", "limite da preventiva"]
+    },
+    {
+      "id": "doc_005",
+      "titulo": "Habeas Corpus — Remédio Constitucional",
+      "tipo_documento": "doutrina",
+      "fonte": "Direito Constitucional Processual — Corpus Fictício MBA",
+      "content": "O habeas corpus é ação constitucional prevista no art. 5º, LXVIII, da Constituição Federal. Cabível quando alguém sofrer ou se achar ameaçado de sofrer violência ou coação em sua liberdade de locomoção por ilegalidade ou abuso de poder. O habeas corpus pode ser preventivo (salvo-conduto) ou repressivo (liberatório). Nos crimes com pena de multa ou suspensão de direitos políticos, o entendimento sumulado pelo STF (Súmula 693) é de que não cabe habeas corpus.",
+      "vocabulario_alternativo": ["recurso para soltar preso", "ação de liberdade", "pedido de soltura", "ação contra prisão ilegal"]
+    },
+    {
+      "id": "doc_006",
+      "titulo": "Direitos do Preso em Flagrante",
+      "tipo_documento": "legislacao",
+      "fonte": "Constituição Federal e CPP — Corpus Fictício MBA",
+      "content": "O preso em flagrante delito possui os seguintes direitos constitucionais e processuais: ser informado de seus direitos (art. 5º, LXIII, CF), ter assistência de advogado ou defensor público, permanecer calado (direito ao silêncio), não produzir prova contra si mesmo (nemo tenetur se detegere), ser comunicado imediatamente à família ou pessoa por ele indicada, ser apresentado à autoridade policial competente no menor prazo possível, receber nota de culpa assinada pela autoridade.",
+      "vocabulario_alternativo": ["o que acontece quando é preso", "direitos ao ser detido", "o que pode fazer quando preso", "garantias do detento"]
+    },
+    {
+      "id": "doc_007",
+      "titulo": "Conversão do Flagrante em Preventiva",
+      "tipo_documento": "doutrina",
+      "fonte": "Processo Penal Especial — Corpus Fictício MBA",
+      "content": "Com a Lei 12.403/2011, a prisão em flagrante passou a ser convertida em prisão preventiva ou medida cautelar diversa da prisão pelo juiz, no prazo de 24 horas. Se o juiz não converter em preventiva nem relaxar o flagrante, deverá conceder liberdade provisória com ou sem fiança. A audiência de custódia (Resolução CNJ 213/2015) passou a ser obrigatória para apresentar o preso ao juiz em até 24 horas do flagrante.",
+      "vocabulario_alternativo": ["após preso em flagrante o que acontece", "prazo para juiz decidir sobre preso", "audiência de apresentação do preso"]
+    },
+    {
+      "id": "doc_008",
+      "titulo": "Busca e Apreensão Domiciliar — Requisitos Constitucionais",
+      "tipo_documento": "doutrina",
+      "fonte": "Direito Constitucional Penal — Corpus Fictício MBA",
+      "content": "A busca e apreensão domiciliar é diligência que viola a inviolabilidade do domicílio (art. 5º, XI, CF) e, por isso, exige mandado judicial com local e objeto determinados, salvo situações de flagrante delito, desastre ou para prestar socorro. O STF, no RE 603.616 (Tema 280), firmou tese de que o ingresso de policiais em domicílio sem mandado judicial é ilícito, salvo as exceções constitucionais. Provas obtidas em buscas domiciliares sem mandado são consideradas ilícitas e inadmissíveis no processo (art. 157 do CPP).",
+      "vocabulario_alternativo": ["polícia pode entrar em casa sem autorização", "revistar casa sem mandado", "invasão de domicílio pela polícia", "quando policial pode entrar na casa"]
+    },
+    {
+      "id": "doc_009",
+      "titulo": "Lei Maria da Penha — Medidas Protetivas de Urgência",
+      "tipo_documento": "legislacao",
+      "fonte": "Lei 11.340/2006 — Corpus Fictício MBA",
+      "content": "A Lei 11.340/2006 (Lei Maria da Penha) prevê medidas protetivas de urgência que podem ser deferidas pelo juiz no prazo de 48 horas após requerimento do Ministério Público ou da ofendida. As medidas do art. 22 incluem: suspensão da posse ou porte de armas, afastamento do lar, proibição de aproximação, proibição de contato, prestação de alimentos provisionais. A ofendida pode requerer as medidas por meio de boletim de ocorrência ou diretamente ao juizado, sem necessidade de advogado.",
+      "vocabulario_alternativo": ["como se proteger do agressor em casa", "como pedir para marido sair de casa", "proteção contra violência doméstica", "afastar marido violento"]
+    },
+    {
+      "id": "doc_010",
+      "titulo": "Violência Doméstica — Caracterização Legal",
+      "tipo_documento": "doutrina",
+      "fonte": "Direito Penal Especial — Corpus Fictício MBA",
+      "content": "Considera-se violência doméstica e familiar contra a mulher qualquer ação ou omissão baseada no gênero que cause morte, lesão, sofrimento físico, sexual ou psicológico e dano moral ou patrimonial (art. 5º, Lei 11.340/2006). O vínculo doméstico ou familiar é elemento essencial: cônjuge, companheiro, pai, irmão, etc., independentemente de coabitação. A violência doméstica não se restringe à violência física: abrange também a violência psicológica, sexual, patrimonial e moral.",
+      "vocabulario_alternativo": ["briga em casa com violência", "agressão dentro de casa", "marido que bate na esposa", "abuso doméstico"]
+    },
+    {
+      "id": "doc_011",
+      "titulo": "Dosimetria da Pena — Sistema Trifásico",
+      "tipo_documento": "doutrina",
+      "fonte": "Direito Penal — Corpus Fictício MBA",
+      "content": "O sistema trifásico de aplicação da pena, previsto no art. 68 do Código Penal, divide-se em três fases: na primeira, o juiz fixa a pena-base considerando as 8 circunstâncias judiciais do art. 59 (culpabilidade, antecedentes, conduta social, personalidade, motivos, circunstâncias, consequências e comportamento da vítima); na segunda fase, são consideradas as circunstâncias atenuantes e agravantes genéricas; na terceira fase, são aplicadas as causas de diminuição e de aumento da pena. A Súmula 231 do STJ veda que as atenuantes reduzam a pena abaixo do mínimo legal.",
+      "vocabulario_alternativo": ["como o juiz calcula a pena", "quanto anos de cadeia recebo", "cálculo da condenação criminal", "pena mínima e máxima"]
+    },
+    {
+      "id": "doc_012",
+      "titulo": "Júri Popular — Competência e Procedimento",
+      "tipo_documento": "legislacao",
+      "fonte": "CPP arts. 406-497 — Corpus Fictício MBA",
+      "content": "O Tribunal do Júri tem competência constitucional para julgamento dos crimes dolosos contra a vida (art. 5º, XXXVIII, CF): homicídio doloso, feminicídio, infanticídio, aborto e induzimento ao suicídio. O procedimento bifásico compreende: fase de formação da culpa (iudicium accusationis) e fase de julgamento (iudicium causae). O conselho de sentença é composto por 7 jurados, e o réu é condenado por maioria de 4 votos. Os jurados decidem por íntima convicção, sem motivação.",
+      "vocabulario_alternativo": ["tribunal popular", "ser julgado por cidadãos", "julgamento de homicídio", "como funciona o júri"]
+    },
+    {
+      "id": "doc_013",
+      "titulo": "Interrogatório do Réu — Direito ao Silêncio",
+      "tipo_documento": "doutrina",
+      "fonte": "Processo Penal Constitucional — Corpus Fictício MBA",
+      "content": "O interrogatório é ato processual pelo qual o juiz ouve o réu sobre os fatos a ele imputados. Com a Constituição de 1988 e a Lei 10.792/2003, o réu tem o direito constitucional ao silêncio (art. 5º, LXIII), e o exercício desse direito não pode ser interpretado em seu prejuízo. O réu deve ser informado de seus direitos antes do interrogatório, incluindo o direito de ser assistido por defensor. O interrogatório é, atualmente, meio de defesa e não apenas meio de prova.",
+      "vocabulario_alternativo": ["posso ficar calado na delegacia", "devo falar na audiência", "o que falar para o juiz", "depoimento do acusado"]
+    },
+    {
+      "id": "doc_014",
+      "titulo": "Tráfico de Drogas — Distinção de Usuário e Traficante",
+      "tipo_documento": "legislacao",
+      "fonte": "Lei 11.343/2006 — Corpus Fictício MBA",
+      "content": "A Lei 11.343/2006 (Lei de Drogas) distingue o usuário (art. 28) do traficante (art. 33). Para o usuário, a posse de droga para consumo pessoal não resulta em pena privativa de liberdade, mas em advertência, prestação de serviços comunitários ou medida educativa. A distinção é feita pelo juiz considerando: natureza e quantidade da droga, local e condições do flagrante, circunstâncias pessoais e comportamento do agente. O ônus de provar que a droga era para uso pessoal recai sobre o portador.",
+      "vocabulario_alternativo": ["diferença entre usar e vender droga", "preso com droga o que acontece", "quantidade de droga para ser traficante", "uso pessoal de entorpecente"]
+    },
+    {
+      "id": "doc_015",
+      "titulo": "Legítima Defesa — Requisitos e Excludente de Ilicitude",
+      "tipo_documento": "doutrina",
+      "fonte": "Direito Penal Geral — Corpus Fictício MBA",
+      "content": "A legítima defesa é excludente de ilicitude prevista no art. 25 do Código Penal. Seus requisitos são: agressão injusta, atual ou iminente, direitos próprios ou alheios, meios necessários para repelir a agressão, uso moderado dos meios. A legítima defesa putativa (imaginária) ocorre quando o agente supõe, por erro, a existência dos requisitos da legítima defesa. O excesso doloso ou culposo na legítima defesa é punível. No âmbito policial, o uso da força deve ser pautado pelos princípios da legalidade, necessidade e proporcionalidade.",
+      "vocabulario_alternativo": ["posso me defender se alguém me atacar", "matar em legítima defesa é crime", "quando é permitido reagir", "uso da força em defesa própria"]
+    }
+  ],
+  "queries_benchmark": [
+    {
+      "id": "q_001",
+      "query": "Quais são os requisitos para decretação de prisão preventiva?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_001", "doc_002", "doc_003", "doc_007"],
+      "resposta_esperada": "A prisão preventiva requer: (1) prova da materialidade delitiva; (2) indício de autoria; (3) um dos fundamentos do art. 312 do CPP (garantia da ordem pública, econômica, instrução criminal ou aplicação da lei penal); e (4) crime doloso com pena superior a 4 anos ou réu reincidente.",
+      "vocabulario_alternativo": ["quando posso ser preso preventivamente", "decreto prisional requisitos", "quando o juiz prende antes do julgamento"]
+    },
+    {
+      "id": "q_002",
+      "query": "Como funciona a medida protetiva da Lei Maria da Penha?",
+      "tipo": "tecnica",
+      "documentos_relevantes": ["doc_009", "doc_010"],
+      "resposta_esperada": "As medidas protetivas são deferidas pelo juiz em até 48 horas. Podem incluir afastamento do agressor do lar, proibição de aproximação e contato. A mulher pode requerer sem advogado por meio de boletim de ocorrência.",
+      "vocabulario_alternativo": ["como se proteger do marido violento", "pedir para homem sair de casa", "proteção urgente de violência doméstica"]
+    },
+    {
+      "id": "q_003",
+      "query": "Quando cabe habeas corpus?",
+      "tipo": "tecnica",
+      "documentos_relevantes": ["doc_005"],
+      "resposta_esperada": "Cabe habeas corpus quando há violência ou coação na liberdade de locomoção por ilegalidade ou abuso de poder. Pode ser preventivo ou repressivo. Não cabe em crimes com pena apenas de multa (Súmula 693 STF).",
+      "vocabulario_alternativo": ["como pedir soltura de preso", "recurso contra prisão ilegal", "ação para libertar pessoa presa"]
+    },
+    {
+      "id": "q_004",
+      "query": "Policial pode entrar em casa sem mandado?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_008"],
+      "resposta_esperada": "Não, salvo nos casos de flagrante delito, desastre ou para prestar socorro (art. 5º, XI, CF). O STF firmou tese no RE 603.616 que o ingresso sem mandado é ilícito fora dessas exceções.",
+      "vocabulario_alternativo": ["busca domiciliar sem autorização judicial", "invasão de domicílio policial", "quando polícia pode entrar em casa"]
+    },
+    {
+      "id": "q_005",
+      "query": "Como é calculada a pena no processo penal?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_011"],
+      "resposta_esperada": "Pelo sistema trifásico (art. 68 CP): 1ª fase — pena-base pelas circunstâncias judiciais; 2ª fase — atenuantes e agravantes; 3ª fase — causas de diminuição e aumento.",
+      "vocabulario_alternativo": ["quanto tempo de prisão vou receber", "dosimetria da pena criminal", "cálculo da condenação"]
+    },
+    {
+      "id": "q_006",
+      "query": "Quais são os direitos de quem é preso em flagrante?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_006", "doc_007"],
+      "resposta_esperada": "Direito ao silêncio, assistência de advogado, comunicação à família, nota de culpa, audiência de custódia em 24h.",
+      "vocabulario_alternativo": ["fui preso agora o que tenho direito", "garantias no momento da prisão", "direitos constitucionais do detento"]
+    },
+    {
+      "id": "q_007",
+      "query": "O réu é obrigado a responder perguntas no interrogatório?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_013"],
+      "resposta_esperada": "Não. O réu tem direito constitucional ao silêncio e não pode ser prejudicado por exercê-lo. O interrogatório é atualmente considerado meio de defesa.",
+      "vocabulario_alternativo": ["devo falar no interrogatório", "posso me calar na audiência", "direito de não falar para o juiz"]
+    },
+    {
+      "id": "q_008",
+      "query": "Quais são as circunstâncias judiciais do art. 59 do Código Penal?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_011"],
+      "resposta_esperada": "São 8: culpabilidade, antecedentes, conduta social, personalidade do agente, motivos, circunstâncias, consequências do crime e comportamento da vítima.",
+      "vocabulario_alternativo": ["o que o juiz analisa para calcular pena", "fatores para aumentar pena", "critérios pena-base"]
+    },
+    {
+      "id": "q_009",
+      "query": "Quando é possível decretar prisão preventiva por tráfico de drogas?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_001", "doc_003", "doc_014"],
+      "resposta_esperada": "O tráfico de drogas (art. 33, Lei 11.343/06) admite preventiva quando presentes os requisitos do art. 312 do CPP. O simples porte para tráfico, por ser crime grave, não é fundamento suficiente — exige-se demonstração de risco concreto.",
+      "vocabulario_alternativo": ["prender por tráfico antes do julgamento", "custódia cautelar em caso de drogas", "flagrante de tráfico e preventiva"]
+    },
+    {
+      "id": "q_010",
+      "query": "O que é legítima defesa e quando ela se aplica?",
+      "tipo": "tecnica",
+      "documentos_relevantes": ["doc_015"],
+      "resposta_esperada": "Legítima defesa é excludente de ilicitude quando alguém repele agressão injusta, atual ou iminente, usando meios necessários moderadamente. Aplica-se a direitos próprios ou alheios.",
+      "vocabulario_alternativo": ["posso matar para me defender", "quando agir em defesa própria é legal", "reação a agressão no direito penal"]
+    },
+    {
+      "id": "q_011",
+      "query": "Qual é o prazo máximo de prisão preventiva?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_004"],
+      "resposta_esperada": "Não há prazo fixo no CPP, mas o Pacote Anticrime (Lei 13.964/2019) determina revisão a cada 90 dias. O STJ entende que prazos excessivos violam a razoável duração do processo.",
+      "vocabulario_alternativo": ["quanto tempo fica preso antes do julgamento", "limite da prisão provisória", "quando é liberado quem está esperando julgamento"]
+    },
+    {
+      "id": "q_012",
+      "query": "Como funciona a audiência de custódia?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_007"],
+      "resposta_esperada": "A audiência de custódia é apresentação obrigatória do preso ao juiz em até 24 horas do flagrante. O juiz avalia a legalidade da prisão, converte em preventiva ou concede liberdade provisória.",
+      "vocabulario_alternativo": ["apresentação do preso ao juiz", "audiência após flagrante", "o que acontece depois do flagrante no próximo dia"]
+    },
+    {
+      "id": "q_013",
+      "query": "Quais crimes são julgados pelo Tribunal do Júri?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_012"],
+      "resposta_esperada": "Crimes dolosos contra a vida: homicídio doloso, feminicídio, infanticídio, aborto e induzimento ao suicídio.",
+      "vocabulario_alternativo": ["quando sou julgado por 7 pessoas", "julgamento popular de homicídio", "tribunal com cidadãos comuns"]
+    },
+    {
+      "id": "q_014",
+      "query": "Fui pego com droga mas era para uso. Posso ser preso?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_014"],
+      "resposta_esperada": "O art. 28 da Lei de Drogas prevê que a posse para uso pessoal não gera pena privativa de liberdade. A distinção usuário/traficante é feita pelo juiz com base na quantidade, natureza e circunstâncias.",
+      "vocabulario_alternativo": ["porte de droga para uso próprio é crime", "diferença uso pessoal e tráfico de drogas", "posso ser preso com pouca quantidade de droga"]
+    },
+    {
+      "id": "q_015",
+      "query": "Quais são os tipos de violência doméstica reconhecidos pela Lei 11.340/2006?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_010"],
+      "resposta_esperada": "Violência física, psicológica, sexual, patrimonial e moral. Todas causam morte, lesão, sofrimento ou dano à mulher em contexto doméstico.",
+      "vocabulario_alternativo": ["formas de abuso doméstico", "o que é violência psicológica em casa", "tipos de agressão contra a mulher em lei"]
+    },
+    {
+      "id": "q_016",
+      "query": "Quando o policial pode usar a força em uma abordagem?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_015", "doc_008"],
+      "resposta_esperada": "O uso da força policial deve observar os princípios da legalidade, necessidade e proporcionalidade. É permitido em legítima defesa ou para conter resistência ilegal, sempre de forma moderada.",
+      "vocabulario_alternativo": ["quando policial pode bater em suspeito", "limite do uso de força na abordagem policial", "policial pode machucar durante prisão"]
+    },
+    {
+      "id": "q_017",
+      "query": "O que é conversão do flagrante em preventiva?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_007", "doc_001"],
+      "resposta_esperada": "Após a prisão em flagrante, o juiz decide em 24 horas: converter em prisão preventiva (se presentes os requisitos do art. 312 CPP), conceder liberdade provisória ou relaxar o flagrante.",
+      "vocabulario_alternativo": ["preso em flagrante continua preso?", "o que o juiz decide sobre o flagrante", "depois do flagrante posso ir para casa?"]
+    },
+    {
+      "id": "q_018",
+      "query": "Qual a diferença entre atenuantes e agravantes na dosimetria da pena?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_011"],
+      "resposta_esperada": "Atenuantes (arts. 65-66 CP) reduzem a pena na 2ª fase, mas não abaixo do mínimo legal (Súmula 231 STJ). Agravantes (arts. 61-62 CP) aumentam a pena. Ambas são aplicadas na 2ª fase do sistema trifásico.",
+      "vocabulario_alternativo": ["o que reduz a pena", "o que aumenta a pena criminal", "circunstâncias que diminuem a condenação"]
+    },
+    {
+      "id": "q_019",
+      "query": "Posso pedir medida protetiva sem advogado?",
+      "tipo": "coloquial",
+      "documentos_relevantes": ["doc_009"],
+      "resposta_esperada": "Sim. A mulher pode requerer medidas protetivas diretamente por boletim de ocorrência ou ao juizado, sem necessidade de advogado.",
+      "vocabulario_alternativo": ["requerer proteção sem representante legal", "pedir afastamento do agressor por conta própria", "a mulher precisa de advogado para medida protetiva"]
+    },
+    {
+      "id": "q_020",
+      "query": "O que é o nemo tenetur se detegere no processo penal?",
+      "tipo": "técnica",
+      "documentos_relevantes": ["doc_006", "doc_013"],
+      "resposta_esperada": "Princípio constitucional que proíbe a autoincriminação compulsória. O acusado não pode ser forçado a produzir prova contra si mesmo. Fundamenta o direito ao silêncio no interrogatório.",
+      "vocabulario_alternativo": ["direito de não se autoincriminar", "posso recusar exame de sangue ou DNA", "princípio do direito ao silêncio"]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "descricao": "Corpus para Aula 5 — Docling e Ingestão Inteligente de Documentos Jurídicos",
+  "versao": "1.0",
+  "total_documentos": 10,
+  "tema": "Documentos jurídicos em múltiplos formatos: PDFs nativos, PDFs escaneados, formulários, documentos com tabelas complexas",
+  "documentos": [
+    {
+      "id": "DOC001",
+      "tipo": "acordao",
+      "tribunal": "STJ",
+      "numero": "HC 789.234-SP",
+      "data": "2024-03-15",
+      "formato_original": "PDF_nativo",
+      "paginas": 18,
+      "tem_tabelas": false,
+      "tem_ocr": false,
+      "assuntos": ["tráfico de entorpecentes", "prisão preventiva", "fundamentação inidônea"],
+      "texto": "HABEAS CORPUS Nº 789.234-SP (2024/0034521-8). RELATOR: MIN. JOÃO SILVA. IMPETRANTE: DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO. IMPETRADO: TRIBUNAL DE JUSTIÇA DO ESTADO DE SÃO PAULO. PACIENTE: MARCOS ANTONIO FERREIRA.\n\nEMENTA: HABEAS CORPUS. TRÁFICO DE ENTORPECENTES (ART. 33 DA LEI N. 11.343/2006). PRISÃO PREVENTIVA. FUNDAMENTAÇÃO INIDÔNEA. AUSÊNCIA DE DADOS CONCRETOS. CONSTRANGIMENTO ILEGAL CONFIGURADO. ORDEM CONCEDIDA.\n\n1. A prisão preventiva, medida de caráter excepcional, exige fundamentação concreta e específica, lastreada em elementos fáticos extraídos dos autos, sendo vedada a utilização de argumentos genéricos ou abstratos que não se amoldem ao caso concreto.\n\n2. A mera referência à gravidade abstrata do crime de tráfico de entorpecentes, sem indicação de elementos individualizados do réu que demonstrem risco concreto à ordem pública, não constitui fundamentação idônea para a decretação ou manutenção da custódia cautelar.\n\n3. In casu, o decreto prisional se limita a consignar que 'o crime de tráfico causa grande intranquilidade social', sem qualquer elemento individualizado acerca do paciente, sua periculosidade concreta, ou risco efetivo à ordem pública.\n\n4. Habeas corpus concedido para revogar a prisão preventiva, mediante imposição de medidas cautelares alternativas previstas no art. 319 do CPP, consistentes em: (a) comparecimento periódico em juízo; (b) proibição de se ausentar da comarca; (c) recolhimento domiciliar no período noturno.\n\nACÓRDÃO: Vistos, relatados e discutidos os autos em que são partes as acima indicadas, acordam os Ministros da Sexta Turma do Superior Tribunal de Justiça, por unanimidade, conceder a ordem de habeas corpus, nos termos do voto do Sr. Ministro Relator."
+    },
+    {
+      "id": "DOC002",
+      "tipo": "laudo_pericial",
+      "tribunal": "Instituto de Criminalística - SP",
+      "numero": "LAUDO IC-SP-2024-045821",
+      "data": "2024-02-20",
+      "formato_original": "PDF_escaneado",
+      "paginas": 12,
+      "tem_tabelas": true,
+      "tem_ocr": true,
+      "assuntos": ["perícia química", "substâncias entorpecentes", "cocaína", "laudo toxicológico"],
+      "texto": "INSTITUTO DE CRIMINALÍSTICA - SUPERINTENDÊNCIA DA POLÍCIA TÉCNICO-CIENTÍFICA\nLAUDO DE EXAME DE SUBSTÂNCIA ENTORPECENTE Nº IC-SP-2024-045821\n\nSOLICITANTE: 15ª Delegacia de Polícia - Pinheiros/SP\nBOLETIM DE OCORRÊNCIA: 001234-2024\nDATA DO EXAME: 20/02/2024\n\nOBJETO DE EXAME:\nAmostras de material branco, amorfo, acondicionadas em 03 (três) embalagens plásticas transparentes, devidamente lacradas e identificadas com os números de série: LAB-2024-001, LAB-2024-002, LAB-2024-003.\n\nMETODOLOGIA APLICADA:\n- Cromatografia em camada delgada (CCD)\n- Cromatografia gasosa acoplada à espectrometria de massas (CG-EM)\n- Teste de Scott (presumptivo)\n- Espectrofotometria no infravermelho com transformada de Fourier (FTIR)\n\nRESULTADOS:\nAMOSTRA 1 (LAB-2024-001): Massa líquida = 87,3g. Resultado: POSITIVO para CLORIDRATO DE COCAÍNA. Pureza estimada: 72,4%\nAMOSTRA 2 (LAB-2024-002): Massa líquida = 143,7g. Resultado: POSITIVO para CLORIDRATO DE COCAÍNA. Pureza estimada: 68,1%\nAMOSTRA 3 (LAB-2024-003): Massa líquida = 52,8g. Resultado: POSITIVO para CLORIDRATO DE COCAÍNA. Pureza estimada: 75,2%\n\nCONCLUSÃO: As amostras examinadas são constituídas por cloridrato de cocaína, substância entorpecente listada no Anexo I da Portaria SVS/MS 344/98, com pena prevista no art. 33 da Lei 11.343/2006."
+    },
+    {
+      "id": "DOC003",
+      "tipo": "legislacao",
+      "tribunal": "Presidência da República",
+      "numero": "Lei 13.709/2018 - LGPD (Trechos relevantes)",
+      "data": "2018-08-14",
+      "formato_original": "PDF_nativo",
+      "paginas": 45,
+      "tem_tabelas": false,
+      "tem_ocr": false,
+      "assuntos": ["LGPD", "proteção de dados pessoais", "segurança da informação", "tratamento de dados"],
+      "texto": "LEI Nº 13.709, DE 14 DE AGOSTO DE 2018\n\nDispõe sobre a proteção de dados pessoais e altera a Lei nº 12.965, de 23 de abril de 2014 (Marco Civil da Internet).\n\nArt. 1º Esta Lei dispõe sobre o tratamento de dados pessoais, inclusive nos meios digitais, por pessoa natural ou por pessoa jurídica de direito público ou privado, com o objetivo de proteger os direitos fundamentais de liberdade e de privacidade e o livre desenvolvimento da personalidade da pessoa natural.\n\nArt. 7º O tratamento de dados pessoais somente poderá ser realizado nas seguintes hipóteses:\nI - mediante o fornecimento de consentimento pelo titular;\nII - para o cumprimento de obrigação legal ou regulatória pelo controlador;\nIII - pela administração pública, para o tratamento e uso compartilhado de dados necessários à execução de políticas públicas previstas em leis e regulamentos ou respaldadas em contratos, convênios ou instrumentos congêneres;\n\nArt. 11. O tratamento de dados pessoais sensíveis somente poderá ocorrer nas seguintes hipóteses:\nI - quando o titular ou seu responsável legal consentir, de forma específica e destacada, para finalidades específicas;\nII - sem fornecimento de consentimento do titular, nas hipóteses em que for indispensável para: a) cumprimento de obrigação legal ou regulatória pelo controlador; b) tratamento compartilhado de dados necessários à execução, pela administração pública, de políticas públicas previstas em leis ou regulamentos;\n\nArt. 46. Os agentes de tratamento devem adotar medidas de segurança, técnicas e administrativas aptas a proteger os dados pessoais de acessos não autorizados e de situações acidentais ou ilícitas de destruição, perda, alteração, comunicação ou qualquer forma de tratamento inadequado ou ilícito.\n\nArt. 50. Os controladores e operadores, no âmbito de suas competências, pelo tratamento de dados pessoais, individualmente ou por meio de associações, poderão formular regras de boas práticas e de governança que estabeleçam as condições de organização, o regime de funcionamento, os procedimentos, incluindo reclamações e petições de titulares, as normas de segurança, os padrões técnicos, as obrigações específicas para os diversos envolvidos no tratamento, as ações educativas, os mecanismos internos de supervisão e de mitigação de riscos e outros aspectos relacionados ao tratamento de dados pessoais."
+    },
+    {
+      "id": "DOC004",
+      "tipo": "relatorio_inteligencia",
+      "tribunal": "DENARC - Departamento de Investigações sobre Narcóticos",
+      "numero": "REL-DENARC-2024-0891",
+      "data": "2024-04-10",
+      "formato_original": "PDF_nativo_com_tabelas",
+      "paginas": 35,
+      "tem_tabelas": true,
+      "tem_ocr": false,
+      "assuntos": ["inteligência policial", "tráfico de drogas", "organização criminosa", "análise de rede"],
+      "texto": "RELATÓRIO DE INTELIGÊNCIA POLICIAL Nº REL-DENARC-2024-0891\nCLASSIFICAÇÃO: RESTRITO\nDATA: 10/04/2024\n\nSUBJETO: Análise de Rede Criminosa — Operação NEXUS\n\n1. INTRODUÇÃO\nO presente relatório consolida dados de inteligência coletados durante 180 dias de investigação sobre organização criminosa especializada no tráfico de cocaína na região metropolitana de São Paulo.\n\n2. METODOLOGIA\nForam utilizadas as seguintes técnicas investigativas:\n- Análise de comunicações (interceptação telemática - autorizada judicialmente)\n- Análise de movimentação financeira\n- Monitoramento de veículos com uso de câmeras de circuito fechado\n- Informações de fontes humanas\n\n3. ESTRUTURA DA ORGANIZAÇÃO\nA organização identificada possui estrutura hierárquica com 3 níveis:\n\nNÍVEL 1 - LIDERANÇA (3 indivíduos identificados)\n- Responsável pelo contato com fornecedores internacionais\n- Controle financeiro da organização\n- Tomada de decisões estratégicas\n\nNÍVEL 2 - GERÊNCIA (8 indivíduos identificados)\n- Distribuição regional da droga\n- Recrutamento de transportadores\n- Lavagem de dinheiro em nível regional\n\nNÍVEL 3 - OPERACIONAL (42 indivíduos identificados)\n- Transporte e distribuição\n- Vigilância e contravigilância\n- Armazenamento temporário\n\n4. ESTIMATIVA DE MOVIMENTAÇÃO FINANCEIRA\nPeriodo analisado: jan-dez/2023\n- Receita estimada: R$ 4,7 milhões\n- Valor apreendido: R$ 387.000,00 (8,2% do total)\n- Valores em ativos: R$ 1,2 milhão (imóveis identificados)\n\n5. CONCLUSÃO E RECOMENDAÇÕES\nRecomenda-se deflagração de operação policial com mandados simultâneos de prisão e busca para os 11 alvos prioritários identificados, com pedido de bloqueio de ativos junto ao COAF."
+    },
+    {
+      "id": "DOC005",
+      "tipo": "acordao",
+      "tribunal": "TJ-SP",
+      "numero": "APL 1023456-78.2023.8.26.0100",
+      "data": "2024-01-25",
+      "formato_original": "PDF_nativo",
+      "paginas": 22,
+      "tem_tabelas": false,
+      "tem_ocr": false,
+      "assuntos": ["violência doméstica", "Lei Maria da Penha", "medida protetiva", "descumprimento"],
+      "texto": "TRIBUNAL DE JUSTIÇA DO ESTADO DE SÃO PAULO\nAPELAÇÃO CRIMINAL Nº 1023456-78.2023.8.26.0100\n\nRELATOR: DES. CARLOS AUGUSTO MENEZES\nAPELANTE: MINISTÉRIO PÚBLICO\nAPELADO: RODRIGO DE SOUZA LIMA\n\nEMENTA: VIOLÊNCIA DOMÉSTICA. DESCUMPRIMENTO DE MEDIDA PROTETIVA. ART. 24-A DA LEI 11.340/2006. ABSOLVIÇÃO SUMÁRIA. INADMISSIBILIDADE. TIPICIDADE DA CONDUTA DEMONSTRADA.\n\n1. O crime de descumprimento de medida protetiva de urgência, previsto no art. 24-A da Lei Maria da Penha, é crime próprio e formal, que se consuma com a mera inobservância da medida judicial imposta, independentemente de qualquer resultado naturalístico.\n\n2. A alegação de que o contato com a vítima ocorreu de forma consentida por ela não afasta a tipicidade da conduta, pois a medida protetiva é ordem judicial que somente pode ser revogada pelo Juízo que a expediu, mediante análise das condições de segurança da ofendida.\n\n3. A proteção oferecida pela Lei Maria da Penha tem caráter protetivo e preventivo, visando resguardar a integridade física e psicológica da mulher em situação de violência doméstica, razão pela qual o consentimento da vítima é irrelevante para fins de tipicidade penal.\n\n4. Recurso do Ministério Público provido para anular a absolvição sumária e determinar o prosseguimento do feito.\n\nACÓRDÃO: PROVERAM o recurso, por votação unânime."
+    },
+    {
+      "id": "DOC006",
+      "tipo": "formulario_bo",
+      "tribunal": "Polícia Civil - SP",
+      "numero": "BO-2024-SP-0145892",
+      "data": "2024-05-03",
+      "formato_original": "PDF_formulario_escaneado",
+      "paginas": 4,
+      "tem_tabelas": true,
+      "tem_ocr": true,
+      "assuntos": ["boletim de ocorrência", "furto", "bem móvel", "formulário policial"],
+      "texto": "BOLETIM DE OCORRÊNCIA - POLÍCIA CIVIL DO ESTADO DE SÃO PAULO\nNÚMERO: 2024/0145892\nDATA/HORA DO REGISTRO: 03/05/2024 - 14h32\nDELEGACIA: 11ª DP - Santo André\n\nDADOS DO COMUNICANTE:\nNome: Ana Paula Santos Rodrigues\nRG: 45.678.901-2 SSP/SP\nEndereço: Rua das Flores, 234, Santo André/SP\n\nFATOS NARRADOS:\nA comunicante relata que em 03/05/2024, por volta das 13h00, ao retornar ao estacionamento do Shopping Grande ABC, localizado na Av. Industrial, 600, Santo André/SP, constatou que seu veículo havia sido furtado.\n\nVEÍCULO FURTADO:\nMarca/Modelo: Volkswagen Polo\nAno/Cor: 2022/Prata\nPlaca: ABC-1234\nChassi: 9BWZZZ377VT123456\nComunicação DETRAN: SIM - Protocolo 2024-DP11-00891\n\nVALOR ESTIMADO DO PREJUÍZO: R$ 68.500,00\n\nTESTEMUNHAS: Não identificadas no momento\nCAMERAS DE SEGURANÇA: Solicitado levantamento junto ao shopping\n\nDECLARAÇÕES FINAIS: A comunicante declara que as informações prestadas são verdadeiras e concorda em ser notificada por email: apaula.santos@email.com"
+    },
+    {
+      "id": "DOC007",
+      "tipo": "parecer_juridico",
+      "tribunal": "Procuradoria Geral do Estado - SP",
+      "numero": "PARECER PGE-SP-2024-0234",
+      "data": "2024-03-28",
+      "formato_original": "PDF_nativo",
+      "paginas": 28,
+      "tem_tabelas": false,
+      "tem_ocr": false,
+      "assuntos": ["licitação", "dispensa de licitação", "contratação direta", "emergência"],
+      "texto": "PROCURADORIA GERAL DO ESTADO DE SÃO PAULO\nPARECER Nº PGE-SP-2024-0234\n\nASSUNTO: Contratação direta por emergência para aquisição de equipamentos de segurança pública\nSOLICITANTE: Secretaria de Segurança Pública do Estado de São Paulo\n\nI - RELATÓRIO\n\nA Secretaria de Segurança Pública consulta esta Procuradoria acerca da viabilidade jurídica de contratação direta, por dispensa de licitação fundamentada em situação de emergência (art. 75, VIII da Lei 14.133/2021), para aquisição de 500 coletes balísticos em razão de déficit crítico detectado após inspeção nas unidades policiais.\n\nII - FUNDAMENTOS JURÍDICOS\n\nA Lei 14.133/2021 (Nova Lei de Licitações) estabelece, em seu art. 75, inciso VIII, que é dispensável a licitação 'nos casos de emergência ou de calamidade pública, quando caracterizada urgência de atendimento de situação que possa ocasionar prejuízo ou comprometer a continuidade dos serviços públicos ou a segurança de pessoas, obras, serviços, equipamentos e outros bens, públicos ou particulares, e somente para os bens necessários ao atendimento da situação emergencial e para as parcelas de obras e serviços que possam ser concluídas no prazo máximo de 1 (um) ano, contados da ocorrência da emergência ou calamidade'.\n\nIII - CONCLUSÃO\n\nA dispensa de licitação por emergência é juridicamente viável desde que: (1) a situação emergencial seja comprovada por documento técnico fundamentado; (2) a contratação limite-se ao estritamente necessário; (3) o processo seja instruído com mapa de preços e justificativa da escolha do fornecedor. Recomenda-se aprovação com as ressalvas indicadas."
+    },
+    {
+      "id": "DOC008",
+      "tipo": "sumula",
+      "tribunal": "STJ",
+      "numero": "Súmulas STJ - Seleção Penal",
+      "data": "2024-01-01",
+      "formato_original": "PDF_nativo",
+      "paginas": 8,
+      "tem_tabelas": true,
+      "tem_ocr": false,
+      "assuntos": ["súmulas", "direito penal", "precedentes vinculantes", "jurisprudência consolidada"],
+      "texto": "SUPERIOR TRIBUNAL DE JUSTIÇA - SÚMULAS EM MATÉRIA PENAL (SELEÇÃO)\n\nSÚMULA 231: A incidência da circunstância atenuante não pode conduzir à redução da pena abaixo do mínimo legal.\n\nSÚMULA 269: É admissível a adoção do regime prisional semiaberto aos reincidentes condenados a pena igual ou inferior a quatro anos se favoráveis as circunstâncias judiciais.\n\nSÚMULA 439: Admite-se o exame criminológico pelas peculiaridades do caso, desde que em decisão motivada.\n\nSÚMULA 440: Fixada a pena-base no mínimo legal, é vedado o estabelecimento do regime prisional mais gravoso do que o cabível em razão da sanção imposta, com base apenas na gravidade abstrata do delito.\n\nSÚMULA 444: É vedada a utilização de inquéritos policiais e ações penais em curso para agravar a pena-base.\n\nSÚMULA 512: A aplicação da causa de diminuição de pena prevista no art. 33, § 4º, da Lei n. 11.343/2006 não afasta a hediondez do crime de tráfico de drogas.\n\nSÚMULA 541: A fração de redução prevista no art. 33, § 4º, da Lei n. 11.343/2006 seja inferior a 1/6 (um sexto) somente se justifica quando fundamentada em elementos concretos do caso.\n\nSÚMULA 570: Indevida a substituição da pena privativa de liberdade por restritiva de direitos ao condenado pelo crime de tráfico de entorpecentes hediondo."
+    },
+    {
+      "id": "DOC009",
+      "tipo": "decreto",
+      "tribunal": "Governador do Estado de São Paulo",
+      "numero": "Decreto Estadual nº 68.447/2024",
+      "data": "2024-02-15",
+      "formato_original": "PDF_nativo",
+      "paginas": 6,
+      "tem_tabelas": false,
+      "tem_ocr": false,
+      "assuntos": ["segurança pública", "videomonitoramento", "câmeras", "proteção de dados", "LGPD"],
+      "texto": "DECRETO Nº 68.447, DE 15 DE FEVEREIRO DE 2024\n\nRegula o uso de sistemas de videomonitoramento no âmbito da Segurança Pública do Estado de São Paulo, em conformidade com a Lei Federal nº 13.709/2018 (LGPD).\n\nO GOVERNADOR DO ESTADO DE SÃO PAULO, no uso de suas atribuições legais:\n\nArt. 1º O presente Decreto estabelece as diretrizes para implantação, operação e gestão de sistemas de videomonitoramento utilizados na prevenção e repressão de infrações penais e na preservação da ordem pública.\n\nArt. 3º São princípios que regem o videomonitoramento no âmbito da segurança pública:\nI - finalidade pública legítima e específica;\nII - proporcionalidade e adequação;\nIII - segurança, confidencialidade e proteção dos dados;\nIV - prestação de contas e responsabilização;\nV - direitos dos titulares de dados.\n\nArt. 5º As imagens coletadas pelos sistemas de videomonitoramento são classificadas como dados pessoais sensíveis, nos termos do art. 5º, inciso II, da Lei Federal nº 13.709/2018, sujeitando-se ao regime especial de proteção previsto nos arts. 11 e 12 da mesma lei.\n\nArt. 8º O prazo de retenção das imagens coletadas é de 30 (trinta) dias, findo o qual serão automaticamente expurgadas, salvo quando:\nI - houver solicitação judicial;\nII - integrarem procedimento investigatório em andamento;\nIII - forem objeto de pedido de preservação por autoridade policial competente.\n\nArt. 12. O descumprimento das normas deste Decreto sujeita os responsáveis às sanções previstas na LGPD e na legislação aplicável aos servidores públicos estaduais."
+    },
+    {
+      "id": "DOC010",
+      "tipo": "acordao",
+      "tribunal": "STF",
+      "numero": "RE 1.055.941-SP (Tema 990 RG)",
+      "data": "2023-12-14",
+      "formato_original": "PDF_nativo",
+      "paginas": 87,
+      "tem_tabelas": false,
+      "tem_ocr": false,
+      "assuntos": ["compartilhamento de dados fiscais", "COAF", "receita federal", "sigilo bancário", "devido processo legal"],
+      "texto": "SUPREMO TRIBUNAL FEDERAL\nRECURSO EXTRAORDINÁRIO 1.055.941-SP\nTEMA DE REPERCUSSÃO GERAL Nº 990\n\nEMENTA: DIREITO PROCESSUAL PENAL. COMPARTILHAMENTO DE DADOS FISCAIS E BANCÁRIOS ENTRE ÓRGÃOS DE INVESTIGAÇÃO. CONSTITUCIONALIDADE. POSSIBILIDADE SEM PRÉVIA AUTORIZAÇÃO JUDICIAL. TESE FIXADA.\n\nTESE FIXADA (TEMA 990): 'É constitucional o compartilhamento dos relatórios de inteligência financeira da UIF (ex-COAF) e da íntegra do procedimento fiscalizatório da Receita Federal do Brasil, que define o lançamento do tributo, com os órgãos de persecução penal para fins criminais sem prévia autorização judicial, devendo o Ministério Público, quando for o caso, e os órgãos de polícia judiciária comunicar imediatamente ao juiz competente o recebimento das informações, nos termos do art. 15 da Lei Complementar 105/01, verificando-se a legalidade das informações, procedimentos e medidas cautelares eventualmente requeridas, assegurada a adequada tutela dos direitos individuais.'\n\nFUNDAMENTOS:\n1. O sigilo bancário não é direito absoluto, cedendo quando em conflito com o interesse público na persecução penal de crimes graves, como lavagem de capitais e crimes fiscais.\n2. O compartilhamento de dados pelo COAF com órgãos de persecução penal, sem autorização judicial prévia, é constitucionalmente válido por se tratar de transferência entre órgãos públicos que já possuem legítimo acesso às informações.\n3. A comunicação imediata ao juiz competente após o recebimento dos dados garante o controle jurisdicional necessário para proteção dos direitos individuais.\n4. A tese fixada aplica-se tanto ao compartilhamento de dados pelo COAF quanto pela Receita Federal."
+    }
+  ],
+  "perguntas_teste": [
+    {
+      "id": "Q001",
+      "pergunta": "Quais são os requisitos para decretação de prisão preventiva segundo a jurisprudência do STJ?",
+      "documentos_relevantes": ["DOC001"],
+      "resposta_esperada": "O STJ exige fundamentação concreta e específica, lastreada em elementos fáticos extraídos dos autos. A mera referência à gravidade abstrata do crime não é suficiente. É necessário indicar elementos individualizados do réu que demonstrem risco concreto à ordem pública."
+    },
+    {
+      "id": "Q002",
+      "pergunta": "O descumprimento de medida protetiva da Lei Maria da Penha é crime mesmo que a vítima consinta com o contato?",
+      "documentos_relevantes": ["DOC005"],
+      "resposta_esperada": "Sim. O crime do art. 24-A da Lei Maria da Penha é formal e se consuma com a mera inobservância da medida judicial. O consentimento da vítima é irrelevante para fins de tipicidade penal, pois a medida protetiva é ordem judicial que só pode ser revogada pelo Juízo."
+    },
+    {
+      "id": "Q003",
+      "pergunta": "Em quais situações o compartilhamento de dados do COAF com órgãos de persecução penal é constitucional?",
+      "documentos_relevantes": ["DOC010"],
+      "resposta_esperada": "Segundo o STF (Tema 990), o compartilhamento é constitucional sem autorização judicial prévia, desde que o Ministério Público ou a polícia judiciária comunique imediatamente ao juiz competente o recebimento das informações, garantindo controle jurisdicional posterior."
+    },
+    {
+      "id": "Q004",
+      "pergunta": "Quais os requisitos para contratação direta por emergência na nova lei de licitações?",
+      "documentos_relevantes": ["DOC007"],
+      "resposta_esperada": "Segundo o art. 75, VIII da Lei 14.133/2021 e o parecer da PGE-SP, são necessários: comprovação da situação emergencial por documento técnico, limitação ao estritamente necessário, mapa de preços e justificativa da escolha do fornecedor. O prazo máximo de execução é 1 ano."
+    },
+    {
+      "id": "Q005",
+      "pergunta": "Quanto tempo as imagens de videomonitoramento da segurança pública de SP devem ser retidas?",
+      "documentos_relevantes": ["DOC009"],
+      "resposta_esperada": "30 dias, com expurgo automático após esse prazo. Exceções: solicitação judicial, integrarem procedimento investigatório em andamento, ou serem objeto de pedido de preservação por autoridade policial."
+    },
+    {
+      "id": "Q006",
+      "pergunta": "Qual é a classificação das imagens de videomonitoramento policial segundo a LGPD?",
+      "documentos_relevantes": ["DOC009", "DOC003"],
+      "resposta_esperada": "As imagens são classificadas como dados pessoais sensíveis, nos termos do art. 5º, II da LGPD, sujeitando-se ao regime especial de proteção dos arts. 11 e 12 da mesma lei."
+    },
+    {
+      "id": "Q007",
+      "pergunta": "A redução de pena do art. 33, §4º da Lei de Drogas afasta o caráter hediondo do tráfico?",
+      "documentos_relevantes": ["DOC008"],
+      "resposta_esperada": "Não. A Súmula 512 do STJ estabelece que a aplicação da causa de diminuição de pena do art. 33, §4º da Lei 11.343/2006 não afasta a hediondez do crime de tráfico de drogas."
+    },
+    {
+      "id": "Q008",
+      "pergunta": "Como usar inteligência policial para investigar organizações de tráfico de drogas?",
+      "documentos_relevantes": ["DOC004"],
+      "resposta_esperada": "O relatório DENARC exemplifica as técnicas: análise de comunicações (interceptação telemática judicial), análise de movimentação financeira, monitoramento por câmeras e fontes humanas. A organização é mapeada em níveis hierárquicos e estima-se a movimentação financeira para fundamentar pedidos de bloqueio de ativos junto ao COAF."
+    }
+  ]
+}

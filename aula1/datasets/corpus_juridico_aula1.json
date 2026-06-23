@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "titulo": "Acórdão - Crime de Peculato Doloso - Servidor Público da Saúde",
+    "conteudo": "EMENTA: PENAL E PROCESSUAL PENAL. RECURSO ESPECIAL. PECULATO DOLOSO. SERVIDOR PÚBLICO. DESVIO DE VERBAS DO SUS. MATERIALIDADE E AUTORIA COMPROVADAS. DOSIMETRIA MANTIDA. RECURSO DESPROVIDO. O réu, na qualidade de servidor público do Ministério da Saúde, desviou R$ 2.500.000,00 destinados à compra de equipamentos médicos, configurando o crime de peculato doloso previsto no art. 312 do Código Penal. As provas colhidas — documentos bancários, interceptações telefônicas e depoimentos de servidores — demonstram inequivocamente a autoria e a materialidade. A dosimetria atende os princípios da proporcionalidade e da individualização da pena. Recurso desprovido.",
+    "tipo_documento": "acórdão",
+    "tribunal": "STJ",
+    "numero_processo": "REsp 1.987.654/SP",
+    "data": "2024-03-15",
+    "relator": "Min. João Silva",
+    "categoria": "Crimes Funcionais",
+    "palavras_chave": ["peculato", "servidor público", "SUS", "desvio de verbas", "art. 312"]
+  },
+  {
+    "id": "2",
+    "titulo": "Habeas Corpus - Prisão Preventiva - Tráfico de Drogas",
+    "conteudo": "EMENTA: HABEAS CORPUS. TRÁFICO DE DROGAS. PRISÃO PREVENTIVA. AUSÊNCIA DE FUNDAMENTAÇÃO IDÔNEA. EXCESSO DE PRAZO. CONSTRANGIMENTO ILEGAL CONFIGURADO. ORDEM CONCEDIDA. A prisão preventiva deve ser fundamentada em elementos concretos que demonstrem a necessidade da custódia cautelar para garantia da ordem pública, da instrução criminal ou para assegurar a aplicação da lei penal. Meras referências abstratas à gravidade do delito, sem apontar elementos individualizados do caso concreto, não satisfazem o requisito de fundamentação adequada. Excesso de prazo configurado. Ordem concedida para revogar a prisão preventiva, com imposição de medidas cautelares alternativas.",
+    "tipo_documento": "acórdão",
+    "tribunal": "STF",
+    "numero_processo": "HC 198.432/RJ",
+    "data": "2024-06-20",
+    "relator": "Min. Maria Santos",
+    "categoria": "Direito Processual",
+    "palavras_chave": ["habeas corpus", "prisão preventiva", "tráfico", "fundamentação", "cautelar"]
+  },
+  {
+    "id": "3",
+    "titulo": "Boletim de Ocorrência - Furto Qualificado - Escalada",
+    "conteudo": "BO Nº 2024/0045678. Data: 12/11/2024. Hora: 23h45. Natureza: Furto Qualificado (escalada). Local: Rua das Flores, 123, São Paulo/SP. Vítima: Maria da Silva, 45 anos. Vítima informou que ao retornar à residência encontrou janela do dormitório arrombada e os seguintes bens subtraídos: 1 notebook marca Dell, 2 celulares iPhone, R$ 1.200,00 em espécie, 1 relógio Rolex. Foram colhidas impressões digitais no parapeito da janela. Câmeras de segurança do vizinho registraram suspeito encapuzado, estatura 1,75m, magro, às 22h30. Delegada instaurou inquérito policial. Providências: solicitação de imagens das câmeras de segurança do bairro.",
+    "tipo_documento": "boletim_ocorrencia",
+    "tribunal": "PCSP",
+    "numero_processo": "BO 2024/0045678",
+    "data": "2024-11-12",
+    "relator": "Del. Carlos Mendes",
+    "categoria": "Crimes Patrimoniais",
+    "palavras_chave": ["furto qualificado", "escalada", "impressões digitais", "câmera de segurança", "inquérito"]
+  },
+  {
+    "id": "4",
+    "titulo": "Laudo Pericial - Homicídio - Análise Balística",
+    "conteudo": "LAUDO PERICIAL Nº 2024/LP-00234. Órgão: Instituto de Criminalística — PCSP. Objeto: Análise balística no local do crime. Descrição: Foram encontrados no local 3 estojos de projéteis calibre 9mm, marca CBC. A análise microscópica das estrias de raiamento indica que os projéteis foram disparados pela mesma arma. A trajetória dos disparos é consistente com posição de joelhos da vítima no momento dos disparos, conforme análise do padrão de sangue (bloodstain pattern analysis). As marcas de pólvora (GSR — Gunshot Residue) foram encontradas nas mãos direitas do suspeito. Conclusão: Os elementos periciais são compatíveis com homicídio qualificado por motivo torpe.",
+    "tipo_documento": "laudo_pericial",
+    "tribunal": "IML-SP",
+    "numero_processo": "IP 2024/00789",
+    "data": "2024-09-08",
+    "relator": "Perito Dr. Ana Lima",
+    "categoria": "Crimes Contra a Vida",
+    "palavras_chave": ["homicídio", "balística", "GSR", "bloodstain", "calibre 9mm"]
+  },
+  {
+    "id": "5",
+    "titulo": "Sentença - Absolvição - Legítima Defesa",
+    "conteudo": "SENTENÇA ABSOLUTÓRIA. Processo: 0001234-56.2024.8.26.0001. Réu: José Pereira. Crime imputado: Homicídio (art. 121 CP). FUNDAMENTOS: O réu agiu em legítima defesa própria, com uso moderado dos meios necessários para repelir injusta agressão atual. As testemunhas oculares, ouvidas em juízo sob contraditório, confirmaram unanimemente que a vítima avançou com faca empunhada antes do disparo efetuado pelo réu. A prova pericial (laudo de trajetória dos projéteis) é compatível com a versão defensiva. DISPOSITIVO: Com fundamento no art. 25 do Código Penal combinado com art. 386, inciso VI, do Código de Processo Penal, ABSOLVO o réu José Pereira da imputação do crime de homicídio simples.",
+    "tipo_documento": "sentença",
+    "tribunal": "TJ-SP",
+    "numero_processo": "0001234-56.2024.8.26.0001",
+    "data": "2024-12-01",
+    "relator": "Juíza Dra. Paula Costa",
+    "categoria": "Crimes Contra a Vida",
+    "palavras_chave": ["absolvição", "legítima defesa", "art. 25 CP", "art. 386 CPP", "homicídio"]
+  },
+  {
+    "id": "6",
+    "titulo": "Portaria - Procedimento de Investigação - Tráfico Internacional",
+    "conteudo": "PORTARIA Nº 123/2024/GABIN/DPF. O Superintendente Regional da Polícia Federal no Estado de São Paulo, no uso de suas atribuições legais, INSTAURA procedimento investigatório criminal para apurar possível prática dos crimes de tráfico internacional de entorpecentes (art. 33, §1º, I, Lei 11.343/2006), lavagem de dinheiro (art. 1º, Lei 9.613/98) e associação para o tráfico (art. 35, Lei 11.343/2006), em tese praticados por organização criminosa de atuação transnacional. Período investigado: janeiro de 2022 a dezembro de 2024. Determinada a quebra de sigilo bancário e fiscal dos investigados e interceptação telemática.",
+    "tipo_documento": "portaria",
+    "tribunal": "DPF",
+    "numero_processo": "PIC 2024/SR/SP/00456",
+    "data": "2024-10-15",
+    "relator": "Del. Fed. Roberto Costa",
+    "categoria": "Investigação Criminal",
+    "palavras_chave": ["tráfico internacional", "lavagem de dinheiro", "PF", "interceptação", "organização criminosa"]
+  },
+  {
+    "id": "7",
+    "titulo": "Acórdão - Lesão Corporal Grave - Violência Doméstica - Lei Maria da Penha",
+    "conteudo": "EMENTA: VIOLÊNCIA DOMÉSTICA. LESÃO CORPORAL GRAVE (ART. 129, §2º, II, CP). LEI MARIA DA PENHA. CIRCUNSTÂNCIA AGRAVANTE. PENA AUMENTADA. Comprovada a prática de lesão corporal com perda ou inutilização de membro, sentido ou função em contexto de violência doméstica e familiar contra a mulher, incide a causa de aumento do art. 16 da Lei 11.340/2006. A renúncia da ofendida à representação, em crimes de ação penal pública incondicionada como a lesão corporal grave, é irrelevante para a persecução penal. Recurso da acusação provido para majorar a pena.",
+    "tipo_documento": "acórdão",
+    "tribunal": "TJ-MG",
+    "numero_processo": "APR 1.0000.24.012345-6/001",
+    "data": "2024-08-30",
+    "relator": "Des. Fernando Lima",
+    "categoria": "Violência Doméstica",
+    "palavras_chave": ["lesão corporal", "violência doméstica", "Lei Maria da Penha", "ação pública incondicionada"]
+  },
+  {
+    "id": "8",
+    "titulo": "Decisão - Medida Cautelar - Monitoramento Eletrônico",
+    "conteudo": "DECISÃO. Processo: 2024/000321. CONCEDO a medida cautelar de monitoramento eletrônico (art. 319, IX, CPP) em substituição à prisão preventiva, considerando: (1) o réu possui residência fixa e emprego formal comprovados; (2) trata-se de primeiro delito; (3) o crime imputado (furto simples) admite substituição de pena privativa de liberdade por restritivas de direitos. DETERMINO: uso de tornozeleira eletrônica, restrição de saída do município, comparecimento quinzenal ao Juízo. REVOGO a prisão preventiva. Expeça-se alvará de soltura.",
+    "tipo_documento": "decisão",
+    "tribunal": "TJSP",
+    "numero_processo": "2024/000321",
+    "data": "2024-07-10",
+    "relator": "Juiz Dr. Paulo Arantes",
+    "categoria": "Direito Processual",
+    "palavras_chave": ["medida cautelar", "monitoramento eletrônico", "tornozeleira", "prisão preventiva", "art. 319 CPP"]
+  },
+  {
+    "id": "9",
+    "titulo": "Relatório de Inteligência - Organização Criminosa - PCC",
+    "conteudo": "RELATÓRIO DE INTELIGÊNCIA Nº 2024/RI-0089 (RESERVADO). Objeto: Análise de atividades suspeitas vinculadas a facção criminosa. Período: 2º semestre de 2024. Conteúdo: Análise de comunicações interceptadas judicialmente revelou padrão de atividade consistente com distribuição de entorpecentes e lavagem de dinheiro por meio de casas de câmbio. Identificados 12 pontos de venda de drogas nos bairros X, Y e Z. Hierarquia da organização mapeada: 3 líderes regionais, 8 gerentes de pontos, 45 aviões. Recomendação: Operação policial integrada com DPF e MP para desarticulação.",
+    "tipo_documento": "relatorio_inteligencia",
+    "tribunal": "SSP",
+    "numero_processo": "2024/RI-0089",
+    "data": "2024-12-10",
+    "relator": "Agente Int. Roberto Silva",
+    "categoria": "Investigação Criminal",
+    "palavras_chave": ["inteligência policial", "organização criminosa", "tráfico", "lavagem", "facção"]
+  },
+  {
+    "id": "10",
+    "titulo": "Acórdão - Estelionato - Golpe do Bilhete Premiado - Idoso",
+    "conteudo": "EMENTA: ESTELIONATO (ART. 171 CP). VÍTIMA IDOSA. CAUSA DE AUMENTO (ART. 171, §4º, CP). PENA MANTIDA. A prática do chamado 'golpe do bilhete premiado' configura estelionato em sua forma consumada, pois o réu, mediante ardil, induziu a vítima idosa (72 anos) em erro, obtendo vantagem ilícita de R$ 8.000,00. A condição de idoso da vítima determina aplicação da causa de aumento prevista no §4º do art. 171 do Código Penal (incluída pela Lei 12.461/2011). Dosimetria adequada. Recurso desprovido. Expedido mandado de prisão.",
+    "tipo_documento": "acórdão",
+    "tribunal": "TJSP",
+    "numero_processo": "APR 1.0000.24.098765-4/001",
+    "data": "2024-05-22",
+    "relator": "Des. Cláudia Neves",
+    "categoria": "Crimes Patrimoniais",
+    "palavras_chave": ["estelionato", "golpe do bilhete", "idoso", "art. 171 CP", "ardil"]
+  }
+]

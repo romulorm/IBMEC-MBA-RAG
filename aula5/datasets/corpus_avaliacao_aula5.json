@@ -1,0 +1,352 @@
+[
+  {
+    "id": "Q001",
+    "question": "Quais são os requisitos legais para decretação de prisão preventiva segundo o art. 312 do CPP?",
+    "ground_truth": "A prisão preventiva pode ser decretada como garantia da ordem pública, da ordem econômica, por conveniência da instrução criminal ou para assegurar a aplicação da lei penal, quando houver prova da existência do crime e indício suficiente de autoria.",
+    "tipo": "processual_penal",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q002",
+    "question": "O que configura crime de desmatamento em Área de Preservação Permanente (APP)?",
+    "ground_truth": "Configura crime ambiental previsto no art. 38 da Lei 9.605/1998 destruir ou danificar floresta considerada de preservação permanente, mesmo que em formação, ou utilizá-la com infringência das normas de proteção. A pena é de detenção de um a três anos ou multa, ou ambas as penas cumulativamente.",
+    "tipo": "ambiental",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q003",
+    "question": "Quais os efeitos jurídicos da reincidência criminal no momento da aplicação da pena?",
+    "ground_truth": "A reincidência é circunstância agravante obrigatória (art. 61, I, CP), aumentando a pena na segunda fase da dosimetria. Além disso, impede a substituição da pena privativa de liberdade por restritiva de direitos se reincidente em crime doloso (art. 44, II, CP) e pode obstar o sursis (art. 77, I, CP).",
+    "tipo": "penal_geral",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q004",
+    "question": "Quando cabe habeas corpus e quem pode impetrar?",
+    "ground_truth": "Cabe habeas corpus sempre que alguém sofrer ou se achar ameaçado de sofrer violência ou coação em sua liberdade de locomoção por ilegalidade ou abuso de poder (art. 5º, LXVIII, CF/88). Qualquer pessoa, em seu favor ou de outrem, pode impetrá-lo, independentemente de advogado, sendo também cabível ao Ministério Público.",
+    "tipo": "constitucional",
+    "dificuldade": "baixa"
+  },
+  {
+    "id": "Q005",
+    "question": "Quais informações obrigatórias devem constar em um boletim de ocorrência policial?",
+    "ground_truth": "O boletim de ocorrência deve registrar: qualificação completa das partes (vítima, autor e testemunhas), descrição detalhada dos fatos com data, hora e local, tipificação penal preliminar, medidas cautelares adotadas (prisão em flagrante, TCO etc.), relação de objetos apreendidos e assinatura da autoridade policial.",
+    "tipo": "administrativo_policial",
+    "dificuldade": "baixa"
+  },
+  {
+    "id": "Q006",
+    "question": "O que caracteriza o crime de tráfico de drogas e qual a pena prevista?",
+    "ground_truth": "O art. 33 da Lei 11.343/2006 define tráfico como importar, exportar, remeter, preparar, produzir, fabricar, adquirir, vender, expor à venda, oferecer, ter em depósito, transportar, trazer consigo, guardar, prescrever, ministrar, entregar a consumo ou fornecer drogas, ainda que gratuitamente, sem autorização ou em desacordo com determinação legal. Pena: reclusão de 5 a 15 anos e pagamento de 500 a 1.500 dias-multa.",
+    "tipo": "trafico_drogas",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q007",
+    "question": "Quais são as circunstâncias que aumentam a pena no crime de tráfico de drogas?",
+    "ground_truth": "As causas de aumento do art. 40 da Lei 11.343/2006 incluem: tráfico transnacional, praticado com violência ou grave ameaça, envolvendo criança ou adolescente, em estabelecimento de ensino, hospitais, nas dependências ou imediações de presídios, envolvendo policial ou integrante do sistema prisional, e associação entre 2 ou mais pessoas.",
+    "tipo": "trafico_drogas",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q008",
+    "question": "Em que consiste o princípio da presunção de inocência e como se aplica no processo penal?",
+    "ground_truth": "O princípio da presunção de inocência (art. 5º, LVII, CF/88) determina que ninguém será considerado culpado até o trânsito em julgado de sentença penal condenatória. No processo penal, impõe o ônus da prova ao Estado (Ministério Público), veda prisões cautelares sem fundamentação adequada e exige que a condenação seja baseada em prova além da dúvida razoável.",
+    "tipo": "constitucional",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q009",
+    "question": "O que é laudo pericial e quais são seus requisitos formais segundo o CPP?",
+    "ground_truth": "O laudo pericial é documento técnico-científico elaborado por perito oficial ou, na falta deste, por duas pessoas idôneas (art. 159 CPP). Deve conter: descrição do objeto examinado, metodologia utilizada, respostas aos quesitos formulados, conclusões técnicas fundamentadas e assinatura do(s) perito(s). O laudo oficial é assinado por um perito (art. 159, §1º, CPP, com redação da Lei 11.690/2008).",
+    "tipo": "processual_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q010",
+    "question": "Quais são as hipóteses de flagrante delito que autorizam a prisão sem mandado judicial?",
+    "ground_truth": "O art. 302 do CPP define flagrante delito nas seguintes hipóteses: (I) cometendo a infração penal; (II) acaba de cometê-la; (III) é perseguido, logo após, pela autoridade, pelo ofendido ou por qualquer pessoa, em situação que faça presumir ser autor da infração; (IV) é encontrado, logo depois, com instrumentos, armas, objetos ou papéis que façam presumir ser autor da infração.",
+    "tipo": "processual_penal",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q011",
+    "question": "Como funciona o regime de cumprimento de pena no sistema progressivo brasileiro?",
+    "ground_truth": "O sistema progressivo permite ao condenado avançar do regime fechado para o semiaberto e depois para o aberto, conforme requisitos objetivos (fração da pena cumprida) e subjetivos (mérito). Para crimes comuns: 1/6 para fechado→semiaberto e 1/6 para semiaberto→aberto. Para crimes hediondos e equiparados: 2/5 (primário) ou 3/5 (reincidente) para progressão.",
+    "tipo": "execucao_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q012",
+    "question": "O que é o princípio da insignificância (bagatela) e quais seus requisitos?",
+    "ground_truth": "O princípio da insignificância exclui a tipicidade material quando a conduta representa lesão desprezível ao bem jurídico tutelado. O STF consolidou quatro vetores: (a) mínima ofensividade da conduta; (b) ausência de periculosidade social da ação; (c) reduzido grau de reprovabilidade do comportamento; (d) inexpressividade da lesão jurídica.",
+    "tipo": "penal_geral",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q013",
+    "question": "Quais direitos são garantidos ao preso no momento da prisão em flagrante?",
+    "ground_truth": "O preso em flagrante tem os seguintes direitos garantidos: ser informado de seus direitos (art. 5º, LXIII, CF), permanecer calado sem que o silêncio seja interpretado em seu desfavor, comunicar imediatamente a prisão à família e ao advogado, ser assistido por defensor público se não tiver advogado, e ter a prisão relaxada se ilegal. A comunicação ao juiz deve ocorrer em 24 horas.",
+    "tipo": "constitucional",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q014",
+    "question": "Em que situações o Ministério Público pode propor acordo de não persecução penal (ANPP)?",
+    "ground_truth": "O ANPP (art. 28-A do CPP, inserido pela Lei 13.964/2019) é cabível quando: a infração penal não for cometida com violência ou grave ameaça; a pena mínima for inferior a 4 anos; o investigado confessar formal e circunstanciadamente a prática do delito; não for caso de arquivamento; e o investigado não for reincidente em crime doloso nem tenha sido beneficiado nos 5 anos anteriores por outro ANPP ou transação penal.",
+    "tipo": "processual_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q015",
+    "question": "Qual a diferença entre crime doloso e crime culposo segundo o Código Penal?",
+    "ground_truth": "Segundo o art. 18 do CP, o crime é doloso quando o agente quis o resultado (dolo direto) ou assumiu o risco de produzi-lo (dolo eventual). É culposo quando o agente deu causa ao resultado por imprudência, negligência ou imperícia. A culpa é excepcional: só é punível quando expressamente prevista em lei (art. 18, parágrafo único, CP).",
+    "tipo": "penal_geral",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q016",
+    "question": "O que é o Relatório de Inteligência Policial e qual sua finalidade?",
+    "ground_truth": "O Relatório de Inteligência Policial é documento produzido pelas agências de inteligência das forças policiais contendo análise sistemática de dados sobre organizações criminosas, padrões de crime e ameaças à segurança pública. Sua finalidade é subsidiar decisões estratégicas e operacionais, identificar redes criminosas e apoiar investigações complexas. Diferencia-se do boletim de ocorrência por seu caráter analítico e estratégico.",
+    "tipo": "inteligencia_policial",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q017",
+    "question": "Quando é cabível o mandado de segurança e quem tem legitimidade para impetrar?",
+    "ground_truth": "O mandado de segurança (art. 5º, LXIX, CF/88 e Lei 12.016/2009) é cabível para proteger direito líquido e certo, não amparado por HC ou HD, quando o responsável pela ilegalidade ou abuso de poder for autoridade pública ou agente de pessoa jurídica no exercício de atribuições do Poder Público. Tem legitimidade ativa qualquer pessoa física ou jurídica titular do direito líquido e certo violado.",
+    "tipo": "constitucional",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q018",
+    "question": "Quais são os crimes considerados hediondos pela Lei 8.072/1990?",
+    "ground_truth": "São considerados hediondos: homicídio doloso qualificado ou praticado em atividade típica de grupo de extermínio; lesão corporal dolosa de natureza gravíssima ou seguida de morte contra integrante das forças de segurança; latrocínio; extorsão qualificada pela morte; extorsão mediante sequestro; estupro; estupro de vulnerável; epidemia com resultado morte; falsificação de produtos terapêuticos ou medicinais; favorecimento da prostituição infantil; genocídio; posse ou porte de arma de fogo de uso proibido; comércio ilegal de armas de fogo; tráfico de drogas.",
+    "tipo": "penal_especial",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q019",
+    "question": "Como é calculada a pena-base na primeira fase da dosimetria penal?",
+    "ground_truth": "Na primeira fase da dosimetria (art. 59, CP), o juiz fixa a pena-base considerando oito circunstâncias judiciais: culpabilidade, antecedentes, conduta social, personalidade do agente, motivos, circunstâncias, consequências do crime e comportamento da vítima. A pena-base deve ser fixada no mínimo legal quando todas as circunstâncias forem favoráveis, podendo ser aumentada proporcionalmente às desfavoráveis.",
+    "tipo": "penal_geral",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q020",
+    "question": "O que é o inquérito policial e quais são suas características fundamentais?",
+    "ground_truth": "O inquérito policial é procedimento administrativo instaurado pela autoridade policial para apurar infração penal e sua autoria (art. 4º CPP). Suas características são: (1) inquisitório — não há contraditório ou ampla defesa em sentido pleno; (2) escrito; (3) sigiloso, podendo o juiz decretar segredo de justiça; (4) dispensável — o MP pode oferecer denúncia com base em outras peças informativas; (5) presidido pelo Delegado de Polícia.",
+    "tipo": "processual_penal",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q021",
+    "question": "Quais são as penas restritivas de direitos previstas no Código Penal?",
+    "ground_truth": "O art. 43 do CP prevê as seguintes penas restritivas de direitos: prestação pecuniária; perda de bens e valores; prestação de serviço à comunidade ou a entidades públicas; interdição temporária de direitos; limitação de fim de semana. São substitutivas da pena privativa de liberdade e exigem requisitos do art. 44 do CP.",
+    "tipo": "penal_geral",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q022",
+    "question": "O que é o Termo Circunstanciado de Ocorrência (TCO) e quando é utilizado?",
+    "ground_truth": "O TCO é peça investigatória simplificada prevista no art. 69 da Lei 9.099/1995, utilizado para infrações penais de menor potencial ofensivo (pena máxima não superior a 2 anos). Substitui o inquérito policial e é encaminhado diretamente ao Juizado Especial Criminal. Contém: qualificação das partes, descrição dos fatos, compromisso do autor do fato de comparecer ao JECRIM e, se possível, apreensão do produto do crime.",
+    "tipo": "processual_penal",
+    "dificuldade": "baixa"
+  },
+  {
+    "id": "Q023",
+    "question": "Em que consiste o crime de associação para o tráfico e como se distingue do tráfico simples?",
+    "ground_truth": "O art. 35 da Lei 11.343/2006 define o crime de associação para o tráfico como a conduta de associarem-se duas ou mais pessoas para a prática reiterada do tráfico de drogas. Distingue-se do tráfico simples pela exigência de: (a) pluralidade de agentes (mínimo dois); (b) estabilidade e permanência do vínculo associativo; (c) finalidade de reiteração. Pena: 3 a 10 anos e pagamento de 700 a 1.200 dias-multa.",
+    "tipo": "trafico_drogas",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q024",
+    "question": "Quais são os fundamentos jurídicos da busca e apreensão domiciliar?",
+    "ground_truth": "A busca domiciliar está prevista nos arts. 240 a 250 do CPP. Exige mandado judicial (art. 5º, XI, CF/88 — inviolabilidade do domicílio), salvo nas hipóteses constitucionais: flagrante delito, desastre, prestação de socorro. O mandado deve indicar o motivo e os fins da diligência. A busca pode ser realizada de dia; à noite, somente com consentimento do morador.",
+    "tipo": "processual_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q025",
+    "question": "O que é perícia grafotécnica e qual sua validade como prova no processo penal?",
+    "ground_truth": "A perícia grafotécnica é exame técnico realizado por perito para comparar escritas ou assinaturas e verificar autenticidade de documentos. É prova técnica admitida no processo penal (art. 174 CPP) e civil, devendo ser realizada por perito oficial. Para a comparação, podem ser utilizados padrões coletados mediante requisição judicial. O laudo grafotécnico tem valor probatório, mas não é prova absoluta, devendo ser apreciado em conjunto com os demais elementos.",
+    "tipo": "pericia",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q026",
+    "question": "Quais os critérios para diferenciação entre usuário e traficante de drogas segundo a Lei 11.343/2006?",
+    "ground_truth": "O art. 28 §2º da Lei 11.343/2006 prevê que o juiz, para determinar se a droga destinava-se a consumo pessoal, considerará: natureza e quantidade da substância apreendida; local e condições em que se desenvolveu a ação; circunstâncias sociais e pessoais; conduta e antecedentes do agente. Não há quantidade mínima definida em lei — a diferenciação é casuística e cabe ao juiz.",
+    "tipo": "trafico_drogas",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q027",
+    "question": "O que é a cadeia de custódia e qual sua importância na investigação criminal?",
+    "ground_truth": "A cadeia de custódia (arts. 158-A a 158-F, CPP, inseridos pela Lei 13.964/2019) é o conjunto de todos os procedimentos utilizados para manter e documentar a história cronológica do vestígio coletado em locais ou em vítimas de crimes. Compreende as etapas de: reconhecimento, isolamento, fixação, coleta, acondicionamento, transporte, recebimento, processamento, armazenamento e descarte. A violação da cadeia de custódia pode ensejar a nulidade da prova.",
+    "tipo": "investigacao",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q028",
+    "question": "Em que consiste o crime de peculato e quais suas modalidades?",
+    "ground_truth": "O peculato (art. 312 CP) é crime contra a administração pública cometido por funcionário público. Modalidades: (1) peculato-apropriação: apropriar-se de dinheiro ou valor que tem posse em razão do cargo; (2) peculato-desvio: desviá-lo em proveito próprio ou alheio; (3) peculato-furto (§1º): subtrair ou concorrer para subtração, valendo-se da facilidade que o cargo proporciona. Pena: reclusão de 2 a 12 anos e multa.",
+    "tipo": "crimes_contra_administracao",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q029",
+    "question": "Qual o prazo de prescrição da pretensão punitiva para crimes com pena máxima de 4 anos?",
+    "ground_truth": "Para crimes cuja pena máxima é igual a 4 anos, o prazo prescricional da pretensão punitiva é de 8 anos (art. 109, IV, CP). A prescrição começa a correr do dia em que o crime se consumou (art. 111, I, CP) e é interrompida pelas causas do art. 117 do CP (oferecimento da denúncia, recebimento da denúncia, pronúncia, decisão confirmatória da pronúncia, publicação da sentença condenatória recorrível e início do cumprimento da pena).",
+    "tipo": "penal_geral",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q030",
+    "question": "O que é medida socioeducativa e quais estão previstas no Estatuto da Criança e do Adolescente?",
+    "ground_truth": "As medidas socioeducativas são respostas do Estado ao adolescente autor de ato infracional, previstas no art. 112 do ECA (Lei 8.069/1990). São: advertência; obrigação de reparar o dano; prestação de serviços à comunidade; liberdade assistida; inserção em regime de semiliberdade; internação em estabelecimento educacional. A internação é medida privativa de liberdade, de caráter excepcional e brevidade, sendo vedada sua aplicação quando o ato infracional não for praticado com violência ou grave ameaça e para infrações a que a lei não comine pena privativa de liberdade.",
+    "tipo": "eca",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q031",
+    "question": "O que é a delação premiada (colaboração premiada) e quais seus benefícios legais?",
+    "ground_truth": "A colaboração premiada (Lei 12.850/2013, arts. 4º a 7º) é o acordo entre o Ministério Público e o investigado/réu pelo qual este, voluntária e eficazmente, colabora com a investigação mediante revelação de coautores, vítimas, estrutura e hierarquia da organização criminosa. Benefícios: perdão judicial, redução da pena em até 2/3, substituição por restritiva de direitos ou regime inicial aberto.",
+    "tipo": "organizacoes_criminosas",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q032",
+    "question": "Quais são os requisitos para concessão de liberdade provisória com ou sem fiança?",
+    "ground_truth": "A liberdade provisória sem fiança é cabível quando ausentes os requisitos da prisão preventiva (art. 310 CPP). A fiança (arts. 322-350 CPP) é cabível nas infrações cujas penas máximas não sejam superiores a 4 anos (autoridade policial) ou em qualquer crime (autoridade judicial). São inafiançáveis: crimes hediondos, tráfico, terrorismo, tortura, racismo, ação de grupos armados contra o Estado democrático (art. 323 CPP e art. 5º, XLIII e XLII, CF/88).",
+    "tipo": "processual_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q033",
+    "question": "O que é contravenção penal e como se diferencia do crime?",
+    "ground_truth": "Contravenção penal é infração de menor potencial ofensivo prevista no Decreto-Lei 3.688/1941 (Lei das Contravenções Penais). Diferencia-se do crime pela menor gravidade e sanções mais brandas: prisão simples (sem rigor penitenciário) de 15 dias a 5 anos e/ou multa. São exemplos: vadiagem, mendicância (revogada), perturbação do trabalho e do sossego alheio, vias de fato. Aplica-se o procedimento dos Juizados Especiais Criminais.",
+    "tipo": "penal_geral",
+    "dificuldade": "baixa"
+  },
+  {
+    "id": "Q034",
+    "question": "Quais são os princípios constitucionais que regem o processo penal brasileiro?",
+    "ground_truth": "Os principais princípios constitucionais do processo penal são: presunção de inocência (art. 5º, LVII); due process of law / devido processo legal (art. 5º, LIV); contraditório e ampla defesa (art. 5º, LV); juiz natural (art. 5º, LIII); vedação do tribunal de exceção (art. 5º, XXXVII); publicidade dos atos processuais (art. 5º, LX e art. 93, IX); inadmissibilidade das provas ilícitas (art. 5º, LVI); duplo grau de jurisdição (implícito na estrutura recursal).",
+    "tipo": "constitucional",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q035",
+    "question": "O que é crime organizado segundo a Lei 12.850/2013 e quais os critérios para sua caracterização?",
+    "ground_truth": "Considera-se organização criminosa (art. 1º, §1º, Lei 12.850/2013) a associação de 4 ou mais pessoas estruturalmente ordenada e caracterizada pela divisão de tarefas, ainda que informalmente, com objetivo de obter, direta ou indiretamente, vantagem de qualquer natureza, mediante a prática de infrações penais cujas penas máximas sejam superiores a 4 anos ou sejam de caráter transnacional.",
+    "tipo": "organizacoes_criminosas",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q036",
+    "question": "Como funciona o sistema de penas do crime de homicídio doloso simples e qualificado?",
+    "ground_truth": "O homicídio doloso simples (art. 121 caput CP) tem pena de reclusão de 6 a 20 anos. O qualificado (§2º) tem pena de 12 a 30 anos quando praticado: por motivo torpe ou fútil; mediante traição, emboscada ou dissimulação; com emprego de veneno, fogo, explosivo, asfixia, tortura ou outro meio insidioso; para assegurar execução, ocultação, impunidade ou vantagem de outro crime; contra pessoa menor de 14 anos, maior de 60 anos ou com deficiência; mediante feminicídio (inciso VI).",
+    "tipo": "penal_geral",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q037",
+    "question": "O que é o princípio da territorialidade no direito penal brasileiro e quais suas exceções?",
+    "ground_truth": "O princípio da territorialidade (art. 5º CP) estabelece que a lei penal brasileira aplica-se aos crimes cometidos no território nacional. As exceções (extraterritorialidade — art. 7º CP) são: incondicionadas (crimes contra a vida do Presidente, o patrimônio nacional, a fé pública, a administração pública e genocídio) e condicionadas (crimes que o Brasil se obrigou a reprimir por tratado, praticados por brasileiros no exterior, ou por estrangeiro contra brasileiros).",
+    "tipo": "penal_geral",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q038",
+    "question": "Quais são os requisitos para o reconhecimento de pessoa no processo penal?",
+    "ground_truth": "O reconhecimento de pessoa segue o rito do art. 226 do CPP: (I) a pessoa que fizer o reconhecimento descreverá a pessoa que deva ser reconhecida; (II) a pessoa cujo reconhecimento se pretender será colocada, se possível, ao lado de outras de aparência semelhante; (III) convidar-se-á quem tiver de fazer o reconhecimento a apontar a pessoa; (IV) lavrar-se-á auto pormenorizado subscrito pela autoridade, pelo reconhecedor e por duas testemunhas. O STJ firmou entendimento sobre a necessidade de estrita observância do art. 226 para validade da prova.",
+    "tipo": "processual_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q039",
+    "question": "Em que situações a confissão do réu tem valor probatório no processo penal?",
+    "ground_truth": "A confissão (arts. 197-200 CPP) é o meio de prova pelo qual o acusado admite ser o autor do fato criminoso. Tem valor relativo: deve ser apreciada com outros elementos de prova, não podendo ser o único fundamento da condenação. Para ter valor probatório, deve ser: voluntária (sem coação física ou moral), pessoal, expressa e circunstanciada. A confissão extrajudicial perante a autoridade policial tem menor peso que a judicial, exigindo confirmação em juízo.",
+    "tipo": "processual_penal",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q040",
+    "question": "O que é a teoria da imputação objetiva e como se aplica no direito penal brasileiro?",
+    "ground_truth": "A teoria da imputação objetiva, desenvolvida por Roxin e Jakobs, complementa o nexo de causalidade físico com critérios normativos para a imputação do resultado. Para imputar objetivamente o resultado, exige-se: (1) que o agente tenha criado ou aumentado um risco juridicamente proibido; (2) que esse risco se tenha realizado no resultado; (3) que o resultado esteja dentro do alcance do tipo penal. É amplamente aceita na doutrina brasileira e aplicada em decisões do STJ, especialmente em crimes culposos de trânsito.",
+    "tipo": "penal_geral",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q041",
+    "question": "Quais são os procedimentos de segurança para manuseio de vestígios em local de crime?",
+    "ground_truth": "O manuseio de vestígios deve seguir protocolos rígidos para preservação da cadeia de custódia (art. 158-B, CPP). Os procedimentos incluem: uso de EPI (luvas, máscara, propé); isolamento e preservação do local antes da perícia; fotografar e documentar antes de tocar; uso de pinças e sacos estéreis para coleta; identificação, lacre e etiquetagem imediata; preenchimento de formulário de custódia; transporte em condições adequadas ao laboratório; registro de cada movimentação do vestígio.",
+    "tipo": "pericia",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q042",
+    "question": "Como o stalking (perseguição obsessiva) é tipificado na legislação brasileira?",
+    "ground_truth": "O crime de perseguição (stalking) foi tipificado no art. 147-A do CP, incluído pela Lei 14.132/2021. Configura-se pela conduta de perseguir alguém, reiteradamente e por qualquer meio, ameaçando-lhe a integridade física ou psicológica, restringindo-lhe a capacidade de locomoção ou invadindo ou perturbando sua esfera de liberdade ou privacidade. Pena: reclusão de 6 meses a 2 anos e multa. A pena aumenta se cometido contra criança, adolescente, idoso, mulher ou deficiente.",
+    "tipo": "crimes_especiais",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q043",
+    "question": "O que é lavagem de dinheiro e quais as fases do processo?",
+    "ground_truth": "A lavagem de dinheiro (Lei 9.613/1998, com alterações da Lei 12.683/2012) consiste em ocultar ou dissimular a natureza, origem, localização, disposição, movimentação ou propriedade de bens, direitos ou valores provenientes direta ou indiretamente de infração penal. As três fases clássicas são: (1) Colocação (placement): inserção do dinheiro ilícito no sistema financeiro; (2) Ocultação (layering): dissimulação da origem por meio de transações complexas; (3) Integração (integration): reinserção do capital como aparentemente lícito.",
+    "tipo": "crimes_financeiros",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q044",
+    "question": "Quais são as medidas protetivas de urgência previstas na Lei Maria da Penha?",
+    "ground_truth": "A Lei 11.340/2006 (Lei Maria da Penha) prevê, no art. 22, medidas protetivas que obrigam o agressor: suspensão da posse ou restrição do porte de armas; afastamento do lar, domicílio ou local de convivência com a ofendida; proibição de certas condutas (aproximação, contato, frequentação de locais); restrição ou suspensão de visitas aos dependentes; prestação de alimentos. No art. 23, medidas em favor da ofendida: encaminhamento a programa de proteção, recondução ao domicílio, afastamento do lar, separação de corpos.",
+    "tipo": "violencia_domestica",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q045",
+    "question": "O que é o crime de falso testemunho e qual sua pena?",
+    "ground_truth": "O falso testemunho (art. 342 CP) consiste em fazer afirmação falsa, negar ou calar a verdade como testemunha, perito, tradutor ou intérprete, em processo judicial, administrativo, inquérito policial ou em juízo arbitral. Pena: reclusão de 2 a 4 anos e multa. A pena aumenta de 1/6 a 1/3 se o crime é praticado mediante suborno (art. 343 CP — corrupção ativa de testemunha). Admite retratação: se a retratação ocorrer antes da sentença no processo em que ocorreu o falso, o agente fica isento de pena.",
+    "tipo": "crimes_contra_administracao",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q046",
+    "question": "Como se configura o crime de abuso de autoridade segundo a Lei 13.869/2019?",
+    "ground_truth": "O abuso de autoridade (Lei 13.869/2019) é cometido pelo agente público que, no exercício de suas funções ou a pretexto de exercê-las, abuse do poder que lhe foi atribuído com a finalidade específica de prejudicar outrem ou beneficiar a si mesmo ou a terceiro, ou por mero capricho ou satisfação pessoal. Exige dolo específico. Exemplos: decretar prisão ou medida cautelar sem justa causa; submeter o preso a constrangimento; negar ao preso o direito de comunicar a prisão.",
+    "tipo": "crimes_contra_administracao",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q047",
+    "question": "Quais são as espécies de interceptação telefônica e seus requisitos legais?",
+    "ground_truth": "A interceptação telefônica (Lei 9.296/1996) exige: (1) ordem judicial; (2) em investigação criminal ou instrução processual penal; (3) indícios razoáveis de autoria ou participação em infração penal; (4) que a prova não possa ser feita por outros meios disponíveis; (5) que o fato seja punido com pena de reclusão. O prazo é de 15 dias, renovável por igual período, quantas vezes necessárias. A interceptação sem autorização judicial configura crime (art. 10 da Lei 9.296/1996).",
+    "tipo": "investigacao",
+    "dificuldade": "alta"
+  },
+  {
+    "id": "Q048",
+    "question": "O que é o exame de corpo de delito e em quais casos é obrigatório?",
+    "ground_truth": "O exame de corpo de delito (arts. 158-160 CPP) é a verificação pericial das marcas, indícios e vestígios materiais deixados pela infração penal. É indispensável nas infrações que deixam vestígios (delicta factis permanentis), não podendo ser substituído pela confissão do acusado (art. 158 CPP). O exame pode ser direto (sobre o próprio corpo ou objeto) ou indireto (com base em documentos e outras provas). A falta de exame, quando possível realizá-lo, constitui nulidade relativa.",
+    "tipo": "pericia",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q049",
+    "question": "Como funciona o instituto da legítima defesa no Código Penal brasileiro?",
+    "ground_truth": "A legítima defesa (art. 25 CP) é causa de exclusão da ilicitude que exige: (1) agressão atual ou iminente; (2) injusta (não autorizada pelo direito); (3) a direitos próprios ou alheios; (4) uso moderado dos meios necessários para repelir a agressão. A legítima defesa putativa (imaginária) ocorre quando o agente, por erro, supõe situação de fato que tornaria sua ação legítima. O excesso doloso ou culposo na legítima defesa é punível.",
+    "tipo": "penal_geral",
+    "dificuldade": "media"
+  },
+  {
+    "id": "Q050",
+    "question": "Quais são os crimes de responsabilidade do Presidente da República previstos na Lei 1.079/1950?",
+    "ground_truth": "A Lei 1.079/1950 define crimes de responsabilidade do Presidente da República como atos que atentam contra a Constituição Federal, especialmente contra: a existência da União; o livre exercício do Poder Legislativo, do Poder Judiciário, do Ministério Público e dos Poderes constitucionais dos Estados; o exercício dos direitos políticos, individuais e sociais; a segurança interna do país; a probidade na administração; a lei orçamentária; o cumprimento das decisões judiciais; e o cumprimento das leis.",
+    "tipo": "constitucional",
+    "dificuldade": "alta"
+  }
+]

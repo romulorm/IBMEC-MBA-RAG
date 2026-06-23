@@ -1,0 +1,137 @@
+{
+  "queries_self_rag": {
+    "descricao": "Queries para testar Self-RAG: algumas ativam retrieval, outras não",
+    "queries_com_retrieval": [
+      {
+        "id": "q001",
+        "pergunta": "Qual o prazo prescricional para ação de indenização por danos morais no Brasil?",
+        "resposta_esperada": "3 anos, conforme Art. 206, §3º, V do Código Civil",
+        "token_esperado": "Retrieve=yes",
+        "categoria": "prescricao"
+      },
+      {
+        "id": "q002",
+        "pergunta": "Quais são as condições que configuram homicídio qualificado no Código Penal?",
+        "resposta_esperada": "Motivo torpe, futilidade, veneno/fogo/explosivo, traição/emboscada ou para garantir outro crime",
+        "token_esperado": "Retrieve=yes",
+        "categoria": "direito_penal"
+      },
+      {
+        "id": "q003",
+        "pergunta": "O que configura flagrante delito segundo o CPP?",
+        "resposta_esperada": "Quatro hipóteses do Art. 302 do CPP",
+        "token_esperado": "Retrieve=yes",
+        "categoria": "processo_penal"
+      },
+      {
+        "id": "q004",
+        "pergunta": "Quais medidas socioeducativas podem ser aplicadas a adolescentes infratores?",
+        "resposta_esperada": "7 medidas do Art. 112 do ECA",
+        "token_esperado": "Retrieve=yes",
+        "categoria": "eca"
+      }
+    ],
+    "queries_sem_retrieval": [
+      {
+        "id": "q005",
+        "pergunta": "O que é responsabilidade civil?",
+        "resposta_esperada": "Definição geral de responsabilidade civil (conhecimento do modelo)",
+        "token_esperado": "Retrieve=no",
+        "categoria": "conhecimento_geral"
+      },
+      {
+        "id": "q006",
+        "pergunta": "Qual a diferença entre crime doloso e culposo?",
+        "resposta_esperada": "Dolo = intenção deliberada; culpa = negligência, imprudência ou imperícia",
+        "token_esperado": "Retrieve=no",
+        "categoria": "conhecimento_geral"
+      },
+      {
+        "id": "q007",
+        "pergunta": "O que significa princípio da legalidade no Direito Penal?",
+        "resposta_esperada": "Nullum crimen sine lege — nenhum crime sem lei prévia",
+        "token_esperado": "Retrieve=no",
+        "categoria": "conhecimento_geral"
+      }
+    ]
+  },
+  "queries_crag": {
+    "descricao": "Queries para testar CRAG: algumas têm resposta no corpus local, outras forçam web search",
+    "queries_corpus_local": [
+      {
+        "id": "c001",
+        "pergunta": "O que diz o Art. 186 do Código Civil sobre ato ilícito?",
+        "score_esperado_alto": true,
+        "rota_esperada": "local",
+        "categoria": "responsabilidade_civil"
+      },
+      {
+        "id": "c002",
+        "pergunta": "Quando a pessoa jurídica pode sofrer dano moral segundo a jurisprudência do STJ?",
+        "score_esperado_alto": true,
+        "rota_esperada": "local",
+        "categoria": "dano_moral"
+      },
+      {
+        "id": "c003",
+        "pergunta": "Quais são os âmbitos que configuram violência doméstica pela Lei Maria da Penha?",
+        "score_esperado_alto": true,
+        "rota_esperada": "local",
+        "categoria": "violencia_domestica"
+      }
+    ],
+    "queries_web_search": [
+      {
+        "id": "c004",
+        "pergunta": "Quais foram as principais decisões do STF sobre interceptação telefônica em 2024?",
+        "score_esperado_baixo": true,
+        "rota_esperada": "web_search",
+        "motivo": "Informação recente, não está no corpus local"
+      },
+      {
+        "id": "c005",
+        "pergunta": "Quais são as novas diretrizes do CNJ para uso de IA no Judiciário em 2025?",
+        "score_esperado_baixo": true,
+        "rota_esperada": "web_search",
+        "motivo": "Regulamentação recente, não está no corpus local"
+      },
+      {
+        "id": "c006",
+        "pergunta": "Qual foi o resultado do julgamento do STJ sobre responsabilidade de plataformas digitais por conteúdo de terceiros em 2025?",
+        "score_esperado_baixo": true,
+        "rota_esperada": "web_search",
+        "motivo": "Decisão recente, não está no corpus local"
+      }
+    ]
+  },
+  "queries_ragas": {
+    "descricao": "Conjunto fixo de perguntas para avaliação RAGAS — usar as mesmas para CRAG e Advanced RAG",
+    "queries": [
+      {
+        "id": "r001",
+        "pergunta": "Qual o prazo prescricional para reparação civil no Código Civil?",
+        "ground_truth": "O prazo prescricional para reparação civil é de 3 anos, conforme o Art. 206, §3º, V do Código Civil Brasileiro (Lei nº 10.406/2002)."
+      },
+      {
+        "id": "r002",
+        "pergunta": "O que configura ato ilícito segundo o Código Civil?",
+        "ground_truth": "Configura ato ilícito aquele que, por ação ou omissão voluntária, negligência ou imprudência, violar direito e causar dano a outrem, ainda que exclusivamente moral, conforme Art. 186 do Código Civil."
+      },
+      {
+        "id": "r003",
+        "pergunta": "Quais são as hipóteses de flagrante delito?",
+        "ground_truth": "O Art. 302 do CPP prevê 4 hipóteses: estar cometendo a infração, acabar de cometê-la, ser perseguido logo após, ou ser encontrado logo depois com instrumentos/objetos que presumam autoria."
+      },
+      {
+        "id": "r004",
+        "pergunta": "A pessoa jurídica pode sofrer dano moral?",
+        "ground_truth": "Sim, conforme a Súmula 227 do STJ: 'A pessoa jurídica pode sofrer dano moral.'"
+      },
+      {
+        "id": "r005",
+        "pergunta": "Quais atos configuram improbidade administrativa por enriquecimento ilícito?",
+        "ground_truth": "Conforme Art. 9º da Lei 8.429/1992, configura improbidade por enriquecimento ilícito auferir qualquer vantagem patrimonial indevida em razão do exercício de cargo, mandato, função ou emprego público."
+      }
+    ]
+  }
+}

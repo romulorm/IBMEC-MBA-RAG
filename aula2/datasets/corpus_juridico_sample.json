@@ -1,0 +1,111 @@
+{
+  "descricao": "Corpus jurídico de exemplo para os labs da Aula 2 — MBA RAG & CAG",
+  "versao": "1.0",
+  "total_documentos": 8,
+  "documentos": [
+    {
+      "id": "DOC001",
+      "tipo": "acordao",
+      "tribunal": "TJSP",
+      "numero": "HC-2025.001234-SP",
+      "data": "2025-03-15",
+      "assuntos": ["habeas corpus", "prisão preventiva", "tráfico de drogas"],
+      "texto": "EMENTA: HABEAS CORPUS. TRÁFICO DE DROGAS. PRISÃO PREVENTIVA. FUNDAMENTAÇÃO INIDÔNEA. A prisão preventiva é medida cautelar de ultima ratio. A fundamentação exclusivamente na gravidade abstrata do delito não constitui fundamento idôneo para a custódia cautelar. Precedentes do STJ. ORDEM CONCEDIDA. RELATÓRIO: Trata-se de habeas corpus impetrado em favor de SICRANO DE TAL, preso preventivamente por suposta prática do artigo 33 da Lei nº 11.343/2006. FUNDAMENTAÇÃO: O paciente está preso há 145 dias. O juízo fundamentou a preventiva apenas na gravidade abstrata do crime. O paciente é primário, tem residência fixa e renda lícita. DISPOSITIVO: CONCEDO a ordem. Expeça-se alvará de soltura."
+    },
+    {
+      "id": "DOC002",
+      "tipo": "legislacao",
+      "orgao": "Congresso Nacional",
+      "numero": "Lei 11.343/2006",
+      "data": "2006-08-23",
+      "assuntos": ["tráfico de drogas", "uso pessoal", "política de drogas"],
+      "texto": "Art. 33. Importar, exportar, remeter, preparar, produzir, fabricar, adquirir, vender, expor à venda, oferecer, ter em depósito, transportar, trazer consigo, guardar, prescrever, ministrar, entregar a consumo ou fornecer drogas, ainda que gratuitamente, sem autorização ou em desacordo com determinação legal ou regulamentar. Pena: reclusão de 5 a 15 anos e pagamento de 500 a 1.500 dias-multa. Art. 28. Quem adquirir, guardar, tiver em depósito, transportar ou trouxer consigo, para consumo pessoal, drogas sem autorização. Penas: I - advertência; II - prestação de serviços; III - medida educativa."
+    },
+    {
+      "id": "DOC003",
+      "tipo": "relatorio_inteligencia",
+      "orgao": "DENARC-SP",
+      "numero": "RI-0042/2025",
+      "data": "2025-04-01",
+      "assuntos": ["tráfico de drogas", "estatísticas criminais", "operações policiais"],
+      "texto": "RELATÓRIO DE INTELIGÊNCIA POLICIAL. Período: 1º Trimestre 2025. SUMÁRIO: 113 ocorrências de tráfico de entorpecentes registradas, aumento de 11,8% em relação a 2024. Pontos críticos: Jardim das Flores, Vila Operária, Conjunto Santos Dumont. Apreensões: 2,3kg cocaína, 1,8kg crack, 15kg maconha. Presos: 34 indivíduos (8 lideranças). RECOMENDAÇÕES: Intensificar operações nos pontos críticos; Apoio do GAECO; Articulação com Ministério Público."
+    },
+    {
+      "id": "DOC004",
+      "tipo": "parecer",
+      "orgao": "MPSP",
+      "numero": "Parecer-0001234-56.2024",
+      "data": "2025-03-10",
+      "assuntos": ["habeas corpus", "parecer ministerial", "prisão preventiva"],
+      "texto": "PARECER DO MINISTÉRIO PÚBLICO. O Ministério Público opina pelo NÃO CONHECIMENTO do writ. A quantidade de droga apreendida — 50g de cocaína — demonstra que o acusado não é simples usuário. A periculosidade concreta está demonstrada pelas circunstâncias do flagrante. Há testemunhas a serem ouvidas que podem sofrer intimidação. A liberdade do acusado representa risco à ordem pública."
+    },
+    {
+      "id": "DOC005",
+      "tipo": "sumula",
+      "tribunal": "STJ",
+      "numero": "Súmula 492/STJ",
+      "data": "2012-08-22",
+      "assuntos": ["ato infracional", "internação", "adolescente"],
+      "texto": "SÚMULA 492/STJ: O ato infracional análogo ao tráfico de drogas, por si só, não conduz obrigatoriamente à imposição de medida socioeducativa de internação do adolescente. ORIENTAÇÃO JURISPRUDENCIAL STJ: A gravidade abstrata do delito não constitui fundamentação idônea para a decretação ou manutenção da prisão preventiva. É necessária a demonstração concreta do risco que o estado de liberdade do acusado representa para a ordem pública ou instrução criminal."
+    },
+    {
+      "id": "DOC006",
+      "tipo": "decreto_municipal",
+      "orgao": "Prefeitura de São Paulo",
+      "numero": "Decreto 12.345/2025",
+      "data": "2025-04-01",
+      "assuntos": ["segurança pública", "prevenção à criminalidade", "programa municipal"],
+      "texto": "DECRETO MUNICIPAL Nº 12.345/2025. Art. 1º Fica criado o Programa Municipal de Prevenção à Criminalidade (PMPC). Objetivos: reduzir criminalidade em 15% em 24 meses; integrar GCM, PM e PC; implementar câmeras em 50 pontos críticos do DENARC. Art. 2º Dotação orçamentária de R$ 50.000.000,00 para 2025. Art. 3º Este decreto entra em vigor na data de publicação."
+    },
+    {
+      "id": "DOC007",
+      "tipo": "laudo_pericial",
+      "orgao": "Instituto de Criminalística",
+      "numero": "LP-2025/00987",
+      "data": "2025-02-20",
+      "assuntos": ["laudo pericial", "drogas", "identificação química"],
+      "texto": "LAUDO PERICIAL DE IDENTIFICAÇÃO Nº LP-2025/00987. Objeto: substâncias apreendidas no dia 15/02/2025 na Rua das Flores, 123, São Paulo/SP. Material submetido a análise: 3 (três) porções de substância branca, totalizando 50,3 gramas. Métodos utilizados: Cromatografia Gasosa com Detector de Massa (CG/MS); Reação de Scott. CONCLUSÃO: A substância analisada trata-se de COCAÍNA (Benzoilmetilecgonina), na proporção de 78% de pureza, compatível com padrões de distribuição comercial. Assinado: Perito Criminal Federal — Reg. 12345."
+    },
+    {
+      "id": "DOC008",
+      "tipo": "boletim_ocorrencia",
+      "orgao": "Polícia Civil - 3ª DP",
+      "numero": "BO-2025/123456",
+      "data": "2025-02-15",
+      "assuntos": ["boletim de ocorrência", "flagrante", "tráfico de drogas"],
+      "texto": "BOLETIM DE OCORRÊNCIA Nº 2025/123456. Delegacia: 3ª Delegacia de Polícia — Bairro Jardim das Flores. Data: 15/02/2025 às 23h15. Ocorrência: TRÁFICO DE ENTORPECENTES (Art. 33 Lei 11.343/2006). Indiciado: SICRANO DE TAL, CPF omitido, 28 anos, motorista de aplicativo. Circunstâncias: O indiciado foi abordado em fiscalização de rotina. Foram encontrados em sua posse 3 papelotes de cocaína totalizando 50g, além de R$ 850,00 em espécie e um caderno com registros de vendas. O indiciado foi autuado em flagrante e conduzido à delegacia."
+    }
+  ],
+  "perguntas_teste": [
+    {
+      "id": "Q001",
+      "pergunta": "Quais são os requisitos para a decretação de prisão preventiva?",
+      "documentos_relevantes": ["DOC001", "DOC004", "DOC005"],
+      "resposta_esperada": "Os requisitos incluem: garantia da ordem pública, conveniência da instrução criminal e aplicação da lei penal. A fundamentação deve ser concreta, não abstrata."
+    },
+    {
+      "id": "Q002",
+      "pergunta": "Qual foi a conclusão do laudo pericial sobre as substâncias apreendidas?",
+      "documentos_relevantes": ["DOC007"],
+      "resposta_esperada": "O laudo identificou cocaína com 78% de pureza, compatível com distribuição comercial."
+    },
+    {
+      "id": "Q003",
+      "pergunta": "Quantas ocorrências de tráfico foram registradas no 1º trimestre de 2025?",
+      "documentos_relevantes": ["DOC003"],
+      "resposta_esperada": "113 ocorrências, representando aumento de 11,8% em relação ao mesmo período de 2024."
+    },
+    {
+      "id": "Q004",
+      "pergunta": "Qual é a pena prevista para o crime de tráfico de drogas?",
+      "documentos_relevantes": ["DOC002"],
+      "resposta_esperada": "Reclusão de 5 a 15 anos e pagamento de 500 a 1.500 dias-multa."
+    },
+    {
+      "id": "Q005",
+      "pergunta": "O que o decreto municipal 12.345/2025 prevê para redução da criminalidade?",
+      "documentos_relevantes": ["DOC006"],
+      "resposta_esperada": "Redução de 15% em 24 meses, integração das forças de segurança e câmeras em 50 pontos críticos."
+    }
+  ]
+}

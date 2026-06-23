@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBA — RAG &amp; CAG Aplicados a Direito e Segurança Pública</title>
+<style>
+:root {
+  --bg: #080d1a;
+  --bg2: #0f1729;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,.12) 0%, transparent 60%);
+  border-bottom: 1px solid var(--glass-border);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'%3E%3Cpath d='M0 30h60M30 0v60'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(0,212,255,.08); border: 1px solid rgba(0,212,255,.2);
+  border-radius: 20px; padding: .4rem 1.2rem; font-size: .8rem;
+  color: #00d4ff; margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+.hero h1 em {
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: normal;
+}
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.65;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.stat {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: .75rem 1.5rem;
+  text-align: center;
+}
+.stat-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+.stat-label { font-size: .75rem; color: var(--text-muted); margin-top: .25rem; }
+
+/* ── MAIN GRID ── */
+.main { max-width: 1300px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+.section-label {
+  font-size: .75rem; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--text-muted); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+
+/* ── AULA CARDS ── */
+.aulas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+.aula-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all .25s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.aula-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--c1), var(--c2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s ease;
+}
+.aula-card:hover { border-color: rgba(255,255,255,.15); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+.aula-card:hover::before { transform: scaleX(1); }
+.aula-card:hover .card-icon { transform: scale(1.1); }
+
+.card-top { display: flex; align-items: flex-start; gap: 1rem; }
+.card-icon { font-size: 2.2rem; transition: transform .25s; flex-shrink: 0; }
+.card-head { flex: 1; min-width: 0; }
+.card-num { font-size: .72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25rem; }
+.card-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.card-subtitle { font-size: .82rem; color: var(--text-muted); margin-top: .25rem; }
+
+.card-desc { font-size: .82rem; color: var(--text-muted); line-height: 1.55; }
+
+.card-meta { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px; padding: .2rem .6rem; font-size: .72rem; color: var(--text-muted);
+}
+.chip.accent { color: var(--c1); border-color: rgba(var(--c1-rgb),.25); background: rgba(var(--c1-rgb),.07); }
+
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.card-resources { display: flex; gap: .5rem; }
+.rc-badge { font-size: .72rem; color: var(--text-muted); display: flex; align-items: center; gap: .25rem; }
+.card-cta {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  color: white; border: none; border-radius: 8px;
+  padding: .4rem 1rem; font-size: .82rem; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: opacity .2s, transform .2s;
+}
+.card-cta:hover { opacity: .9; transform: scale(1.03); }
+
+/* progress bar on card */
+.card-progress { height: 4px; background: rgba(255,255,255,.06); border-radius: 2px; overflow: hidden; }
+.card-progress-bar { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--c1), var(--c2)); }
+
+/* ── LEGEND ── */
+.legend {
+  margin-top: 3rem; padding: 1.5rem 2rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+.legend-title { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: 1rem; }
+.legend-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.legend-item { display: flex; align-items: center; gap: .5rem; font-size: .8rem; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; padding: 2rem;
+  font-size: .8rem; color: var(--text-muted);
+  border-top: 1px solid var(--glass-border);
+}
+footer a { color: #00d4ff; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">🎓 Pós-Graduação · RAG &amp; CAG Aplicados</div>
+  <h1>MBA em <em>RAG &amp; CAG</em><br>Direito &amp; Segurança Pública</h1>
+  <p class="hero-sub">Portal de apresentações do curso. Cada aula contém slides interativos com teoria, diagramas de fluxo, código Python comentado e links para laboratórios no Google Colab.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" style="color:#00d4ff">12</div><div class="stat-label">Aulas</div></div>
+    <div class="stat"><div class="stat-num" style="color:#7c3aed">60h</div><div class="stat-label">Carga Horária</div></div>
+    <div class="stat"><div class="stat-num" style="color:#10b981">25</div><div class="stat-label">Técnicas RAG</div></div>
+    <div class="stat"><div class="stat-num" style="color:#f59e0b">50+</div><div class="stat-label">Laboratórios</div></div>
+    <div class="stat"><div class="stat-num" style="color:#ef4444">Python</div><div class="stat-label">3.11+</div></div>
+  </div>
+</header>
+
+<!-- AULAS GRID -->
+<main class="main">
+  <div class="section-label">📚 Trilha de Aprendizado</div>
+  <div class="aulas-grid">
+
+    <!-- AULA 1 -->
+    <a class="aula-card" href="aula1_slides.html" style="--c1:#00d4ff;--c2:#0080ff;--c1-rgb:0,212,255">
+      <div class="card-progress"><div class="card-progress-bar" style="width:8%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🧠</div>
+        <div class="card-head">
+          <div class="card-num">Aula 01 de 12 · Fundamentos</div>
+          <div class="card-title">NLP, Embeddings e LLMs</div>
+          <div class="card-subtitle">Setup do Ambiente Completo</div>
+        </div>
+      </div>
+      <div class="card-desc">De Bag-of-Words até Transformers e BGE-M3. O que é RAG e por que surgiu. Panorama das 25 técnicas do curso.</div>
+      <div class="card-meta">
+        <span class="chip">35% Teoria</span>
+        <span class="chip">65% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">OpenSearch · vLLM · BGE-M3</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 1 exemplo</span>
+          <span class="rc-badge">🔬 5 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 2 -->
+    <a class="aula-card" href="aula2_slides.html" style="--c1:#10b981;--c2:#059669;--c1-rgb:16,185,129">
+      <div class="card-progress"><div class="card-progress-bar" style="width:16%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">📄</div>
+        <div class="card-head">
+          <div class="card-num">Aula 02 de 12 · Pipeline Base</div>
+          <div class="card-title">Ingestão, Chunking e Naive RAG</div>
+          <div class="card-subtitle">A Base de Tudo</div>
+        </div>
+      </div>
+      <div class="card-desc">Fixed-size, Recursive, Semantic e Sentence-Window chunking. Docling para PDFs complexos. Pipeline Naive RAG completo ponta-a-ponta.</div>
+      <div class="card-meta">
+        <span class="chip">25% Teoria</span>
+        <span class="chip">75% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">Docling · LangChain · OpenSearch</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 3 exemplos</span>
+          <span class="rc-badge">🔬 5 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 3 -->
+    <a class="aula-card" href="aula3_slides.html" style="--c1:#7c3aed;--c2:#5b21b6;--c1-rgb:124,58,237">
+      <div class="card-progress"><div class="card-progress-bar" style="width:25%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">⚡</div>
+        <div class="card-head">
+          <div class="card-num">Aula 03 de 12 · Refinamento</div>
+          <div class="card-title">Advanced RAG e Modular RAG</div>
+          <div class="card-subtitle">Query Rewriting e Reranking</div>
+        </div>
+      </div>
+      <div class="card-desc">Supere as falhas do Naive RAG com Query Rewriting, BGE-Reranker e pipeline modular. Observabilidade completa com LangFuse.</div>
+      <div class="card-meta">
+        <span class="chip">30% Teoria</span>
+        <span class="chip">70% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">BGE-Reranker · LangFuse</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 2 exemplos</span>
+          <span class="rc-badge">🔬 6 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 4 -->
+    <a class="aula-card" href="aula4_slides.html" style="--c1:#f59e0b;--c2:#d97706;--c1-rgb:245,158,11">
+      <div class="card-progress"><div class="card-progress-bar" style="width:33%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🔎</div>
+        <div class="card-head">
+          <div class="card-num">Aula 04 de 12 · OpenSearch</div>
+          <div class="card-title">Hybrid Search &amp; Neural Sparse</div>
+          <div class="card-subtitle">RRF · Search Pipelines · Contextual Retrieval</div>
+        </div>
+      </div>
+      <div class="card-desc">Busca híbrida BM25+kNN no OpenSearch 3.x. Reciprocal Rank Fusion. Neural Sparse SPLADE. Contextual Retrieval da Anthropic.</div>
+      <div class="card-meta">
+        <span class="chip">30% Teoria</span>
+        <span class="chip">70% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">OpenSearch 3.x · RRF · SPLADE</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 3 exemplos</span>
+          <span class="rc-badge">🔬 6 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 5 -->
+    <a class="aula-card" href="aula5_slides.html" style="--c1:#ef4444;--c2:#dc2626;--c1-rgb:239,68,68">
+      <div class="card-progress"><div class="card-progress-bar" style="width:41%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div class="card-head">
+          <div class="card-num">Aula 05 de 12 · Qualidade</div>
+          <div class="card-title">Avaliação e Observabilidade</div>
+          <div class="card-subtitle">RAGAS · DeepEval · LangFuse Avançado</div>
+        </div>
+      </div>
+      <div class="card-desc">4 métricas RAGAS para avaliar retriever e gerador. Testes unitários com DeepEval. Monitoração contínua via LangFuse Scores API.</div>
+      <div class="card-meta">
+        <span class="chip">30% Teoria</span>
+        <span class="chip">70% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">RAGAS · DeepEval · LangFuse</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">🔬 6 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 6 -->
+    <a class="aula-card" href="aula6_slides.html" style="--c1:#06b6d4;--c2:#0891b2;--c1-rgb:6,182,212">
+      <div class="card-progress"><div class="card-progress-bar" style="width:50%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🌲</div>
+        <div class="card-head">
+          <div class="card-num">Aula 06 de 12 · Indexação</div>
+          <div class="card-title">Indexação Avançada</div>
+          <div class="card-subtitle">RAPTOR · HyDE · Parent-Child</div>
+        </div>
+      </div>
+      <div class="card-desc">Supere o chunking plano com hierarquia multi-nível. RAPTOR para sumarização recursiva em árvore. HyDE para fechar o gap semântico.</div>
+      <div class="card-meta">
+        <span class="chip">25% Teoria</span>
+        <span class="chip">75% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">LlamaIndex · RAPTOR · UMAP</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 2 exemplos</span>
+          <span class="rc-badge">🔬 4 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 7 -->
+    <a class="aula-card" href="aula7_slides.html" style="--c1:#8b5cf6;--c2:#7c3aed;--c1-rgb:139,92,246">
+      <div class="card-progress"><div class="card-progress-bar" style="width:58%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🔬</div>
+        <div class="card-head">
+          <div class="card-num">Aula 07 de 12 · Query</div>
+          <div class="card-title">Query Enhancement</div>
+          <div class="card-subtitle">Multi-Query · RAG-Fusion · Step-Back</div>
+        </div>
+      </div>
+      <div class="card-desc">Supere o vocabulary mismatch gerando múltiplas perspectivas. RAG-Fusion com RRF paralelo. Step-Back para abstração jurídica.</div>
+      <div class="card-meta">
+        <span class="chip">30% Teoria</span>
+        <span class="chip">70% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">MultiQueryRetriever · asyncio</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 2 exemplos</span>
+          <span class="rc-badge">🔬 6 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 8 -->
+    <a class="aula-card" href="aula8_slides.html" style="--c1:#f97316;--c2:#ea580c;--c1-rgb:249,115,22">
+      <div class="card-progress"><div class="card-progress-bar" style="width:66%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🔁</div>
+        <div class="card-head">
+          <div class="card-num">Aula 08 de 12 · Reflexivo</div>
+          <div class="card-title">Self-RAG, CRAG e LangGraph</div>
+          <div class="card-subtitle">RAG Auto-Corretivo</div>
+        </div>
+      </div>
+      <div class="card-desc">Self-RAG decide quando recuperar com tokens de controle. CRAG avalia qualidade e usa Tavily como fallback. LangGraph para orquestração.</div>
+      <div class="card-meta">
+        <span class="chip">25% Teoria</span>
+        <span class="chip">75% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">LangGraph · Tavily · Self-RAG</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 2 exemplos</span>
+          <span class="rc-badge">🔬 6 labs</span>
+          <span class="rc-badge">📦 2 datasets</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 9 -->
+    <a class="aula-card" href="aula9_slides.html" style="--c1:#14b8a6;--c2:#0d9488;--c1-rgb:20,184,166">
+      <div class="card-progress"><div class="card-progress-bar" style="width:75%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🕸️</div>
+        <div class="card-head">
+          <div class="card-num">Aula 09 de 12 · Grafos</div>
+          <div class="card-title">Graph RAG com LightRAG</div>
+          <div class="card-subtitle">Investigação Criminal por Grafos</div>
+        </div>
+      </div>
+      <div class="card-desc">Extração de entidades e relações. LightRAG com OpenSearch e vLLM. Modos local/global/hybrid para análise de redes criminosas.</div>
+      <div class="card-meta">
+        <span class="chip">30% Teoria</span>
+        <span class="chip">70% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">LightRAG · NetworkX · OpenSearch</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 1 exemplo</span>
+          <span class="rc-badge">🔬 3 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 10 -->
+    <a class="aula-card" href="aula10_slides.html" style="--c1:#a855f7;--c2:#9333ea;--c1-rgb:168,85,247">
+      <div class="card-progress"><div class="card-progress-bar" style="width:83%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🤖</div>
+        <div class="card-head">
+          <div class="card-num">Aula 10 de 12 · Agentes</div>
+          <div class="card-title">Agentic RAG e Adaptive RAG</div>
+          <div class="card-subtitle">ReAct · 3 Ferramentas · 3 Caminhos</div>
+        </div>
+      </div>
+      <div class="card-desc">ReAct com raciocínio multi-etapa. Agente RAG com 3 ferramentas especializadas. Adaptive RAG classifica complexidade e roteia estratégia.</div>
+      <div class="card-meta">
+        <span class="chip">20% Teoria</span>
+        <span class="chip">80% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">LangGraph · ReAct · DeepEval</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 1 exemplo</span>
+          <span class="rc-badge">🔬 3 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 11 -->
+    <a class="aula-card" href="aula11_slides.html" style="--c1:#ec4899;--c2:#db2777;--c1-rgb:236,72,153">
+      <div class="card-progress"><div class="card-progress-bar" style="width:91%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🔭</div>
+        <div class="card-head">
+          <div class="card-num">Aula 11 de 12 · Complementar</div>
+          <div class="card-title">Técnicas Complementares</div>
+          <div class="card-subtitle">Multimodal · LLMLingua · ColBERT · DSPy</div>
+        </div>
+      </div>
+      <div class="card-desc">Multimodal RAG com imagens e tabelas. Compressão de contexto LLMLingua. ColBERT late interaction. Time-Aware RAG. Otimização com DSPy.</div>
+      <div class="card-meta">
+        <span class="chip">30% Teoria</span>
+        <span class="chip">70% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">LLMLingua · RAGatouille · DSPy</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 1 exemplo</span>
+          <span class="rc-badge">🔬 6 labs</span>
+          <span class="rc-badge">📦 1 dataset</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+    <!-- AULA 12 -->
+    <a class="aula-card" href="aula12_slides.html" style="--c1:#64748b;--c2:#475569;--c1-rgb:100,116,139">
+      <div class="card-progress"><div class="card-progress-bar" style="width:100%"></div></div>
+      <div class="card-top">
+        <div class="card-icon">🚀</div>
+        <div class="card-head">
+          <div class="card-num">Aula 12 de 12 · Produção</div>
+          <div class="card-title">Deploy em Produção</div>
+          <div class="card-subtitle">FastAPI · Docker · Kubernetes · Segurança</div>
+        </div>
+      </div>
+      <div class="card-desc">FastAPI com streaming SSE. Containerização Docker. Orquestração Kubernetes com HPA e PVC. Estratégias de segurança LGPD e CI/CD.</div>
+      <div class="card-meta">
+        <span class="chip">20% Teoria</span>
+        <span class="chip">80% Prática</span>
+        <span class="chip accent">5 horas</span>
+        <span class="chip">Kubernetes · FastAPI · Helm</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-resources">
+          <span class="rc-badge">💡 1 exemplo</span>
+          <span class="rc-badge">🔬 4 labs</span>
+          <span class="rc-badge">📦 2 arquivos</span>
+        </div>
+        <span class="card-cta">Ver slides →</span>
+      </div>
+    </a>
+
+  </div><!-- /aulas-grid -->
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-title">Legenda de Cores — Progressão do Curso</div>
+    <div class="legend-grid">
+      <div class="legend-item"><div class="legend-dot" style="background:#00d4ff"></div>Aula 1 — Fundamentos</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Aula 2 — Pipeline Base</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Aula 3 — Advanced RAG</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Aula 4 — OpenSearch</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Aula 5 — Avaliação</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>Aula 6 — Indexação</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>Aula 7 — Query Enhancement</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>Aula 8 — Self/CRAG</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div>Aula 9 — Graph RAG</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Aula 10 — Agentic</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>Aula 11 — Complementar</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>Aula 12 — Deploy</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>MBA RAG &amp; CAG Aplicados a Direito e Segurança Pública · Material didático de uso exclusivo do curso · Normas ABNT NBR 6023:2018</p>
+  <p style="margin-top:.5rem">Use as teclas <kbd style="background:rgba(255,255,255,.1);padding:.1rem .4rem;border-radius:4px">←</kbd> e <kbd style="background:rgba(255,255,255,.1);padding:.1rem .4rem;border-radius:4px">→</kbd> para navegar nos slides de cada aula</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,350 @@
+{
+  "metadata": {
+    "versao": "1.0",
+    "aula": 4,
+    "descricao": "Corpus jurídico expandido para Aula 4 — Busca Híbrida com OpenSearch. Contém 20 documentos do direito penal, processual penal e ambiental brasileiro, com 15 queries anotadas com relevância para avaliação de MRR/Recall/NDCG.",
+    "dominios": ["Direito Penal", "Processo Penal", "Direito Ambiental", "Segurança Pública"],
+    "criado_em": "2026-04-16",
+    "versao_schema": "aula4-v1"
+  },
+  "documentos": [
+    {
+      "id": "doc_001",
+      "titulo": "Prisão Preventiva — Requisitos do art. 312 CPP",
+      "conteudo": "A prisão preventiva poderá ser decretada como garantia da ordem pública, da ordem econômica, por conveniência da instrução criminal, ou para assegurar a aplicação da lei penal, quando houver prova da existência do crime e indício suficiente de autoria. A prisão preventiva também poderá ser decretada em caso de descumprimento de qualquer das obrigações impostas por força de outras medidas cautelares.",
+      "fonte": "Código de Processo Penal, art. 312",
+      "area": "Processo Penal",
+      "tags": ["prisão preventiva", "cautelar", "CPP", "art. 312", "ordem pública"],
+      "embedding": null
+    },
+    {
+      "id": "doc_002",
+      "titulo": "Habeas Corpus — Conceito e Cabimento",
+      "conteudo": "Dar-se-á habeas corpus sempre que alguém sofrer ou se achar ameaçado de sofrer violência ou coação em sua liberdade de locomoção, por ilegalidade ou abuso de poder. O habeas corpus é instrumento constitucional de proteção da liberdade de locomoção, cabendo tanto de forma preventiva como liberatória. STF Súmula 395: Não se conhece de recurso de habeas corpus cujo objeto seja resolver sobre o ônus das custas.",
+      "fonte": "Código de Processo Penal, art. 647; CF/88, art. 5º, LXVIII",
+      "area": "Processo Penal",
+      "tags": ["habeas corpus", "liberdade", "ilegalidade", "abuso de poder", "CPP", "CF/88"],
+      "embedding": null
+    },
+    {
+      "id": "doc_003",
+      "titulo": "Princípio da Insignificância — Requisitos STF",
+      "conteudo": "O princípio da insignificância, consagrado pela jurisprudência do STF, exige para sua aplicação a presença cumulativa dos seguintes vetores: a) a mínima ofensividade da conduta do agente; b) a nenhuma periculosidade social da ação; c) o reduzidíssimo grau de reprovabilidade do comportamento; e d) a inexpressividade da lesão jurídica provocada. HC 84.412/SP, Rel. Min. Celso de Mello.",
+      "fonte": "STF, HC 84.412/SP; STF, HC 96.688/RS",
+      "area": "Direito Penal",
+      "tags": ["insignificância", "bagatela", "STF", "princípio", "atipicidade material"],
+      "embedding": null
+    },
+    {
+      "id": "doc_004",
+      "titulo": "Crime Ambiental — Lei 9.605/1998",
+      "conteudo": "A Lei 9.605/1998 (Lei de Crimes Ambientais) dispõe sobre as sanções penais e administrativas derivadas de condutas e atividades lesivas ao meio ambiente. As pessoas jurídicas serão responsabilizadas administrativa, civil e penalmente, quando a infração seja cometida por decisão de seu representante legal ou contratual, ou de seu órgão colegiado, no interesse ou benefício da sua entidade. A pena pode ser restritiva de direitos, multa ou privativa de liberdade.",
+      "fonte": "Lei 9.605/1998, arts. 1º, 3º e 7º",
+      "area": "Direito Ambiental",
+      "tags": ["crime ambiental", "Lei 9.605", "pessoa jurídica", "sanção penal", "meio ambiente"],
+      "embedding": null
+    },
+    {
+      "id": "doc_005",
+      "titulo": "Tráfico de Drogas — Lei 11.343/2006",
+      "conteudo": "A Lei 11.343/2006 (Lei de Drogas) institui o Sistema Nacional de Políticas Públicas sobre Drogas. O art. 33 tipifica o tráfico: importar, exportar, remeter, preparar, produzir, fabricar, adquirir, vender, expor à venda, oferecer, ter em depósito, transportar, trazer consigo, guardar, prescrever, ministrar, entregar a consumo ou fornecer drogas, sem autorização ou em desacordo com determinação legal ou regulamentar. Pena: reclusão de 5 a 15 anos e pagamento de 500 a 1.500 dias-multa.",
+      "fonte": "Lei 11.343/2006, art. 33",
+      "area": "Direito Penal",
+      "tags": ["tráfico", "drogas", "Lei 11.343", "art. 33", "crime hediondo"],
+      "embedding": null
+    },
+    {
+      "id": "doc_006",
+      "titulo": "Flagrante Delito — Modalidades",
+      "conteudo": "Considera-se em flagrante delito quem: I - está cometendo a infração penal; II - acaba de cometê-la; III - é perseguido, logo após, pela autoridade, pelo ofendido ou por qualquer pessoa, em situação que faça presumir ser autor da infração; IV - é encontrado, logo depois, com instrumentos, armas, objetos ou papéis que façam presumir ser ele autor da infração. O flagrante real se dá nos incisos I e II; o flagrante impróprio, no inciso III; e o ficto ou presumido, no inciso IV.",
+      "fonte": "Código de Processo Penal, art. 302",
+      "area": "Processo Penal",
+      "tags": ["flagrante", "prisão em flagrante", "CPP", "art. 302", "flagrante real", "flagrante ficto"],
+      "embedding": null
+    },
+    {
+      "id": "doc_007",
+      "titulo": "Responsabilidade Civil do Estado por Atos Policiais",
+      "conteudo": "O Estado responde objetivamente pelos danos causados por seus agentes no exercício de suas funções, na forma do art. 37, §6º da Constituição Federal. Em casos de abuso policial, a responsabilidade é objetiva, dispensando a prova de culpa ou dolo do agente. O STJ firmou entendimento de que o Estado responde por atos omissivos quando havia risco criado pela própria atuação estatal. REsp 1.172.697/MG.",
+      "fonte": "CF/88, art. 37, §6º; STJ, REsp 1.172.697/MG",
+      "area": "Direito Administrativo",
+      "tags": ["responsabilidade civil", "Estado", "abuso policial", "responsabilidade objetiva", "art. 37 CF"],
+      "embedding": null
+    },
+    {
+      "id": "doc_008",
+      "titulo": "Interceptação Telefônica — Lei 9.296/1996",
+      "conteudo": "A interceptação de comunicações telefônicas, de qualquer natureza, para prova em investigação criminal e em instrução processual penal, observará o disposto na Lei 9.296/1996. A medida só pode ser autorizada quando: não houver outros meios de prova; houver indícios razoáveis de autoria ou participação em infração penal; o crime for punido com reclusão. O prazo é de 15 dias, renovável por igual período.",
+      "fonte": "Lei 9.296/1996, arts. 1º e 2º",
+      "area": "Processo Penal",
+      "tags": ["interceptação telefônica", "escuta", "Lei 9.296", "prova", "sigilo"],
+      "embedding": null
+    },
+    {
+      "id": "doc_009",
+      "titulo": "Júri — Competência e Soberania dos Veredictos",
+      "conteudo": "A instituição do Júri é garantida pela Constituição Federal de 1988, com a organização que lhe der a lei, assegurados: a plenitude de defesa; o sigilo das votações; a soberania dos veredictos; a competência para o julgamento dos crimes dolosos contra a vida. A soberania dos veredictos impede que o tribunal do júri seja substituído pelo juiz togado, mas não impede a revisão criminal em caso de condenação injusta.",
+      "fonte": "CF/88, art. 5º, XXXVIII; CPP, art. 74",
+      "area": "Processo Penal",
+      "tags": ["júri", "tribunal popular", "crimes dolosos contra a vida", "soberania", "CF/88"],
+      "embedding": null
+    },
+    {
+      "id": "doc_010",
+      "titulo": "Violência Doméstica — Lei Maria da Penha (Lei 11.340/2006)",
+      "conteudo": "A Lei 11.340/2006 cria mecanismos para coibir a violência doméstica e familiar contra a mulher. A violência doméstica e familiar contra a mulher constitui uma das formas de violação dos direitos humanos. São formas de violência: física, psicológica, sexual, patrimonial e moral. O agressor pode ser preso em flagrante ou ter decretada sua prisão preventiva. O STF decidiu que a ação penal nos crimes de lesão corporal leve é pública incondicionada (ADI 4.424).",
+      "fonte": "Lei 11.340/2006; STF, ADI 4.424",
+      "area": "Direito Penal",
+      "tags": ["violência doméstica", "Maria da Penha", "Lei 11.340", "gênero", "feminicídio"],
+      "embedding": null
+    },
+    {
+      "id": "doc_011",
+      "titulo": "Organização Criminosa — Lei 12.850/2013",
+      "conteudo": "Considera-se organização criminosa a associação de 4 ou mais pessoas estruturalmente ordenada e caracterizada pela divisão de tarefas, ainda que informalmente, com objetivo de obter, direta ou indiretamente, vantagem de qualquer natureza, mediante a prática de infrações penais cujas penas máximas sejam superiores a 4 anos ou que sejam de caráter transnacional. A colaboração premiada é o principal instrumento de investigação.",
+      "fonte": "Lei 12.850/2013, art. 1º",
+      "area": "Direito Penal",
+      "tags": ["organização criminosa", "ORCRIM", "Lei 12.850", "colaboração premiada", "delação"],
+      "embedding": null
+    },
+    {
+      "id": "doc_012",
+      "titulo": "Busca e Apreensão — Requisitos Constitucionais",
+      "conteudo": "A casa é asilo inviolável do indivíduo, ninguém nela podendo penetrar sem consentimento do morador, salvo em caso de flagrante delito ou desastre, ou para prestar socorro, ou, durante o dia, por determinação judicial. A busca domiciliar deve ser fundada em fundadas razões e autorizada por mandado judicial circunstanciado. O STJ tem exigido que o mandado descreva com precisão o local a ser buscado.",
+      "fonte": "CF/88, art. 5º, XI; CPP, arts. 240-250",
+      "area": "Processo Penal",
+      "tags": ["busca e apreensão", "domicílio", "mandado judicial", "inviolabilidade", "CF/88"],
+      "embedding": null
+    },
+    {
+      "id": "doc_013",
+      "titulo": "Lavagem de Dinheiro — Lei 9.613/1998",
+      "conteudo": "A Lei 9.613/1998 dispõe sobre os crimes de lavagem de dinheiro ou ocultação de bens, direitos e valores. Ocultar ou dissimular a natureza, origem, localização, disposição, movimentação ou propriedade de bens, direitos ou valores provenientes, direta ou indiretamente, de infração penal. Pena: reclusão de 3 a 10 anos e multa. A lei prevê obrigações para o setor financeiro, de seguros e outros setores de notificar operações suspeitas ao COAF.",
+      "fonte": "Lei 9.613/1998, art. 1º (redação dada pela Lei 12.683/2012)",
+      "area": "Direito Penal",
+      "tags": ["lavagem de dinheiro", "Lei 9.613", "COAF", "ocultação", "crime financeiro"],
+      "embedding": null
+    },
+    {
+      "id": "doc_014",
+      "titulo": "Prova Ilícita — Teoria dos Frutos da Árvore Envenenada",
+      "conteudo": "São inadmissíveis, no processo penal, as provas obtidas por meios ilícitos. A teoria dos frutos da árvore envenenada (fruits of the poisonous tree) determina que as provas derivadas de uma prova ilícita também são contaminadas pela ilicitude. Exceção: a prova ilícita não contamina as derivadas se estas puderem ser obtidas por fonte independente ou se a conexão for tênue (teoria da descoberta inevitável).",
+      "fonte": "CF/88, art. 5º, LVI; CPP, art. 157",
+      "area": "Processo Penal",
+      "tags": ["prova ilícita", "árvo envenenada", "inadmissibilidade", "CPP", "teoria da contaminação"],
+      "embedding": null
+    },
+    {
+      "id": "doc_015",
+      "titulo": "Penas Alternativas — Restrição de Direitos",
+      "conteudo": "As penas restritivas de direitos são autônomas e substituem as privativas de liberdade quando: a pena não for superior a 4 anos; o crime não foi praticado com violência ou grave ameaça; o réu não for reincidente; a culpabilidade, os antecedentes, a conduta social e a personalidade do condenado indicarem que a substituição é suficiente. São espécies: prestação pecuniária, perda de bens, prestação de serviços à comunidade, interdição temporária de direitos e limitação de fim de semana.",
+      "fonte": "Código Penal, arts. 44-48",
+      "area": "Direito Penal",
+      "tags": ["penas alternativas", "restrição de direitos", "CP", "substituição", "prestação de serviços"],
+      "embedding": null
+    },
+    {
+      "id": "doc_016",
+      "titulo": "Desmatamento Ilegal — Responsabilidade Penal e Administrativa",
+      "conteudo": "O desmatamento de vegetação nativa sem autorização configura crime ambiental nos termos do art. 38 da Lei 9.605/1998 (destruição de floresta considerada de preservação permanente). A responsabilidade pode ser cumulada: penal, civil (reparação do dano ambiental) e administrativa (multa, embargo, autuação). O IBAMA tem competência fiscalizatória. A área desmatada deve ser recuperada independentemente da sanção penal.",
+      "fonte": "Lei 9.605/1998, art. 38; Código Florestal (Lei 12.651/2012)",
+      "area": "Direito Ambiental",
+      "tags": ["desmatamento", "APP", "IBAMA", "crime ambiental", "Lei 9.605", "floresta"],
+      "embedding": null
+    },
+    {
+      "id": "doc_017",
+      "titulo": "Investigação Criminal — Inquérito Policial",
+      "conteudo": "O inquérito policial é o procedimento administrativo inquisitório e preparatório, presidido pelo delegado de polícia, com o objetivo de apurar a prática de infrações penais e sua autoria. É dispensável quando o titular da ação penal dispuser de elementos suficientes para oferecê-la. Características: sigiloso, escrito, inquisitório (sem ampla defesa plena), e tem natureza administrativa. Prazo: 30 dias (réu preso) ou 30 dias prorrogáveis (réu solto).",
+      "fonte": "Código de Processo Penal, arts. 4º-23",
+      "area": "Processo Penal",
+      "tags": ["inquérito policial", "delegado", "investigação", "CPP", "procedimento administrativo"],
+      "embedding": null
+    },
+    {
+      "id": "doc_018",
+      "titulo": "Estatuto do Desarmamento — Lei 10.826/2003",
+      "conteudo": "A Lei 10.826/2003 (Estatuto do Desarmamento) dispõe sobre registro, posse e comercialização de armas de fogo e munição. O porte ilegal de arma de fogo de uso permitido é crime com pena de reclusão de 2 a 4 anos (art. 14). O porte de arma de uso restrito tem pena maior. Para a configuração do crime de porte ilegal, não se exige que a arma esteja municiada. STF: a arma desmuniciada configura o crime.",
+      "fonte": "Lei 10.826/2003, arts. 14 e 16; STF, HC 96.921",
+      "area": "Direito Penal",
+      "tags": ["arma de fogo", "porte ilegal", "Estatuto do Desarmamento", "Lei 10.826"],
+      "embedding": null
+    },
+    {
+      "id": "doc_019",
+      "titulo": "Acordo de Não Persecução Penal — ANPP",
+      "conteudo": "O Acordo de Não Persecução Penal (ANPP), introduzido pelo Pacote Anticrime (Lei 13.964/2019), permite que o Ministério Público proponha acordo ao investigado nos crimes sem violência ou grave ameaça, com pena mínima inferior a 4 anos. O investigado deve confessar formal e circunstancialmente a prática do delito. O acordo pode impor condições como: reparação do dano, renúncia de bens, prestação de serviços, pagamento de prestação pecuniária.",
+      "fonte": "CPP, art. 28-A (incluído pela Lei 13.964/2019)",
+      "area": "Processo Penal",
+      "tags": ["ANPP", "acordo", "MP", "Pacote Anticrime", "não persecução", "confissão"],
+      "embedding": null
+    },
+    {
+      "id": "doc_020",
+      "titulo": "Crimes Cibernéticos — Lei Carolina Dieckmann (Lei 12.737/2012)",
+      "conteudo": "A Lei 12.737/2012 tipifica os delitos informáticos. O art. 154-A do Código Penal torna crime a invasão de dispositivo informático alheio, conectado ou não à rede de computadores, mediante violação indevida de mecanismo de segurança, com o fim de obter, adulterar ou destruir dados ou informações. Pena: detenção de 3 meses a 1 ano. Se da invasão resultarem dados obtidos de comunicações privadas, a pena é aumentada.",
+      "fonte": "Lei 12.737/2012; CP, art. 154-A",
+      "area": "Direito Penal",
+      "tags": ["crime cibernético", "invasão de dispositivo", "Carolina Dieckmann", "Lei 12.737", "CP art. 154-A"],
+      "embedding": null
+    }
+  ],
+  "queries_avaliacao": [
+    {
+      "id": "q_001",
+      "query": "Quais são os requisitos legais para decretar prisão preventiva?",
+      "tipo": "factual_lexical",
+      "documentos_relevantes": {
+        "doc_001": 3,
+        "doc_006": 1,
+        "doc_012": 1
+      },
+      "observacao": "Query com termos técnicos específicos — BM25 deve performar bem"
+    },
+    {
+      "id": "q_002",
+      "query": "Quando o juiz pode determinar a detenção do acusado antes do julgamento?",
+      "tipo": "semantica",
+      "documentos_relevantes": {
+        "doc_001": 3,
+        "doc_006": 2,
+        "doc_019": 1
+      },
+      "observacao": "Query semântica (não usa 'prisão preventiva') — embedding deve performar melhor"
+    },
+    {
+      "id": "q_003",
+      "query": "Como funciona o habeas corpus para proteger a liberdade de locomoção?",
+      "tipo": "mista",
+      "documentos_relevantes": {
+        "doc_002": 3,
+        "doc_001": 1,
+        "doc_009": 1
+      },
+      "observacao": "Combina termo técnico (habeas corpus) e conceito semântico"
+    },
+    {
+      "id": "q_004",
+      "query": "art. 312 CPP prisão preventiva requisitos",
+      "tipo": "factual_lexical",
+      "documentos_relevantes": {
+        "doc_001": 3,
+        "doc_006": 1
+      },
+      "observacao": "Query de match exato de artigo legal — BM25 deve ser decisivo"
+    },
+    {
+      "id": "q_005",
+      "query": "responsabilidade criminal por desmatar floresta protegida",
+      "tipo": "semantica",
+      "documentos_relevantes": {
+        "doc_016": 3,
+        "doc_004": 2,
+        "doc_007": 1
+      },
+      "observacao": "Semântica ambiental — não usa siglas como APP ou IBAMA"
+    },
+    {
+      "id": "q_006",
+      "query": "Lei 9.605/1998 crimes ambientais pessoa jurídica",
+      "tipo": "factual_lexical",
+      "documentos_relevantes": {
+        "doc_004": 3,
+        "doc_016": 2
+      },
+      "observacao": "Match exato de número de lei — BM25 essencial"
+    },
+    {
+      "id": "q_007",
+      "query": "Provas coletadas ilegalmente podem ser usadas no processo?",
+      "tipo": "semantica",
+      "documentos_relevantes": {
+        "doc_014": 3,
+        "doc_008": 2,
+        "doc_012": 1
+      },
+      "observacao": "Query de leigo — não usa termos técnicos como 'prova ilícita'"
+    },
+    {
+      "id": "q_008",
+      "query": "colaboração premiada organização criminosa investigação",
+      "tipo": "mista",
+      "documentos_relevantes": {
+        "doc_011": 3,
+        "doc_013": 1
+      },
+      "observacao": "Termos técnicos + contexto semântico de investigação"
+    },
+    {
+      "id": "q_009",
+      "query": "Como identificar uma pessoa em flagrante delito segundo o CPP?",
+      "tipo": "mista",
+      "documentos_relevantes": {
+        "doc_006": 3,
+        "doc_001": 1,
+        "doc_012": 1
+      },
+      "observacao": "Usa termo técnico (flagrante delito) mas em linguagem de consulta"
+    },
+    {
+      "id": "q_010",
+      "query": "pena para tráfico de drogas no Brasil",
+      "tipo": "semantica",
+      "documentos_relevantes": {
+        "doc_005": 3,
+        "doc_015": 1
+      },
+      "observacao": "Simples mas requer recuperar Lei 11.343"
+    },
+    {
+      "id": "q_011",
+      "query": "violência contra mulher medidas protetivas Lei Maria da Penha",
+      "tipo": "mista",
+      "documentos_relevantes": {
+        "doc_010": 3,
+        "doc_007": 1
+      },
+      "observacao": "Nome da lei e conceito jurídico combinados"
+    },
+    {
+      "id": "q_012",
+      "query": "escuta telefônica autorização judicial investigação criminal",
+      "tipo": "mista",
+      "documentos_relevantes": {
+        "doc_008": 3,
+        "doc_014": 1,
+        "doc_017": 1
+      },
+      "observacao": "Busca mista: léxico (escuta, autorização judicial) + semântico"
+    },
+    {
+      "id": "q_013",
+      "query": "policial causou dano ao cidadão quem responde?",
+      "tipo": "semantica",
+      "documentos_relevantes": {
+        "doc_007": 3,
+        "doc_001": 1
+      },
+      "observacao": "Linguagem coloquial — semântica deve superar BM25 aqui"
+    },
+    {
+      "id": "q_014",
+      "query": "HC 84.412 STF princípio insignificância vetores",
+      "tipo": "factual_lexical",
+      "documentos_relevantes": {
+        "doc_003": 3
+      },
+      "observacao": "Busca por número de acórdão — match exato BM25 decisivo"
+    },
+    {
+      "id": "q_015",
+      "query": "acordo MP investigado sem ir a julgamento",
+      "tipo": "semantica",
+      "documentos_relevantes": {
+        "doc_019": 3,
+        "doc_017": 1
+      },
+      "observacao": "Query de leigo para ANPP — sem uso da sigla ou artigo"
+    }
+  ]
+}
