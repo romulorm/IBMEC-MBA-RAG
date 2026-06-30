@@ -20,10 +20,10 @@ import time
 from fastapi import FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
 
-from . import config, consulta, extracao, grafo, indexacao
+from . import config, consulta, extracao, grafo, indexacao, prompts
 from .log import configurar_logging, obter_logger
 from .modelos import (ConsultaRequest, ConsultaResponse, IngestaoResponse,
-                      RelatorioIngestao)
+                      PromptsConfig, RelatorioIngestao)
 
 configurar_logging()           # le LOG_LEVEL do .env (DEBUG p/ verbosidade maxima)
 log = obter_logger(__name__)
@@ -96,9 +96,11 @@ async def ingestao(arquivo: UploadFile = File(...), estrategia: str = "auto",
 def consulta_endpoint(req: ConsultaRequest, x_api_key: str = Header(default="")):
     """Consulta RAG: roteia para OpenSearch ou LightRAG e gera a resposta."""
     _checar_api_key(x_api_key)
-    log.info("== /consulta recebida: destino=%s, top_k=%d ==", req.destino, req.top_k)
+    log.info("== /consulta recebida: destino=%s, top_k=%d, tecnica=%s ==",
+             req.destino, req.top_k, req.tecnica)
     try:
-        resposta, fontes, destino = consulta.consultar(req.pergunta, req.destino, req.top_k)
+        resposta, fontes, destino = consulta.consultar(req.pergunta, req.destino,
+                                                       req.top_k, req.tecnica)
         METRICAS["consultas"] += 1
         log.info("== /consulta OK: destino_usado=%s, %d fonte(s) ==", destino, len(fontes))
         return ConsultaResponse(pergunta=req.pergunta, resposta=resposta,
@@ -138,6 +140,30 @@ def graph_html(limite: int = 150):
         return HTMLResponse(f"<html><body><p>Erro ao montar o grafo: {e}</p></body></html>")
 
 
+@app.get("/config/prompts")
+def get_prompts_endpoint(x_api_key: str = Header(default="")):
+    """Retorna os prompts atuais (editaveis na aba Configuracoes do Gradio)."""
+    _checar_api_key(x_api_key)
+    return prompts.get_prompts()
+
+
+@app.put("/config/prompts")
+def set_prompts_endpoint(body: PromptsConfig, x_api_key: str = Header(default="")):
+    """Atualiza os prompts enviados (os demais ficam como estao) e persiste."""
+    _checar_api_key(x_api_key)
+    atualizados = prompts.set_prompts(body.model_dump(exclude_none=True))
+    log.info("Prompts atualizados via API: %s", list(body.model_dump(exclude_none=True)))
+    return atualizados
+
+
+@app.post("/config/prompts/reset")
+def reset_prompts_endpoint(x_api_key: str = Header(default="")):
+    """Restaura os prompts padrao."""
+    _checar_api_key(x_api_key)
+    log.info("Prompts restaurados ao padrao via API")
+    return prompts.reset()
+
+
 @app.get("/health")
 def health():
     """Status rapido dos componentes (sem derrubar a API se algo falhar)."""
@@ -146,8 +172,9 @@ def health():
         estado["opensearch"] = f"ok ({indexacao._store_opensearch().count_documents()} docs)"
     except Exception as e:
         estado["opensearch"] = f"falhou: {e}"
-    api_key, modelo, _ = config.config_groq()
-    estado["groq"] = "ok (chave presente)" if api_key else "sem GROQ_API_KEY"
+    api_key, modelo, base_url = config.config_llm()
+    estado["llm"] = (f"{config.provedor_llm()} | {modelo} @ {base_url}"
+                     if api_key else "sem LLM_API_KEY/GROQ_API_KEY")
     estado["embedding"] = config.config_ollama()[1]
     estado["langfuse"] = "on" if config.langfuse_configurado() else "off"
     return estado

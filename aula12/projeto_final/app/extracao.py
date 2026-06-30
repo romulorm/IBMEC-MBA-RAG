@@ -23,7 +23,7 @@ from pathlib import Path
 
 from haystack.dataclasses import ChatMessage
 
-from . import config
+from . import config, prompts
 from .log import obter_logger
 
 log = obter_logger(__name__)
@@ -214,24 +214,12 @@ def _ferramentas():
     ]
 
 
-# Prompt enxuto, no padrao do Groq: descreve o PAPEL e o CRITERIO, sem mandar o
-# modelo "escrever" a chamada de funcao (isso e que induzia o formato textual <function=..>).
-SYSTEM_EXTRACAO = (
-    "Voce e um classificador de documentos. A partir dos sinais fornecidos, selecione a "
-    "ferramenta de extracao mais adequada:\n"
-    "- extrair_planilha: planilhas (.xlsx, .xls, .csv, .tsv).\n"
-    "- extrair_com_ocr: imagens, PDFs escaneados (pouco texto e com imagens) ou paginas com figuras.\n"
-    "- extrair_texto: PDFs nativos, DOCX ou TXT que ja possuem camada de texto.\n"
-    "Selecione exatamente uma ferramenta."
-)
-
-
 def _llm_escolhe_tecnica(caminho, sinais):
     """Uma unica chamada ao Groq com tool_choice='required' -> retorna (tecnica, motivo)."""
     from haystack.components.generators.chat import OpenAIChatGenerator
     from haystack.utils import Secret
 
-    api_key, modelo, base_url = config.config_groq()
+    api_key, modelo, base_url = config.config_llm()
     gerador = OpenAIChatGenerator(
         api_key=Secret.from_token(api_key), model=modelo, api_base_url=base_url,
         tools=_ferramentas(),
@@ -239,7 +227,8 @@ def _llm_escolhe_tecnica(caminho, sinais):
         generation_kwargs={"temperature": 0.0, "max_tokens": 300, "tool_choice": "required"})
     prompt = (f"Sinais do documento: {json.dumps(sinais, ensure_ascii=False)}\n"
               "Selecione a ferramenta de extracao adequada.")
-    msgs = [ChatMessage.from_system(SYSTEM_EXTRACAO), ChatMessage.from_user(prompt)]
+    system = prompts.get_prompts()["extracao_system"]   # editavel na aba Configuracoes
+    msgs = [ChatMessage.from_system(system), ChatMessage.from_user(prompt)]
     reply = gerador.run(messages=msgs)["replies"][0]
     chamadas = reply.tool_calls or []
     if not chamadas:

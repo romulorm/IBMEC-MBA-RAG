@@ -1,15 +1,14 @@
 """
-consulta.py - RAG de consulta (busca), roteado por storage, com OBSERVABILIDADE Langfuse.
+consulta.py - RAG de consulta (busca), roteado por storage, com OBSERVABILIDADE Langfuse
+e TECNICAS de query enhancement (baseline | multi_query | rag_fusion | step_back).
 
 destino:
-  - 'opensearch' (ou 'auto'): PIPELINE Haystack (embed -> retrieve -> prompt -> Groq),
-    instrumentado por LangfuseConnector (auto-trace de TODA a busca: embedding, recuperacao
-    e geracao no mesmo trace).
+  - 'opensearch' (ou 'auto'): pipeline Haystack montado em busca_avancada.construir(tecnica)
+    (embed/reescrita -> recuperacao -> prompt -> Groq), instrumentado por LangfuseConnector.
   - 'grafo'                  : LightRAG (modo hibrido), rastreado com @observe do Langfuse.
 
 A observabilidade so liga se LANGFUSE_PUBLIC_KEY/SECRET_KEY existirem (.env). O preparo do
-tracing (HAYSTACK_CONTENT_TRACING_ENABLED + LANGFUSE_HOST) e feito em app/__init__.py,
-ANTES de qualquer import do Haystack (exigencia da auto-instrumentacao).
+tracing e feito em app/__init__.py, antes de qualquer import do Haystack.
 """
 
 from . import config, indexacao
@@ -17,54 +16,17 @@ from .log import obter_logger
 
 log = obter_logger(__name__)
 
-# Template Jinja do PromptBuilder: recebe os 'documents' (do retriever) e a 'pergunta'.
-PROMPT_TMPL = """Voce e um assistente juridico. Responda APENAS com base nos trechos abaixo, de forma objetiva. Se nao constar, diga que nao consta.
-
-Trechos:
-{% for d in documents %}- {{ d.content }}
-{% endfor %}
-Pergunta: {{ pergunta }}
-Resposta:"""
-
 
 # ---------------------------------------------------------------------------
-# Busca no OpenSearch (pipeline Haystack + LangfuseConnector)
+# Busca no OpenSearch (com tecnica de query enhancement) - ver busca_avancada.py
 # ---------------------------------------------------------------------------
-def _pipeline_opensearch(top_k):
-    from haystack import Pipeline
-    from haystack.components.builders import PromptBuilder
-    from haystack.components.generators import OpenAIGenerator
-    from haystack.utils import Secret
-    from haystack_integrations.components.embedders.ollama import OllamaTextEmbedder
-    from haystack_integrations.components.retrievers.opensearch import OpenSearchEmbeddingRetriever
+def consultar_opensearch(pergunta, top_k, tecnica="baseline"):
+    from . import busca_avancada
 
-    base_url, modelo_emb = config.config_ollama()
-    api_key, gmodelo, groq_base = config.config_groq()
-    store = indexacao._store_opensearch()
-
-    pipe = Pipeline()
-    # LangfuseConnector: ativa o tracing de toda a execucao deste pipeline (1 trace por busca)
-    if config.langfuse_configurado():
-        from haystack_integrations.components.connectors.langfuse import LangfuseConnector
-        pipe.add_component("tracer", LangfuseConnector("busca-rag-aula12"))
-    pipe.add_component("embedder", OllamaTextEmbedder(model=modelo_emb, url=base_url))
-    pipe.add_component("retriever", OpenSearchEmbeddingRetriever(document_store=store, top_k=top_k))
-    pipe.add_component("prompt", PromptBuilder(template=PROMPT_TMPL, required_variables="*"))
-    pipe.add_component("llm", OpenAIGenerator(
-        api_key=Secret.from_token(api_key), model=gmodelo, api_base_url=groq_base,
-        generation_kwargs={"temperature": 0.2, "max_tokens": 500}))
-    pipe.connect("embedder.embedding", "retriever.query_embedding")
-    pipe.connect("retriever.documents", "prompt.documents")
-    pipe.connect("prompt.prompt", "llm.prompt")
-    return pipe
-
-
-def consultar_opensearch(pergunta, top_k):
-    log.info("Consulta OpenSearch (top_k=%d): %r", top_k, pergunta)
-    pipe = _pipeline_opensearch(top_k)
-    saida = pipe.run({"embedder": {"text": pergunta}, "prompt": {"pergunta": pergunta}},
-                     include_outputs_from={"retriever"})
-    docs = saida["retriever"]["documents"]
+    log.info("Consulta OpenSearch (tecnica=%s, top_k=%d): %r", tecnica, top_k, pergunta)
+    pipe, inputs, chave_docs = busca_avancada.construir(tecnica, top_k, pergunta)
+    saida = pipe.run(inputs, include_outputs_from={chave_docs})
+    docs = saida[chave_docs]["documents"]
     replies = saida["llm"]["replies"]
     resposta = (replies[0] if replies else "").strip()
     log.info("Recuperados %d trecho(s); resposta gerada (Groq)", len(docs))
@@ -97,7 +59,6 @@ def consultar_grafo(pergunta):
     if config.langfuse_configurado():
         try:
             from langfuse import observe
-            # @observe captura input (pergunta) e output (resposta) num trace proprio
             return observe(name="busca-grafo-aula12")(_grafo_raw)(pergunta)
         except Exception as e:
             log.warning("Langfuse (grafo) indisponivel (%s) -> seguindo sem trace", e)
@@ -107,9 +68,9 @@ def consultar_grafo(pergunta):
 # ---------------------------------------------------------------------------
 # Roteador
 # ---------------------------------------------------------------------------
-def consultar(pergunta, destino="auto", top_k=5):
+def consultar(pergunta, destino="auto", top_k=5, tecnica="baseline"):
     if destino == "grafo":
-        resp, fontes = consultar_grafo(pergunta)
+        resp, fontes = consultar_grafo(pergunta)        # tecnica nao se aplica ao grafo
         return resp, fontes, "grafo"
-    resp, fontes = consultar_opensearch(pergunta, top_k)
+    resp, fontes = consultar_opensearch(pergunta, top_k, tecnica)
     return resp, fontes, "opensearch"

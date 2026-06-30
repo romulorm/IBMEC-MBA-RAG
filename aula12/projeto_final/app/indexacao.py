@@ -162,7 +162,7 @@ async def _criar_lightrag():
     from lightrag.llm.openai import openai_complete_if_cache
     from lightrag.utils import EmbeddingFunc
 
-    api_key, modelo, base_url = config.config_groq()
+    api_key, modelo, base_url = config.config_llm()
     o_base, o_modelo = config.config_ollama()
 
     async def llm_func(prompt, system_prompt=None, history_messages=None, **kwargs):
