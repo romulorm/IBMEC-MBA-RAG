@@ -25,6 +25,10 @@ tabulate>=0.9                 # df.to_markdown()
 lightrag-hku>=1.4             # indexacao em grafo (quando a heuristica escolher)
 networkx>=3.0                 # ler o GraphML do LightRAG no /graph (vem com lightrag, fixado p/ clareza)
 
+# --- Observabilidade (Langfuse) ---
+langfuse>=4                   # tracing da busca (grafo via @observe; chaves no .env)
+langfuse-haystack>=4          # LangfuseConnector (auto-trace do pipeline de busca OpenSearch)
+
 # --- Interface ---
 gradio>=4.44                  # interface web da API (interface.py)
 requests>=2.31                # interface -> API

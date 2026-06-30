@@ -142,6 +142,12 @@ Resposta (resumida) — mostra **a decisão**, para o aluno entender o raciocín
   perguntas multi-hop). Ajuste `LIMIAR_ENTIDADES` / `MIN_PALAVRAS_GRAFO` em `indexacao.py`.
 - **LLM**: use `llama-3.3-70b-versatile` (tool calling). **Não use gpt-oss** (reasoning):
   o tool-calling do agente fica instável.
+- **Observabilidade da busca (Langfuse)**: preencha `LANGFUSE_PUBLIC_KEY`/`LANGFUSE_SECRET_KEY`
+  (e `LANGFUSE_BASE_URL`) no `.env` — o tracing liga sozinho. A busca no **OpenSearch** roda como
+  um pipeline Haystack instrumentado por `LangfuseConnector` (1 trace por busca: embedding →
+  recuperação → geração); a busca no **grafo** (LightRAG) é rastreada com `@observe`. Sem as
+  chaves, tudo funciona normalmente, só sem trace. O preparo do tracing fica em `app/__init__.py`
+  (precisa rodar antes de importar o Haystack). O `GET /health` mostra `langfuse: on/off`.
 - **Pesos**: Docling baixa modelos de layout/OCR na 1ª execução; o LightRAG faz várias
   chamadas de LLM ao construir o grafo (rota mais cara — por isso é seletiva).
 - **Produção**: o `docker-compose` traz OpenSearch + Dashboards + LangFuse; em produção,
