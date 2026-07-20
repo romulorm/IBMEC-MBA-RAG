@@ -27,6 +27,8 @@ API_KEY = os.getenv("API_KEY", "")  # so se a API exigir X-API-Key
 CHUNKING_OPCOES = ["auto", "fixo", "recursivo", "sentenca_janela", "semantico", "hierarquico"]
 DESTINO_OPCOES = ["auto", "opensearch", "grafo"]
 TECNICA_OPCOES = ["baseline", "multi_query", "rag_fusion", "step_back"]  # query enhancement (OpenSearch)
+RERANK_OPCOES = ["rrf", "minmax", "modelo"]                              # rerank/fusao (OpenSearch)
+ORIGEM_OPCOES = ["opensearch", "grafo"]
 
 
 def _headers():
@@ -36,11 +38,18 @@ def _headers():
 # ---------------------------------------------------------------------------
 # Aba 1 - Ingestao
 # ---------------------------------------------------------------------------
-def ingerir(arquivo, estrategia, chunking):
+def ingerir(arquivo, estrategia, chunking, limpar):
     # outputs: resumo, json, aba_grafo(update), grafo_md, grafo_html, grafo_json
     sem_grafo = (gr.update(), gr.update(), gr.update(), gr.update())  # nao mexe na aba/conteudo
     if not arquivo:
         return ("Selecione um arquivo.", {}, *sem_grafo)
+    aviso_limpeza = ""
+    if limpar:
+        try:
+            r = requests.post(f"{API_URL}/admin/limpar", headers=_headers(), timeout=120).json()
+            aviso_limpeza = f"🧹 Limpeza: OpenSearch={r.get('opensearch')} | Grafo={r.get('grafo')}\n\n"
+        except Exception as e:
+            aviso_limpeza = f"⚠️ Falha ao limpar: {e}\n\n"
     try:
         with open(arquivo, "rb") as f:
             resp = requests.post(
@@ -58,6 +67,7 @@ def ingerir(arquivo, estrategia, chunking):
 
     r = dados["relatorio"]
     resumo = (
+        aviso_limpeza +
         f"### Decisao da ingestao\n"
         f"- **Arquivo:** {r['arquivo']} ({r['n_caracteres']} caracteres)\n"
         f"- **Complexidade:** {r['complexidade']}\n"
@@ -78,24 +88,137 @@ def ingerir(arquivo, estrategia, chunking):
 # ---------------------------------------------------------------------------
 # Aba 2 - Consulta
 # ---------------------------------------------------------------------------
-def consultar(pergunta, destino, top_k, tecnica):
-    if not pergunta.strip():
-        return "Digite uma pergunta.", {}
+def _fmt_metricas(met):
+    """Formata as metricas de uma pergunta (retrieval + RAGAS) em markdown."""
+    if not met:
+        return ""
+    partes = ["#### 📊 Métricas desta pergunta"]
+    if met.get("gabarito"):
+        partes.append(f"_{met['gabarito']}_")
+    r = met.get("retrieval")
+    if r:
+        partes.append("**Recuperação:** " + "  |  ".join(f"{k}={v}" for k, v in r.items()))
+    else:
+        partes.append("**Recuperação:** _sem gabarito casado — selecione um dataset e o gabarito "
+                      "(ou deixe 'auto') para medir Hit@K/Recall@K/MRR/NDCG/AUC._")
+    rg = met.get("ragas") or {}
+    if rg.get("erro"):
+        partes.append(f"**RAGAS:** _{rg['erro']}_")
+    elif rg:
+        partes.append("**RAGAS:** " + "  |  ".join(f"{k}={v}" for k, v in rg.items()))
+    return "\n\n".join(partes)
+
+
+def perguntas_do_dataset(nome):
+    """['auto (semântico)'] + perguntas do dataset (para o dropdown de gabarito)."""
+    if not nome or nome == "nenhum":
+        return gr.update(choices=["auto (semântico)"], value="auto (semântico)")
     try:
-        resp = requests.post(
-            f"{API_URL}/consulta",
-            json={"pergunta": pergunta, "destino": destino, "top_k": int(top_k),
-                  "tecnica": tecnica},
-            headers=_headers(), timeout=600)
+        d = requests.get(f"{API_URL}/ragas/perguntas", params={"nome": nome},
+                         headers=_headers(), timeout=30).json()
+        return gr.update(choices=["auto (semântico)"] + d.get("perguntas", []),
+                         value="auto (semântico)")
+    except Exception:
+        return gr.update(choices=["auto (semântico)"], value="auto (semântico)")
+
+
+def consultar(pergunta, destino, top_k, tecnica, rerank, dataset_nome, medir, gabarito):
+    if not pergunta.strip():
+        return "Digite uma pergunta.", "", {}
+    gab = "auto" if (gabarito or "").startswith("auto") else gabarito
+    payload = {"pergunta": pergunta, "destino": destino, "top_k": int(top_k),
+               "tecnica": tecnica, "rerank": rerank, "dataset_nome": dataset_nome,
+               "com_metricas": bool(medir) and destino != "grafo", "gabarito_pergunta": gab}
+    try:
+        resp = requests.post(f"{API_URL}/consulta", json=payload, headers=_headers(), timeout=600)
         resp.raise_for_status()
         dados = resp.json()
     except Exception as e:
-        return f"Erro ao chamar a API: {e}", {}
+        return f"Erro ao chamar a API: {e}", "", {}
 
     fontes = "\n".join(f"- {f}" for f in dados.get("fontes", [])) or "(sem fontes)"
-    texto = (f"### Resposta (destino: {dados.get('destino_usado','?')} | técnica: {tecnica})\n\n"
-             f"{dados.get('resposta','')}\n\n**Fontes:**\n{fontes}")
-    return texto, dados
+    texto = (f"### Resposta (destino: {dados.get('destino_usado','?')} | técnica: {tecnica} "
+             f"| rerank: {rerank})\n\n{dados.get('resposta','')}\n\n**Fontes:**\n{fontes}")
+    return texto, _fmt_metricas(dados.get("metricas")), dados
+
+
+# ---------------------------------------------------------------------------
+# RAGAS: datasets e geracao
+# ---------------------------------------------------------------------------
+def listar_datasets():
+    """Retorna ['nenhum', <datasets...>] para os combos."""
+    try:
+        d = requests.get(f"{API_URL}/ragas/datasets", headers=_headers(), timeout=30).json()
+        return ["nenhum"] + d.get("datasets", [])
+    except Exception:
+        return ["nenhum"]
+
+
+def gerar_dataset_ragas(nome, origem, n):
+    if not (nome or "").strip():
+        return "Informe o nome do dataset.", gr.update()
+    try:
+        r = requests.post(f"{API_URL}/ragas/gerar_dataset",
+                          json={"nome": nome, "origem": origem, "n": int(n)},
+                          headers=_headers(), timeout=1800)
+        r.raise_for_status()
+        d = r.json()
+        msg = (f"✅ Dataset **{d['nome']}** criado ({d['n_itens']} perguntas, origem "
+               f"{d['origem']}).\nArquivo: `{d['arquivo']}`")
+    except Exception as e:
+        return f"❌ Erro ao gerar dataset: {e}", gr.update()
+    # atualiza os combos de dataset (aba Consulta)
+    return msg, gr.update(choices=listar_datasets())
+
+
+# ---------------------------------------------------------------------------
+# Avaliacao em lote (CSV + dataset -> metricas)
+# ---------------------------------------------------------------------------
+def _perguntas_do_csv(caminho):
+    import pandas as pd
+
+    df = pd.read_csv(caminho)
+    col = next((c for c in df.columns if c.lower() in ("pergunta", "perguntas", "question", "query")),
+               df.columns[0])
+    return [str(x) for x in df[col].dropna().tolist() if str(x).strip()]
+
+
+def avaliar_lote(arquivo_csv, dataset_nome, tecnica, rerank, top_k):
+    import pandas as pd
+
+    perguntas = []
+    if arquivo_csv:
+        try:
+            perguntas = _perguntas_do_csv(arquivo_csv)
+        except Exception as e:
+            return f"❌ Erro lendo o CSV: {e}", None
+    if not perguntas and (not dataset_nome or dataset_nome == "nenhum"):
+        return "Envie um CSV de perguntas **ou** selecione um dataset RAGAS.", None
+    try:
+        r = requests.post(f"{API_URL}/avaliar_lote",
+                          json={"perguntas": perguntas, "dataset_nome": dataset_nome,
+                                "tecnica": tecnica, "rerank": rerank, "top_k": int(top_k)},
+                          headers=_headers(), timeout=3600)
+        r.raise_for_status()
+        d = r.json()
+    except Exception as e:
+        return f"❌ Erro na avaliacao: {e}", None
+    if not d.get("ok"):
+        return f"❌ {d.get('erro')}", None
+
+    df = pd.DataFrame(d.get("linhas", []))
+    med = d.get("medias_retrieval", {}) or {}
+    ragas = d.get("ragas") or {}
+    linhas_med = " | ".join(f"{k}={v}" for k, v in med.items()) or "(sem gabarito)"
+    txt = (f"### Resultado (técnica: **{d['tecnica']}** | rerank: **{d['rerank']}** | "
+           f"top_k={d['top_k']})\n"
+           f"- Perguntas: {d['n_perguntas']} (com gabarito: {d['com_gabarito']})\n"
+           f"- **Médias retrieval:** {linhas_med}\n")
+    if ragas.get("medias"):
+        txt += "- **Médias RAGAS:** " + " | ".join(f"{k}={v}" for k, v in ragas["medias"].items()) + "\n"
+    elif ragas.get("erro"):
+        txt += f"- RAGAS: _{ragas['erro']}_\n"
+    return txt, df
 
 
 def status():
@@ -172,6 +295,7 @@ def restaurar_prompts():
 
 
 _PROMPTS_INI = carregar_prompts()   # valores iniciais (no startup)
+_DATASETS_INI = listar_datasets()   # datasets RAGAS disponiveis (no startup)
 
 
 # ---------------------------------------------------------------------------
@@ -189,6 +313,8 @@ with gr.Blocks(title="Projeto Final - RAG Juridico (Aula 12)") as demo:
         with gr.Row():
             estrategia = gr.Dropdown(DESTINO_OPCOES, value="auto", label="Destino (override)")
             chunking = gr.Dropdown(CHUNKING_OPCOES, value="auto", label="Chunking (override)")
+        limpar = gr.Checkbox(value=False,
+                             label="🧹 Limpar índice OpenSearch e grafo LightRAG antes de indexar")
         btn_ing = gr.Button("Ingerir", variant="primary")
         out_ing_md = gr.Markdown()
         out_ing_json = gr.JSON(label="Relatorio completo (JSON)")
@@ -200,18 +326,55 @@ with gr.Blocks(title="Projeto Final - RAG Juridico (Aula 12)") as demo:
             destino = gr.Dropdown(DESTINO_OPCOES, value="auto", label="Buscar em")
             tecnica = gr.Dropdown(TECNICA_OPCOES, value="baseline", visible=False,
                                   label="Técnica (query enhancement, só OpenSearch)")
+            rerank = gr.Dropdown(RERANK_OPCOES, value="rrf", visible=False,
+                                 label="Rerank/fusão (só OpenSearch)")
             top_k = gr.Slider(1, 15, value=5, step=1, label="top_k")
+        with gr.Row():
+            dataset_combo = gr.Dropdown(_DATASETS_INI, value="nenhum",
+                                        label="Dataset RAGAS (gabarito p/ métricas) — ou 'nenhum'")
+            gabarito_combo = gr.Dropdown(["auto (semântico)"], value="auto (semântico)",
+                                         label="Gabarito (necessidade de informação)")
+            medir = gr.Checkbox(value=True, label="📊 Medir métricas (retrieval + RAGAS)")
+        gr.Markdown("_Digite uma **paráfrase** e escolha o gabarito (ou deixe **auto**): a métrica "
+                    "compara sua busca contra os documentos relevantes daquela necessidade — "
+                    "sem precisar repetir a pergunta exata do dataset._")
         btn_q = gr.Button("Perguntar", variant="primary")
         out_q_md = gr.Markdown()
+        out_q_metricas = gr.Markdown()
         out_q_json = gr.JSON(label="Resposta completa (JSON)")
-        # a Tecnica so aparece quando "Buscar em" = opensearch (oculta em auto/grafo)
-        destino.change(lambda d: gr.update(visible=(d == "opensearch")),
-                       inputs=destino, outputs=tecnica)
-        btn_q.click(consultar, [pergunta, destino, top_k, tecnica], [out_q_md, out_q_json])
+        # Tecnica e Rerank so aparecem quando "Buscar em" = opensearch
+        destino.change(lambda d: (gr.update(visible=(d == "opensearch")),
+                                  gr.update(visible=(d == "opensearch"))),
+                       inputs=destino, outputs=[tecnica, rerank])
+        # ao trocar o dataset, popula o dropdown de gabarito com as perguntas dele
+        dataset_combo.change(perguntas_do_dataset, inputs=dataset_combo, outputs=gabarito_combo)
+        btn_q.click(consultar,
+                    [pergunta, destino, top_k, tecnica, rerank, dataset_combo, medir, gabarito_combo],
+                    [out_q_md, out_q_metricas, out_q_json])
+
+        gr.Markdown("---\n#### Avaliação em lote (CSV de perguntas + métricas)")
+        csv_lote = gr.File(label="CSV de perguntas (coluna 'pergunta')", type="filepath")
+        btn_lote = gr.Button("Avaliar em lote", variant="primary")
+        out_lote_md = gr.Markdown()
+        out_lote_tab = gr.Dataframe(label="Métricas por pergunta", wrap=True)
+        btn_lote.click(avaliar_lote, [csv_lote, dataset_combo, tecnica, rerank, top_k],
+                       [out_lote_md, out_lote_tab])
+
+    with gr.Tab("3) RAGAS (dataset)"):
+        gr.Markdown(
+            "Gera um **dataset de avaliação** lendo o índice OpenSearch (ou o grafo LightRAG): "
+            "para cada documento, a LLM cria uma pergunta + resposta de referência e registra o "
+            "documento relevante (gabarito). Use-o depois na **Avaliação em lote** (aba Consulta).")
+        with gr.Row():
+            ragas_nome = gr.Textbox(label="Nome do dataset", placeholder="ex.: meu_corpus_v1")
+            ragas_origem = gr.Dropdown(ORIGEM_OPCOES, value="opensearch", label="Origem")
+            ragas_n = gr.Slider(3, 100, value=15, step=1, label="Nº de documentos")
+        btn_ragas = gr.Button("Gerar Dataset RAGAS", variant="primary")
+        out_ragas_md = gr.Markdown()
 
     # Aba do grafo: SEMPRE criada, mas comeca OCULTA se ainda nao existe grafo.
     # Apos uma ingestao com destino 'grafo', ela fica visivel automaticamente (sem reiniciar).
-    aba_grafo = gr.Tab("3) Grafo (LightRAG)", visible=_GRAFO_EXISTE)
+    aba_grafo = gr.Tab("4) Grafo (LightRAG)", visible=_GRAFO_EXISTE)
     with aba_grafo:
         gr.Markdown("Visualizacao interativa do grafo de conhecimento construido pelo LightRAG.")
         btn_g = gr.Button("Atualizar grafo", variant="primary")
@@ -249,8 +412,12 @@ with gr.Blocks(title="Projeto Final - RAG Juridico (Aula 12)") as demo:
         out_s = gr.JSON()
         btn_s.click(status, None, out_s)
 
+    # botao RAGAS: gera o dataset e ATUALIZA o combo de datasets da aba Consulta
+    btn_ragas.click(gerar_dataset_ragas, [ragas_nome, ragas_origem, ragas_n],
+                    [out_ragas_md, dataset_combo])
+
     # registra o click da ingestao aqui: alem do relatorio, ele revela/atualiza a aba Grafo
-    btn_ing.click(ingerir, [arquivo, estrategia, chunking],
+    btn_ing.click(ingerir, [arquivo, estrategia, chunking, limpar],
                   [out_ing_md, out_ing_json, aba_grafo, out_g_md, out_g_html, out_g_json])
 
 if __name__ == "__main__":

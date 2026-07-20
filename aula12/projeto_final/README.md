@@ -20,6 +20,21 @@ Upload  →  [1] probe (sinais baratos: extensão, texto, imagens)
                  rag_fusion | step_back)
 ```
 
+**Avaliação e administração (abas do Gradio):**
+
+- **Ingestão** tem um checkbox **"Limpar índice OpenSearch e grafo LightRAG antes de indexar"**
+  (chama `POST /admin/limpar`) — útil para recomeçar do zero entre experimentos.
+- **Aba RAGAS** — informe um nome, escolha a origem (`opensearch`/`grafo`) e clique **Gerar
+  Dataset RAGAS**: a LLM lê o storage e cria, por documento, uma pergunta + resposta de
+  referência + o documento relevante (gabarito). O dataset fica em `datasets_ragas/<nome>.json`.
+- **Consulta → Avaliação em lote** — envie um **CSV de perguntas** (coluna `pergunta`) e/ou
+  selecione um **dataset RAGAS** para comparação. Para cada pergunta são medidas as métricas de
+  **recuperação** (Hit@K, Recall@K, MRR, NDCG@K, AUC-ROC) e as de **geração** (RAGAS:
+  faithfulness, answer relevancy, context precision/recall), exibidas numa **tabela** com a
+  técnica e o rerank usados. Sem dataset, o lote só executa as perguntas (sem métricas).
+- **Rerank** (dropdown na Consulta, só OpenSearch): `rrf` (Reciprocal Rank Fusion), `minmax`
+  (normaliza scores 0–1 e soma) ou `modelo` (cross-encoder `bge-reranker`, Aula 3).
+
 **Técnicas de query enhancement na busca** (parâmetro `tecnica` no `/consulta`, só OpenSearch):
 
 | Técnica | O que faz |
@@ -130,6 +145,10 @@ estatísticas (nº de nós/arestas e entidades mais conectadas), e tem um botão
 | GET | `/config/prompts` | prompts atuais (rag, variacoes, stepback, extracao_system) |
 | PUT | `/config/prompts` | edita os prompts (só os enviados) e persiste em `prompts.json` |
 | POST | `/config/prompts/reset` | restaura os prompts padrão |
+| POST | `/admin/limpar` | remove o índice OpenSearch e limpa o storage do LightRAG |
+| GET | `/ragas/datasets` | lista os datasets RAGAS gerados |
+| POST | `/ragas/gerar_dataset` | gera um dataset RAGAS (pergunta+resposta_ref+gabarito) via LLM lendo o storage |
+| POST | `/avaliar_lote` | avalia em lote (CSV/dataset × técnica × rerank) → Hit@K, Recall@K, MRR, NDCG@K, AUC + RAGAS |
 | GET | `/health` | status de OpenSearch, Groq, embedding, LangFuse |
 | GET | `/metrics` | contadores (ingestões, consultas, erros, uptime) |
 

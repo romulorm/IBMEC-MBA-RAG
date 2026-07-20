@@ -9,7 +9,13 @@
     "data": "2024-03-15",
     "relator": "Min. João Silva",
     "categoria": "Crimes Funcionais",
-    "palavras_chave": ["peculato", "servidor público", "SUS", "desvio de verbas", "art. 312"]
+    "palavras_chave": [
+      "peculato",
+      "servidor público",
+      "SUS",
+      "desvio de verbas",
+      "art. 312"
+    ]
   },
   {
     "id": "2",
@@ -21,7 +27,13 @@
     "data": "2024-06-20",
     "relator": "Min. Maria Santos",
     "categoria": "Direito Processual",
-    "palavras_chave": ["habeas corpus", "prisão preventiva", "tráfico", "fundamentação", "cautelar"]
+    "palavras_chave": [
+      "habeas corpus",
+      "prisão preventiva",
+      "tráfico",
+      "fundamentação",
+      "cautelar"
+    ]
   },
   {
     "id": "3",
@@ -33,7 +45,13 @@
     "data": "2024-11-12",
     "relator": "Del. Carlos Mendes",
     "categoria": "Crimes Patrimoniais",
-    "palavras_chave": ["furto qualificado", "escalada", "impressões digitais", "câmera de segurança", "inquérito"]
+    "palavras_chave": [
+      "furto qualificado",
+      "escalada",
+      "impressões digitais",
+      "câmera de segurança",
+      "inquérito"
+    ]
   },
   {
     "id": "4",
@@ -45,7 +63,13 @@
     "data": "2024-09-08",
     "relator": "Perito Dr. Ana Lima",
     "categoria": "Crimes Contra a Vida",
-    "palavras_chave": ["homicídio", "balística", "GSR", "bloodstain", "calibre 9mm"]
+    "palavras_chave": [
+      "homicídio",
+      "balística",
+      "GSR",
+      "bloodstain",
+      "calibre 9mm"
+    ]
   },
   {
     "id": "5",
@@ -57,7 +81,13 @@
     "data": "2024-12-01",
     "relator": "Juíza Dra. Paula Costa",
     "categoria": "Crimes Contra a Vida",
-    "palavras_chave": ["absolvição", "legítima defesa", "art. 25 CP", "art. 386 CPP", "homicídio"]
+    "palavras_chave": [
+      "absolvição",
+      "legítima defesa",
+      "art. 25 CP",
+      "art. 386 CPP",
+      "homicídio"
+    ]
   },
   {
     "id": "6",
@@ -69,7 +99,13 @@
     "data": "2024-10-15",
     "relator": "Del. Fed. Roberto Costa",
     "categoria": "Investigação Criminal",
-    "palavras_chave": ["tráfico internacional", "lavagem de dinheiro", "PF", "interceptação", "organização criminosa"]
+    "palavras_chave": [
+      "tráfico internacional",
+      "lavagem de dinheiro",
+      "PF",
+      "interceptação",
+      "organização criminosa"
+    ]
   },
   {
     "id": "7",
@@ -81,7 +117,12 @@
     "data": "2024-08-30",
     "relator": "Des. Fernando Lima",
     "categoria": "Violência Doméstica",
-    "palavras_chave": ["lesão corporal", "violência doméstica", "Lei Maria da Penha", "ação pública incondicionada"]
+    "palavras_chave": [
+      "lesão corporal",
+      "violência doméstica",
+      "Lei Maria da Penha",
+      "ação pública incondicionada"
+    ]
   },
   {
     "id": "8",
@@ -93,7 +134,13 @@
     "data": "2024-07-10",
     "relator": "Juiz Dr. Paulo Arantes",
     "categoria": "Direito Processual",
-    "palavras_chave": ["medida cautelar", "monitoramento eletrônico", "tornozeleira", "prisão preventiva", "art. 319 CPP"]
+    "palavras_chave": [
+      "medida cautelar",
+      "monitoramento eletrônico",
+      "tornozeleira",
+      "prisão preventiva",
+      "art. 319 CPP"
+    ]
   },
   {
     "id": "9",
@@ -105,7 +152,13 @@
     "data": "2024-12-10",
     "relator": "Agente Int. Roberto Silva",
     "categoria": "Investigação Criminal",
-    "palavras_chave": ["inteligência policial", "organização criminosa", "tráfico", "lavagem", "facção"]
+    "palavras_chave": [
+      "inteligência policial",
+      "organização criminosa",
+      "tráfico",
+      "lavagem",
+      "facção"
+    ]
   },
   {
     "id": "10",
@@ -117,6 +170,12 @@
     "data": "2024-05-22",
     "relator": "Des. Cláudia Neves",
     "categoria": "Crimes Patrimoniais",
-    "palavras_chave": ["estelionato", "golpe do bilhete", "idoso", "art. 171 CP", "ardil"]
+    "palavras_chave": [
+      "estelionato",
+      "golpe do bilhete",
+      "idoso",
+      "art. 171 CP",
+      "ardil"
+    ]
   }
 ]

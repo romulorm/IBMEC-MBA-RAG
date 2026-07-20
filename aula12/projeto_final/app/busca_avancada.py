@@ -1,14 +1,18 @@
 """
-busca_avancada.py - Tecnicas de Query Enhancement na busca OpenSearch (Aula 7 -> projeto final).
+busca_avancada.py - Query Enhancement + Rerank na busca OpenSearch (Aula 7 + Aula 3/4).
 
-Tecnicas selecionaveis no /consulta (parametro 'tecnica'):
-  - baseline    : 1 embedding -> 1 busca densa (sem reescrita).
-  - multi_query : LLM gera N variacoes da pergunta -> busca cada uma -> DEDUP por id/score.
-  - rag_fusion  : igual ao multi_query, mas funde os rankings com RRF (Reciprocal Rank Fusion).
-  - step_back   : LLM gera uma pergunta mais GERAL -> busca [especifica + geral] -> dedup.
+Tecnicas (parametro 'tecnica'):
+  - baseline    : 1 embedding -> 1 busca densa.
+  - multi_query : LLM gera N variacoes -> busca cada uma -> fusao.
+  - rag_fusion  : idem, com fusao por RRF (padrao).
+  - step_back   : LLM gera pergunta mais geral -> busca [especifica + geral] -> fusao.
 
-Tudo roda DENTRO de um pipeline Haystack, entao a auto-instrumentacao do LangFuse captura
-ate as chamadas de LLM que reescrevem a pergunta (no mesmo trace).
+Rerank/fusao (parametro 'rerank', so OpenSearch):
+  - rrf     : Reciprocal Rank Fusion (soma 1/(k+pos)).
+  - minmax  : normaliza os scores de cada lista para [0,1] e soma.
+  - modelo  : cross-encoder (BAAI/bge-reranker-v2-m3) reordena o top-N (Aula 3).
+
+Tudo roda dentro de um pipeline Haystack (o LangFuse rastreia inclusive a reescrita).
 """
 
 from typing import List
@@ -21,9 +25,9 @@ from .log import obter_logger
 log = obter_logger(__name__)
 
 TECNICAS = ("baseline", "multi_query", "rag_fusion", "step_back")
+RERANKS = ("rrf", "minmax", "modelo")
 
-# Os prompts (rag / variacoes / stepback) sao lidos EM RUNTIME de prompts.get_prompts(),
-# para refletirem o que o aluno editar na aba Configuracoes do Gradio.
+# Os prompts sao lidos EM RUNTIME de prompts.get_prompts() (editaveis na aba Configuracoes).
 
 
 # ---------------------------------------------------------------------------
@@ -41,7 +45,7 @@ def dedup_por_id(listas, top_k):
 
 
 def fundir_rrf(listas, top_k, k=60):
-    """Reciprocal Rank Fusion: soma 1/(k + posicao) de cada lista; ordena por pontuacao."""
+    """Reciprocal Rank Fusion: soma 1/(k + posicao) de cada lista."""
     pontos, ref = {}, {}
     for docs in listas:
         for posicao, d in enumerate(docs):
@@ -50,15 +54,29 @@ def fundir_rrf(listas, top_k, k=60):
     return sorted(ref.values(), key=lambda d: pontos[d.id], reverse=True)[:top_k]
 
 
+def fundir_minmax(listas, top_k):
+    """Min-Max: normaliza os scores de cada lista para [0,1] e soma por documento."""
+    pontos, ref = {}, {}
+    for docs in listas:
+        scores = [(d.score or 0.0) for d in docs]
+        lo, hi = (min(scores), max(scores)) if scores else (0.0, 0.0)
+        faixa = (hi - lo) or 1.0
+        for d in docs:
+            norm = ((d.score or 0.0) - lo) / faixa
+            pontos[d.id] = pontos.get(d.id, 0.0) + norm
+            ref[d.id] = d
+    return sorted(ref.values(), key=lambda d: pontos[d.id], reverse=True)[:top_k]
+
+
 # ---------------------------------------------------------------------------
-# Componentes customizados (colocam a tecnica inteira dentro do pipeline)
+# Componentes customizados
 # ---------------------------------------------------------------------------
 @component
 class MontarConsultas:
     """Transforma a saida do LLM (texto) na lista de consultas a buscar."""
 
     def __init__(self, modo="variacoes", n=4):
-        self.modo = modo      # 'variacoes' (multi-query/rag-fusion) ou 'stepback'
+        self.modo = modo
         self.n = n
 
     @component.output_types(queries=List[str])
@@ -74,9 +92,9 @@ class MontarConsultas:
 
 @component
 class BuscarMultiplas:
-    """Busca cada consulta no OpenSearch (Ollama) e funde (dedup ou RRF)."""
+    """Busca cada consulta no OpenSearch (Ollama) e funde (rrf | minmax | dedup)."""
 
-    def __init__(self, document_store, top_k=5, modo="dedup"):
+    def __init__(self, document_store, top_k=5, modo="rrf"):
         from haystack_integrations.components.embedders.ollama import OllamaTextEmbedder
         from haystack_integrations.components.retrievers.opensearch import (
             OpenSearchEmbeddingRetriever,
@@ -86,7 +104,7 @@ class BuscarMultiplas:
         self.embedder = OllamaTextEmbedder(model=modelo, url=base_url)
         self.retriever = OpenSearchEmbeddingRetriever(document_store=document_store, top_k=top_k)
         self.top_k = top_k
-        self.modo = modo      # 'dedup' ou 'rrf'
+        self.modo = modo
 
     def warm_up(self):
         if hasattr(self.embedder, "warm_up"):
@@ -98,16 +116,30 @@ class BuscarMultiplas:
         for q in queries:
             emb = self.embedder.run(text=q)["embedding"]
             listas.append(self.retriever.run(query_embedding=emb)["documents"])
-        docs = fundir_rrf(listas, self.top_k) if self.modo == "rrf" else dedup_por_id(listas, self.top_k)
-        log.info("Busca multipla: %d consultas -> %d docs (modo=%s)", len(queries), len(docs), self.modo)
+        if self.modo == "minmax":
+            docs = fundir_minmax(listas, self.top_k)
+        elif self.modo == "dedup":
+            docs = dedup_por_id(listas, self.top_k)
+        else:
+            docs = fundir_rrf(listas, self.top_k)
+        log.info("Busca multipla: %d consultas -> %d docs (fusao=%s)", len(queries), len(docs), self.modo)
         return {"documents": docs}
 
 
+def _criar_reranker(top_k):
+    """Cross-encoder de reranking (Aula 3). Modelo via env RERANK_MODEL."""
+    import os
+
+    from haystack.components.rankers import TransformersSimilarityRanker
+    modelo = os.getenv("RERANK_MODEL", "BAAI/bge-reranker-v2-m3")
+    return TransformersSimilarityRanker(model=modelo, top_k=top_k)
+
+
 # ---------------------------------------------------------------------------
-# Builder do pipeline por tecnica
+# Builder do pipeline por tecnica + rerank
 # ---------------------------------------------------------------------------
-def construir(tecnica, top_k, pergunta):
-    """Monta o pipeline Haystack da tecnica e devolve (pipe, inputs, chave_dos_docs)."""
+def construir(tecnica, top_k, pergunta, rerank="rrf"):
+    """Monta o pipeline Haystack e devolve (pipe, inputs, chave_dos_docs)."""
     from haystack import Pipeline
     from haystack.components.builders import PromptBuilder
     from haystack.components.generators import OpenAIGenerator
@@ -117,10 +149,16 @@ def construir(tecnica, top_k, pergunta):
 
     if tecnica not in TECNICAS:
         tecnica = "baseline"
+    if rerank not in RERANKS:
+        rerank = "rrf"
     base_ollama, modelo_emb = config.config_ollama()
     api_key, gmodelo, llm_base = config.config_llm()
     store = indexacao._store_opensearch()
-    p = prompts.get_prompts()   # prompts atuais (editaveis na aba Configuracoes)
+    p = prompts.get_prompts()
+
+    usa_modelo = (rerank == "modelo")
+    pool = top_k * 3 if usa_modelo else top_k        # recupera mais para o reranker escolher
+    modo_fusao = rerank if rerank in ("rrf", "minmax") else "rrf"
 
     def novo_llm(temp, max_tokens):
         return OpenAIGenerator(api_key=Secret.from_token(api_key), model=gmodelo,
@@ -130,35 +168,40 @@ def construir(tecnica, top_k, pergunta):
     pipe = Pipeline()
     if config.langfuse_configurado():
         from haystack_integrations.components.connectors.langfuse import LangfuseConnector
-        pipe.add_component("tracer", LangfuseConnector(f"busca-{tecnica}-aula12"))
-    # geracao final (comum a todas as tecnicas)
+        pipe.add_component("tracer", LangfuseConnector(f"busca-{tecnica}-{rerank}-aula12"))
     pipe.add_component("prompt", PromptBuilder(template=p["rag"], required_variables="*"))
     pipe.add_component("llm", novo_llm(0.2, 500))
     pipe.connect("prompt.prompt", "llm.prompt")
+    if usa_modelo:
+        pipe.add_component("reranker", _criar_reranker(top_k))
+        pipe.connect("reranker.documents", "prompt.documents")
+
+    inputs = {"prompt": {"pergunta": pergunta}}
+    if usa_modelo:
+        inputs["reranker"] = {"query": pergunta}
 
     if tecnica == "baseline":
         pipe.add_component("embedder", OllamaTextEmbedder(model=modelo_emb, url=base_ollama))
-        pipe.add_component("retriever", OpenSearchEmbeddingRetriever(document_store=store, top_k=top_k))
+        pipe.add_component("retriever", OpenSearchEmbeddingRetriever(document_store=store, top_k=pool))
         pipe.connect("embedder.embedding", "retriever.query_embedding")
-        pipe.connect("retriever.documents", "prompt.documents")
-        inputs = {"embedder": {"text": pergunta}, "prompt": {"pergunta": pergunta}}
-        return pipe, inputs, "retriever"
+        pipe.connect("retriever.documents", "reranker.documents" if usa_modelo else "prompt.documents")
+        inputs["embedder"] = {"text": pergunta}
+        return pipe, inputs, ("reranker" if usa_modelo else "retriever")
 
     # tecnicas com reescrita de query
     if tecnica == "step_back":
         pipe.add_component("rw_prompt", PromptBuilder(template=p["stepback"], required_variables="*"))
-        modo_montar, modo_fusao = "stepback", "dedup"
+        modo_montar = "stepback"
     else:  # multi_query | rag_fusion
         pipe.add_component("rw_prompt", PromptBuilder(template=p["variacoes"], required_variables="*"))
         modo_montar = "variacoes"
-        modo_fusao = "rrf" if tecnica == "rag_fusion" else "dedup"
     pipe.add_component("rw_llm", novo_llm(0.3, 300))
     pipe.add_component("montar", MontarConsultas(modo=modo_montar, n=4))
-    pipe.add_component("buscar", BuscarMultiplas(store, top_k=top_k, modo=modo_fusao))
+    pipe.add_component("buscar", BuscarMultiplas(store, top_k=pool, modo=modo_fusao))
     pipe.connect("rw_prompt.prompt", "rw_llm.prompt")
     pipe.connect("rw_llm.replies", "montar.textos")
     pipe.connect("montar.queries", "buscar.queries")
-    pipe.connect("buscar.documents", "prompt.documents")
-    inputs = {"rw_prompt": {"pergunta": pergunta}, "montar": {"question": pergunta},
-              "prompt": {"pergunta": pergunta}}
-    return pipe, inputs, "buscar"
+    pipe.connect("buscar.documents", "reranker.documents" if usa_modelo else "prompt.documents")
+    inputs["rw_prompt"] = {"pergunta": pergunta}
+    inputs["montar"] = {"question": pergunta}
+    return pipe, inputs, ("reranker" if usa_modelo else "buscar")

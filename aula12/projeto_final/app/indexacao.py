@@ -139,6 +139,39 @@ def _store_opensearch():
                                    http_auth=auth, use_ssl=False, verify_certs=False)
 
 
+def limpar_tudo():
+    """Remove o INDICE do OpenSearch e limpa a pasta do LightRAG (grafo). Usado pelo reset."""
+    resultado = {}
+    # 1) OpenSearch: apaga o indice inteiro
+    try:
+        from opensearchpy import OpenSearch
+        os_cfg = config.config_opensearch()
+        auth = (os_cfg["usuario"], os_cfg["senha"]) if os_cfg["usuario"] else None
+        cli = OpenSearch(hosts=[os_cfg["url"]], http_auth=auth, use_ssl=False, verify_certs=False)
+        cli.indices.delete(index=os_cfg["indice"], ignore=[400, 404])
+        resultado["opensearch"] = f"indice '{os_cfg['indice']}' removido"
+        log.info("Reset: indice OpenSearch '%s' removido", os_cfg["indice"])
+    except Exception as e:
+        resultado["opensearch"] = f"falhou: {e}"
+        log.warning("Reset OpenSearch falhou: %s", e)
+    # 2) LightRAG: limpa o working_dir (graphml + vetores + kv)
+    try:
+        import shutil
+        p = config.PASTA_RAG_STORAGE
+        if p.exists():
+            for item in p.iterdir():
+                if item.is_file():
+                    item.unlink()
+                else:
+                    shutil.rmtree(item, ignore_errors=True)
+        resultado["grafo"] = f"storage LightRAG limpo ({p.name}/)"
+        log.info("Reset: storage LightRAG limpo (%s)", p)
+    except Exception as e:
+        resultado["grafo"] = f"falhou: {e}"
+        log.warning("Reset LightRAG falhou: %s", e)
+    return resultado
+
+
 def indexar_opensearch(docs, meta):
     for d in docs:
         d.meta.update(meta)

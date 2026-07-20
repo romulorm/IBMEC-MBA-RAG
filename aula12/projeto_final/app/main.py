@@ -20,10 +20,12 @@ import time
 from fastapi import FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
 
-from . import config, consulta, extracao, grafo, indexacao, prompts
+from . import (avaliacao_ragas, config, consulta, extracao, grafo, indexacao,
+               lote, prompts)
 from .log import configurar_logging, obter_logger
-from .modelos import (ConsultaRequest, ConsultaResponse, IngestaoResponse,
-                      PromptsConfig, RelatorioIngestao)
+from .modelos import (AvaliarLoteRequest, ConsultaRequest, ConsultaResponse,
+                      GerarDatasetRequest, IngestaoResponse, PromptsConfig,
+                      RelatorioIngestao)
 
 configurar_logging()           # le LOG_LEVEL do .env (DEBUG p/ verbosidade maxima)
 log = obter_logger(__name__)
@@ -99,12 +101,14 @@ def consulta_endpoint(req: ConsultaRequest, x_api_key: str = Header(default=""))
     log.info("== /consulta recebida: destino=%s, top_k=%d, tecnica=%s ==",
              req.destino, req.top_k, req.tecnica)
     try:
-        resposta, fontes, destino = consulta.consultar(req.pergunta, req.destino,
-                                                       req.top_k, req.tecnica)
+        resposta, fontes, destino, metricas = consulta.consultar(
+            req.pergunta, req.destino, req.top_k, req.tecnica, req.rerank,
+            req.dataset_nome, req.com_metricas, req.gabarito_pergunta)
         METRICAS["consultas"] += 1
-        log.info("== /consulta OK: destino_usado=%s, %d fonte(s) ==", destino, len(fontes))
+        log.info("== /consulta OK: destino_usado=%s, %d fonte(s), metricas=%s ==",
+                 destino, len(fontes), bool(metricas))
         return ConsultaResponse(pergunta=req.pergunta, resposta=resposta,
-                                destino_usado=destino, fontes=fontes)
+                                destino_usado=destino, fontes=fontes, metricas=metricas)
     except Exception as e:
         METRICAS["erros"] += 1
         log.exception("== /consulta FALHOU ==")
@@ -162,6 +166,51 @@ def reset_prompts_endpoint(x_api_key: str = Header(default="")):
     _checar_api_key(x_api_key)
     log.info("Prompts restaurados ao padrao via API")
     return prompts.reset()
+
+
+@app.post("/admin/limpar")
+def admin_limpar(x_api_key: str = Header(default="")):
+    """Remove o indice do OpenSearch e limpa o storage do LightRAG (grafo)."""
+    _checar_api_key(x_api_key)
+    log.info("== /admin/limpar: reset de indice/grafo ==")
+    return indexacao.limpar_tudo()
+
+
+@app.get("/ragas/datasets")
+def ragas_datasets(x_api_key: str = Header(default="")):
+    """Lista os datasets RAGAS ja gerados (para o combo da interface)."""
+    _checar_api_key(x_api_key)
+    return {"datasets": avaliacao_ragas.listar_datasets()}
+
+
+@app.get("/ragas/perguntas")
+def ragas_perguntas(nome: str, x_api_key: str = Header(default="")):
+    """Perguntas (gabaritos) de um dataset - para o dropdown de gabarito na Consulta."""
+    _checar_api_key(x_api_key)
+    return {"perguntas": avaliacao_ragas.listar_perguntas(nome)}
+
+
+@app.post("/ragas/gerar_dataset")
+def ragas_gerar_dataset(body: GerarDatasetRequest, x_api_key: str = Header(default="")):
+    """Le o storage (OpenSearch/grafo) e gera um dataset RAGAS via LLM."""
+    _checar_api_key(x_api_key)
+    try:
+        return avaliacao_ragas.gerar_dataset(body.nome, body.origem, body.n)
+    except Exception as e:
+        log.exception("== /ragas/gerar_dataset FALHOU ==")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/avaliar_lote")
+def avaliar_lote_endpoint(body: AvaliarLoteRequest, x_api_key: str = Header(default="")):
+    """Avalia em lote: perguntas (CSV/dataset) x tecnica x rerank -> metricas retrieval + RAGAS."""
+    _checar_api_key(x_api_key)
+    try:
+        return lote.avaliar_lote(body.perguntas, body.dataset_nome, body.tecnica,
+                                 body.rerank, body.top_k)
+    except Exception as e:
+        log.exception("== /avaliar_lote FALHOU ==")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/health")
